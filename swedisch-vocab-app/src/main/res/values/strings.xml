@@ -1,0 +1,93 @@
+<resources>
+    <string name="not_implemented">Not yet implemented.</string>
+    <string name="app_name">Swedish Vocab App</string>
+    <!-- preferences-->
+    <string name="activity_title_settings">Settings</string>
+    <string name="prefs_title_daily_words">Number of Daily Words</string>
+    <string name="prefs_title_word_separator">Word Separator</string>
+    <string name="prefs_title_persistent_method">Persistence Method</string>
+    <string name="prefs_title_daily_words_summary">Specify number of words to be learned every day\n(The vocab list to be learned must be updated!)</string>
+    <string name="prefs_title_word_separator_summary">Specify by which symbol messages should be separated.</string>
+    <string name="prefs_title_persistent_method_summary">From where should words be loaded?\n(Reload of the dictionary is required!)</string>
+    <string name="prefs_default_word_separator">,</string>
+    <string name="prefs_default_daily_words">25</string>
+    <string-array name="persistenceType">
+        <item>User File</item>
+        <item>App File</item>
+        <item>Hardcoded</item>
+    </string-array>
+    <string-array name="persistenceValues">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <!-- menue -->
+    <string name="menu_title_settings">Settings</string>
+    <string name="menu_title_help">Help</string>
+    <string name="menu_title_info">Info</string>
+    <string name="menu_title_add">Add</string>
+    <!-- main activity -->
+    <string name="activity_title_main">Swedish Vocab App</string>
+    <string name="main_button_text_vocab_trainer">Vocab Training</string>
+    <string name="main_button_text_show_words">Show Words</string>
+    <string name="main_button_text_add_word">Add Word</string>
+    <string name="main_button_text_dict">Dictionary</string>
+    <string name="main_button_text_debug_info">Show Debug Info</string>
+    <!-- vocab training activity -->
+    <string name="activity_title_vocab_training">Vocab Training</string>
+    <string name="training_button_text_swedish_german">Swedish - German</string>
+    <string name="training_button_text_german_swedish">German - Swedish</string>
+    <string name="training_button_text_show_progress">Show Learning Progress</string>
+    <string name="training_button_text_reset_progress">Reset Learning Progress</string>
+    <string name="training_button_text_update_list">Update Vocab List</string>
+    <!-- show words activity-->
+    <string name="activity_title_show_words">Show Words</string>
+    <string name="show_search_hint">Search for words!</string>
+    <!-- show word details activity-->
+    <string name="activity_title_show_word_details">Word Details</string>
+    <string name="details_text_swedish">Swedish:</string>
+    <string name="details_text_german">German:</string>
+    <string name="details_text_remark">Remark:</string>
+    <string name="details_text_complete">Is Complete?</string>
+    <string name="details_text_lists">Lists:</string>
+    <string name="details_button_test_edit">Edit Word</string>
+    <!-- show app info activity-->
+    <string name="activity_title_app_info">App Info</string>
+    <string name="app_info_name">App Name:</string>
+    <string name="app_info_version">App Version:</string>
+    <!-- edit word-->
+    <string name="activity_title_edit_word">Edit Word</string>
+    <string name="edit_checkbox_incomplete">Is Incomplete?</string>
+    <string name="edit_button_add_to_new">Add To New List</string>
+    <string name="edit_button_remove_from_new">Remove From New List</string>
+    <string name="edit_button_delete_word">Delete Word</string>
+    <string name="edit_button_save">Save</string>
+    <!-- add word activity -->
+    <string name="activity_title_add_word">Add Word</string>
+    <string-array name="wordPrefixes">
+        <item>Select Word Prefix ...</item>
+        <item>none</item>
+        <item>att</item>
+        <item>en</item>
+        <item>ett</item>
+    </string-array>
+    <string name="add_button_text_add">Add</string>
+    <string name="add_text_hint_swedish">Swedish</string>
+    <string name="add_text_hint_german">German, separated by word separator</string>
+    <string name="add_text_hint_grammar">Grammar, separated by word separator</string>
+    <string name="add_text_hint_remarks">Remarks</string>
+    <string name="add_checkbox_incomplete">Is Incomplete?</string>
+    <!-- dictionary activity -->
+    <string name="activity_title_dict">Dictionary</string>
+    <string name="dict_button_text_reload">Reload Dictionary</string>
+    <string name="dict_button_text_export">Export Dictionary</string>
+    <string name="dict_button_text_import">Import Dictionary</string>
+    <!-- help activity -->
+    <string name="activity_title_help">Help</string>
+    <!-- debug info activity -->
+    <string name="activity_title_debug_info">Debug Info</string>
+    <string name="title_activity_test_tab">TestTabActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="activity_title_dictionary">Dictionary</string>
+</resources>

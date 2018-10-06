@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+
+def versionMajor = 0
+def versionMinor = 7
+def versionPatch = 0
+
+android {
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId 'de.isah.vocabtrainer'
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        debug {
+            versionNameSuffix "-DEBUG"
+            resValue "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "string", "app_version", "${defaultConfig.versionName}"
+        }
+    }
+    productFlavors {
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    // compile 'com.android.support:appcompat-v7:26.1.0'
+    // compile 'com.android.support:design:26.1.0'
+    //compile 'android.arch.persistence.room:runtime:1.0.0'
+    //    compile 'com.android.support:support-v4:25.3.1'
+    //    compile 'com.android.support:support-vector-drawable:25.3.1'
+    implementation 'com.android.support:appcompat-v7:27.+'
+    implementation 'com.android.support:design:27.+'
+    implementation 'com.android.support:support-v4:27.+'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.+'
+}

@@ -1,0 +1,3 @@
+en;bil;Auto;bilen,bilar,bilarna;;WordStateDictionary--en;penna;Stift;pennan,pennor,pennorna;;WordStateDictionary--
+en;flicka;Mädchen;flicka,flickor,flickorna;;WordStateNew--
+none;och;und;;;WordStateLearn--

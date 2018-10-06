@@ -1,0 +1,66 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+
+<body>
+<h1>Help and Information</h1>
+
+<h2>Introduction</h2>
+<p>This app will help you learn swedish vocabulary.</p>
+
+<h2>Settings</h2>
+<p>There is a number of settings available.</p>
+
+<h3>Number of Daily Words</h3>
+<p>The number of words in the daily list of vocabs to be learn. If this setting is changed, the vocab list must be updated in order to see the change.</p>
+
+<h3>Word Separator</h3>
+<p>The word saparator is needed when new words are added to separate different german translation of different grammar. Example separator = ",": german1,german2,german3.</p>
+
+<h3>Persistence Method</h3>
+<p>This setting defines where the dictionary is loaded from and where new words are written to.</p>
+<ul>
+    <li>User File: A file which is saved locally on the device. At the beginning no words will be there. All of them have to be added manually.</li>
+    <li>App File: A file is read in which comes with the app. Saving user-defined words is not supported.</li>
+    <li>Hardcoded: For Testing only. There is a set of hardcoded words. New words are added to the list temporary but will not be saved permanently.</li>
+</ul>
+<p>If this setting is changed a reload of the dictionary or a restart of the app is required.</p>
+
+<h3>Debug Mode</h3>
+<p>If switched on it is possible to access debug information.</p>
+
+<h2>Adding Words</h2>
+<p>Just fill in the form and click on add. The prefix must be selected:</p>
+<ul>
+    <li>en or ett: for nouns.</li>
+    <li>att: for verbs.</li>
+    <li>none: for any other word.</li>
+</ul>
+<p>En, ett or att must not be included in what is typed in the swedish field. Note that different grammar and different german translations have to be separated by the word separator defined in the Settings.</p>
+
+<h2>Learning Vocabs</h2>
+<p>When using the app for the first time there is no list of words to be learned. So as a first step an update of the vocab list needs to be done.</p>
+<p>Once that is done learning can be started. One can choose between Swedisch-German and German-Swedish. The App will memorize which words were marked as known words. When updating the vocab list the next time the known words will be replaced by new/other words. The learning progress can be reset at any time.</p>
+
+<h2>View Dictionary</h2>
+<p>There is the possibility to view the whole dictionary. All the words are shown in a list. Clicking on one of the words gives detailed information about the word. There is also the option to search for words. Just type the beginning of the word and the list will show all words matching that pattern.</p>
+
+<h3>Modifying Words</h3>
+<p>There is the possibility to modify words. When viewing the word details click on the button "Edit Word".</p>
+<ul>
+    <li>It is possible to delete a word from the whole dictionary.</li>
+    <li>Adding/removing the word from the new list is supported. This is useful if a certain word from the dictionary should be learned again. When it is on the new words list it will at some point end up on the to learn list.</li>
+    <li>Last but not least it is possible to change the word itself. This is useful to add remarks or to correct typos.</li>
+</ul>
+
+<h2>Dictionary</h2>
+
+<h3>Reload Dictionary</h3>
+<p>This is needed to change the persistent type.</p>
+
+<h3>Export/Import Dictionary</h3>
+<p>There is the possibility to export the whole dictionary and import it again. Currently this is supported for persistence method "File" only. This is useful to create a backup of the words entered into the app.</p>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+#swedish;german;grammar;remark;isNew;isToLearn;isIncomplete--
+none;av säkerhetsskäl;aus Sicherheitsgründen;;;WordStateDictionary--
+en;bil;Auto;bilen,bilar,bilarna;;WordStateDictionary--
+att;blänga;glotzen,starren;blänger,blängde,blängt;;WordStateDictionary--
+en;bot;Strafzettel;boten,böter,böterna;;WordStateDictionary--
+en;driva;Schneewehe;drivan,drivor,drivorna;;WordStateDictionary--
+none;ett;eins;;;WordStateDictionary--
+ett;farvatten;Fahrwasser;farvattnet,farvatten,farvattnen;;WordStateDictionary--
+en;flicka;Mädchen;flicka,flickor,flickorna;;WordStateDictionary--
+ett;flin;das Grinsen;flinet,flin,flinen;;WordStateDictionary--
+att;fräsa;zischen,schäumen,fauchen;fräser,fräste,fräst;;WordStateDictionary--
+ett;fyllo;Betrunkener,Säufer,Saufbold,Trunkenbold;fyllot,fyllon,fyllona;;WordStateDictionary--
+none;fyra;vier;;;WordStateDictionary--
+att;få lov;Erlaubnis bekommen,dürfen;får lov,fick lov,fått lov;;WordStateDictionary--
+att;förolämpa;beleidigen,verunglimpfen;förolämpar,förolämpade,förolämpat;;WordStateDictionary--
+att;förorätta;beleidigen,kränken;förorättar,förorättade,förorättat;;WordStateDictionary--
+att;gnida;reiben;gnider,gned,gnidit;;WordStateDictionary--
+att;grymta;grunzen;grymtar,grymtade,grymtat;;WordStateDictionary--
+att;halka;ausrutschen;halkar,halkade,halkat;;WordStateDictionary--
+en;häl;Ferse,Hacke;hälen,hälar,hälarna;;WordStateDictionary--
+att;hejda sig;sich beherrschen;hejdar sig,hejdade sig,hejdat sig;;WordStateDictionary--
+att;hojta;rufen,schreien;hojtar,hojtade,hojtat;;WordStateDictionary--
+none;i strumplästen;ohne Schuhe;;;WordStateDictionary--
+none;jämt;immerzu,dauernd;;;WordStateDictionary--
+en;keps;Sportmütze;kepsen,kepsar,kepsarna;;WordStateDictionary--
+att;klia;kratzen;kliar,kliade,kliat;;WordStateDictionary--
+att;krympa;schrumpfen;krymper,krympte,krympt;;WordStateDictionary--
+en;köksfläkt;Küchenabzug,Dunsthaube;köksfläkten,köksfläktar,köksfläktarna;;WordStateDictionary--
+att;lansera;lancieren,einführen;lanserar,lanserade,lanserat;;WordStateDictionary--
+en;ledbuss;Gelenkbus;ledbussen,ledbussar,ledbussarna;;WordStateDictionary--
+en;luva;Wollmütze,Zipfelmütze;luvan,luvor,luvorna;;WordStateDictionary--
+att;läcka;lecken,ein Leck haben;läcker,läckte,läckt;;WordStateDictionary--
+none;lämplig;geeignet,passend,angemessen;;;WordStateDictionary--
+none;med;mit;;;WordStateDictionary--
+att;morra;knurren,murren;morrar,morrade,morrat;;WordStateDictionary--
+en;näve;Faust,Handvoll;näven,nävar,nävarna;;WordStateDictionary--
+none;och;und;;;WordStateDictionary--
+none;okuvlig;unüberwindlich,unbeugsam;;;WordStateDictionary--
+none;omvälvande;umwälzend,revolutionierend;;;WordStateDictionary--
+en;penna;Stift;pennan,pennor,pennorna;;WordStateDictionary--
+att;ploga;mit Schneepflug bahnen;plogar,plogade,plogat;;WordStateDictionary--
+att;pricka;punkten,ins Schwarze treffen;prickar,prickade,prickat;;WordStateDictionary--
+en;revansch;Vergeltung,Revanche;revanschen,revanscher,revanscherna;;WordStateDictionary--
+none;rimlig;plausibel,angemessen,vernünftig;;;WordStateDictionary--
+ett;ryck;Ruck;rycket,ryck,rycken;;WordStateDictionary--
+none;rådande;herrschend;;det rådande väglaget;WordStateDictionary--
+en;skjuts;Fahrgelegenheit;skjutsen,skjutsar,skutsarna;;WordStateDictionary--
+att;skråla;gröhlen,johlen;skrålar,skrålade,skrålat;;WordStateDictionary--
+att;skvalpa;plätschern,schwappen;skvalpar,skvalpade,skvalpat;;WordStateDictionary--
+ett;skägg;Bart;skägget,skägg,skäggen;;WordStateDictionary--
+ett;skäl;Grund,Ursache;skälet,skäl,skälen;;WordStateDictionary--
+ett;skämt;Scherz,Spaß;skämtet,skämt,skämten;;WordStateDictionary--
+att;skämta;scherzen,spaßen;skämtar,skämtade,skämtat;;WordStateDictionary--
+att;slamra;klappern,klirren;slamrar,slamrade,slamrat;;WordStateDictionary--
+att;släcka;löschen;släcker,släckte,släckt;;WordStateDictionary--
+att;snöröja;Schnee räumen;snöröjer,snöröjde,snöröjt;;WordStateDictionary--
+en;snöröjning;Schneeräumung;snöröjningen,snöröjningar,snöröjningarna;;WordStateDictionary--
+att;ställa till;anrichten,machen,veranstalten;ställer till,ställde till,ställt till;;WordStateDictionary--
+att;svälja;schlucken;sväljer,svalde,svalt;;WordStateDictionary--
+en;tillsyn;Aufsicht;tillsynen,tillsyner,tillsynerna;;WordStateDictionary--
+en;torsk;Dorsch,Kabeljau;torsken,torskar,torskarna;;WordStateDictionary--
+ett;trakasseri;Schikane,Belästigung;trakasseriet,trakasserier,trakasserierna;;WordStateDictionary--
+none;tre;drei;;;WordStateDictionary--
+none;tveksam;unschlüssig,zögernd;tveksamt,tveksamma;;WordStateDictionary--
+none;två;zwei;;;WordStateDictionary--
+ett;tvärstopp;plötzliches Anhalten;tvärstoppet,tvärstopp,tvärstoppen;;WordStateDictionary--
+att;uppbåda;aufbieten;uppbådar,uppbådade,uppbådat;;WordStateDictionary--
+en;utmärkelse;Auszeichnung;utmärkelsen,utmärkelser,utmärkelserna;;WordStateDictionary--
+ett;veck;Falte;vecket,veck,vecken;;WordStateDictionary--
+none;villrådig;unschlüssig;;;WordStateDictionary--
+ett;vittnesmål;Zeugenaussage;vittnesmålet,vittnesmål,vittnesmålen;;WordStateDictionary--
+none;ymnig;reichlich,ausgiebig;;;WordStateDictionary--
+ett;åkeri;Fuhrunternehmen;åkeriet,åkerier,åkerierna;;WordStateDictionary--
+en;halka;Glatteis,Glätte;halkan,-,-;;WordStateDictionary--
+att;kippa efter andan/luft;nach Luft schnappen;kippar efter andan/luft,kippade efter andan/luft,kippat efter andan/luft;;WordStateDictionary--
+en;kuling;(Nautik)starker Wind;kulingen,kulingar,kulingarna;;WordStateDictionary--
+en;nederbörd;Niederschlag;nederbörden,-,-;;WordStateDictionary--
+en;skrämselpropaganda;Panikmache;skrämselpropagandan,-,-;;WordStateDictionary--
+ett;trassel;Wirrwarr,Schwierigkeiten,Schererei;trasslet,-,-;;WordStateDictionary--
+att;vika sig;sich biegen,einknicken;viker sig,vek sig,vikit sig;Knäna vek sig under henne.;WordStateDictionary--

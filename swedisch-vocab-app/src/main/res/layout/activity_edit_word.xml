@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.isah.vocabtrainer.EditWordActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinnerWordPrefix"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/wordPrefixes"
+                android:spinnerMode="dropdown"></Spinner>
+
+            <EditText
+                android:id="@+id/editTextSwedish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/editTextGrammar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/add_text_hint_grammar"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/editTextGerman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text" />
+
+            <EditText
+                android:id="@+id/editTextRemarks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/add_text_hint_remarks"
+                android:inputType="text" />
+
+            <CheckBox
+                android:id="@+id/checkBoxIncomplete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="@string/edit_checkbox_incomplete"/>
+
+            <Button
+                android:id="@+id/buttonSaveWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="saveWord"
+                android:text="@string/edit_button_save" />
+
+            <Button
+                android:id="@+id/buttonAddToNewList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="addToNewList"
+                android:text="@string/edit_button_add_to_new" />
+
+            <Button
+                android:id="@+id/buttonRemoveFromNewList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="removeFromNewList"
+                android:text="@string/edit_button_remove_from_new" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/buttonDeleteFromDictionary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="deleteWord"
+                android:text="@string/edit_button_delete_word"
+                android:textColor="@color/colorAccent" />
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.design.widget.CoordinatorLayout>

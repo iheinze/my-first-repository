@@ -1,0 +1,3 @@
+none;swedish1;german1;;;WordStateInitial--
+none;swedish2;german2;;;WordStateInitial--
+none;swedish3;german3;;;WordStateInitial--

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference android:key="pref_stack_size"
+        android:title="@string/prefs_title_daily_words"
+        android:summary="@string/prefs_title_daily_words_summary"
+        android:defaultValue="@string/prefs_default_daily_words" android:numeric="integer"/>
+    <EditTextPreference android:key="pref_word_separator"
+        android:title="@string/prefs_title_word_separator"
+        android:summary="@string/prefs_title_word_separator_summary"
+        android:defaultValue="@string/prefs_default_word_separator" android:maxLength="1"/>
+    <ListPreference
+        android:key="pref_persist_method"
+        android:title="@string/prefs_title_persistent_method"
+        android:summary="@string/prefs_title_persistent_method_summary"
+        android:entries="@array/persistenceType"
+        android:entryValues="@array/persistenceValues"
+        android:defaultValue="2"/>
+    <CheckBoxPreference
+        android:key="pref_debug_mode"
+        android:title="Debug Mode"
+        android:summary="Switch on to see debug information." />
+</PreferenceScreen>

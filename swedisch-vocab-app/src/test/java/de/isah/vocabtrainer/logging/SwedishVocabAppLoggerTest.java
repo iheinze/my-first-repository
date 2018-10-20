@@ -48,8 +48,26 @@ public class SwedishVocabAppLoggerTest {
     }
 
     @Test
-    public void testLogNoDebug() throws IOException{
+    public void testLogNoDebug(){
         SwedishVocabAppLogger.log("this is a test message", SwedishVocabAppLoggerTest.class, false);
         assertFalse(new File("src/test/assets/SwedishVocabAppDebugLog.txt").exists());
+    }
+
+    @Test
+    public void testFileRotate() throws  IOException {
+        String log = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        for(int i = 0; i< 5500; i++) {
+            SwedishVocabAppLogger.log(log, SwedishVocabAppLoggerTest.class, true);
+        }
+        assertTrue(new File("src/test/assets/SwedishVocabAppDebugLog1.txt").exists());
+    }
+
+    @Test
+    public void testTwoFileRotates() throws  IOException {
+        String log = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+        for(int i = 0; i< 11000; i++) {
+            SwedishVocabAppLogger.log(log, SwedishVocabAppLoggerTest.class, true);
+        }
+        assertTrue(new File("src/test/assets/SwedishVocabAppDebugLog1.txt").exists());
     }
 }

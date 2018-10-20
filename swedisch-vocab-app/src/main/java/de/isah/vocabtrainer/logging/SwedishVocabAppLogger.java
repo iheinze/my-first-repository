@@ -13,6 +13,8 @@ public class SwedishVocabAppLogger {
     private static final String LOG_FILE_NAME = "SwedishVocabAppDebugLog.txt";
     private static final String LOG_FILE_NAME_ROTATED = "SwedishVocabAppDebugLog1.txt";
 
+    private static final int ROTATE_FILE_SIZE_MB = 1;
+
     public static void log(final String message, final Class loggingClazz, final boolean isDebugMode){
         if (isDebugMode){
             try {
@@ -30,16 +32,20 @@ public class SwedishVocabAppLogger {
     }
 
     private static void rotateFile() {
-        // to be implemented
+        new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).renameTo(new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME_ROTATED));
     }
 
     private static boolean fileRotateNeeded() {
-        // to be implemented
+        File f = new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME);
+        if(f.length() / 1024 / 1024 >= ROTATE_FILE_SIZE_MB){
+            return true;
+        }
         return false;
     }
 
     public static void deleteLogFile(){
         new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).delete();
+        new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME_ROTATED).delete();
     }
 
     private static String getCurrentTimeStamp() {

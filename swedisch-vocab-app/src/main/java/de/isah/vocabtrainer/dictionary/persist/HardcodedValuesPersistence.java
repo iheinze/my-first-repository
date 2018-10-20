@@ -30,6 +30,8 @@ public class HardcodedValuesPersistence implements Persistence {
             this.hardcodedWords.addWord(new WordBuilder().addGerman("Junge").addSwedish("pojke", WordPrefix.EN).addGrammar("pojken", "pojkar", "pojkarna").build());
             this.hardcodedWords.addWord(new WordBuilder().addGerman("Stift").addSwedish("penna", WordPrefix.EN).addGrammar("pennan", "pennor", "pennorna").build());
             this.hardcodedWords.addWord(new WordBuilder().addGerman("gut").addSwedish("bra", WordPrefix.NONE).addGrammar("bra", "bra").build());
+            this.hardcodedWords.addWord(new WordBuilder().addGerman("drei").addSwedish("tre", WordPrefix.NONE).build());
+            this.hardcodedWords.addWord(new WordBuilder().addGerman("vier").addSwedish("fyra", WordPrefix.NONE).build());
 
             for (int i = 0; i < this.hardcodedWords.size(); i++) {
                 this.hardcodedWords.getWord(i).setState(new WordStateDictionary());

@@ -5,8 +5,10 @@ import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
+import de.isah.vocabtrainer.dictionary.word.state.WordStateCorrect;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateLearn;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
+import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 
 import org.junit.Test;
 
@@ -57,6 +59,38 @@ public class DictionaryTest {
         assertTrue(dictionary.getToLearnList().getWord(1).getState() instanceof WordStateLearn);
 
         assertEquals(builderExpected.toString(), result);
+    }
+
+    @Test
+    public void testCreateToLearnListAfterIncomplete() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException{
+        Dictionary dictionary = new Dictionary("x");
+
+        // create inital learn list
+        dictionary.createToLearnList(3);
+
+        for(Word w : dictionary.getToLearnList().words){
+            System.out.println(w.toString());
+        }
+
+        // simulating some learning
+        Word w1 = dictionary.getToLearnListNoShuffle().words.get(0);
+        System.out.println("word 1: " + w1.toString());
+        Word w2 = dictionary.getToLearnListNoShuffle().words.get(1);
+        System.out.println("word 2: " + w2.toString());
+        Word w3 = dictionary.getToLearnListNoShuffle().words.get(2);
+        System.out.println("word 3: " + w3.toString());
+
+        w2.setState(new WordStateSGCorrect());
+        w2.setState(new WordStateCorrect());
+
+        // discover that one of the words is not correct (-1 from learn list)
+        dictionary.addWordToIncompleteList(w1);
+
+        // create a new list ( one additional word is removed because it was correct, should fill up to 2 again)
+        dictionary.createToLearnList(3);
+
+        assertEquals(Integer.valueOf(3), Integer.valueOf(dictionary.getToLearnList().size()));
+
     }
 
     @Test

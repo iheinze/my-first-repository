@@ -35,6 +35,10 @@ public class LearnWordList extends WordList {
             }
 
             words.removeAll(wordsToBeRemoved);
+            // TODO: separate LearnWordList from WordList, they seem to be too different to be related
+            for (Word w : wordsToBeRemoved){
+                wordsMap.remove(w.getKey());
+            }
         } catch (IllegalStateTransitionException e){
             // do nothing
         }

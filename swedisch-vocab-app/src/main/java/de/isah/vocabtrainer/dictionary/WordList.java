@@ -15,7 +15,7 @@ import java.util.Map;
 public class WordList implements Serializable{
 
     List<Word> words = new ArrayList<>();
-    private Map<String,Word> wordsMap = new LinkedHashMap<>();
+    Map<String,Word> wordsMap = new LinkedHashMap<>();
 
     public WordList(){
 

@@ -39,6 +39,7 @@ import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.LearnWordList;
 import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 import de.isah.vocabtrainer.dictionary.persist.AbstractFileHandler;
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 /**
  * @author isa.heinze
@@ -58,12 +59,14 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
+        SwedishVocabAppLogger.log("on create", MainActivity.class, sharedPref.getBoolean("pref_debug_mode", false));
 
         FileConstants.setFilePath(this.getFilesDir().getAbsolutePath());
         FileConstants.setExternalFilePath(this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath());
 
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         this.persistenceType = sharedPref.getString("pref_persist_method", "no selection");
 
         this.fileHandler = FileHandlerFactory.create(this.persistenceType);

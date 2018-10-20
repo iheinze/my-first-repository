@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 /**
  * Created by isa.heinze on 22.06.2018.
@@ -45,6 +46,9 @@ public class OtherFragment extends Fragment {
         // Get debug preferences. If for some reason it does not work, debug mode should be on because there is something wrong.
         //disable add word button if needed.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
+
+        SwedishVocabAppLogger.log("on create view", OtherFragment.class, sharedPref.getBoolean("pref_debug_mode", false));
+
         if(!sharedPref.getBoolean("pref_debug_mode", false)){
             (rootView.findViewById(R.id.buttonShowDebugInfo)).setVisibility(View.GONE);
             (rootView.findViewById(R.id.viewSpace)).setVisibility(View.GONE);

@@ -22,6 +22,7 @@ import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 import java.util.regex.Pattern;
 
@@ -51,6 +52,9 @@ public class EditWordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SwedishVocabAppLogger.log("on create", EditWordActivity.class, sharedPref.getBoolean("pref_debug_mode", false));
+
         this.separator = sharedPref.getString("pref_word_separator", ",");
 
         setContentView(R.layout.activity_edit_word);

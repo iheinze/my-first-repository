@@ -19,6 +19,7 @@ import de.isah.vocabtrainer.dictionary.word.WordPrefix;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 import java.util.regex.Pattern;
 
@@ -34,6 +35,9 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
+        SwedishVocabAppLogger.log("on create", AddWordActivity.class, sharedPref.getBoolean("pref_debug_mode", false));
+
         this.separator = sharedPref.getString("pref_word_separator", ",");
 
         setContentView(R.layout.activity_add_word);

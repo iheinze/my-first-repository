@@ -39,7 +39,7 @@ public class SwedishVocabAppLogger {
     }
 
     public static void deleteLogFile(){
-        Boolean outcome = new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).delete();
+        new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).delete();
     }
 
     private static String getCurrentTimeStamp() {

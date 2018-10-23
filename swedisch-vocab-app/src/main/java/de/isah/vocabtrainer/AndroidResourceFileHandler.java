@@ -2,7 +2,7 @@ package de.isah.vocabtrainer;
 
 import android.content.res.AssetManager;
 
-import de.isah.vocabtrainer.dictionary.persist.AbstractFileHandler;
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 
 import java.io.IOException;
 

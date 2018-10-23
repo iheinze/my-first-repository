@@ -2,6 +2,7 @@ package de.isah.vocabtrainer.dictionary.persist;
 
 import de.isah.vocabtrainer.dictionary.LearnWordList;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.WordList;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;

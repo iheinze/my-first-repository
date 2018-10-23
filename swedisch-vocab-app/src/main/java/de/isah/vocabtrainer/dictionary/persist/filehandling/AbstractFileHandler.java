@@ -1,4 +1,4 @@
-package de.isah.vocabtrainer.dictionary.persist;
+package de.isah.vocabtrainer.dictionary.persist.filehandling;
 
 import java.io.InputStream;
 

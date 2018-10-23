@@ -1,4 +1,6 @@
-package de.isah.vocabtrainer.dictionary.persist;
+package de.isah.vocabtrainer.dictionary.persist.filehandling;
+
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 
 /**
  * A file handler which does nothing

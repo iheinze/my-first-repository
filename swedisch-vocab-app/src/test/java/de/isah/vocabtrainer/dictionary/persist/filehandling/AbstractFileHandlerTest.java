@@ -1,11 +1,12 @@
-package de.isah.vocabtrainer.dictionary.persist;
+package de.isah.vocabtrainer.dictionary.persist.filehandling;
 
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 
 import static org.junit.Assert.*;
 

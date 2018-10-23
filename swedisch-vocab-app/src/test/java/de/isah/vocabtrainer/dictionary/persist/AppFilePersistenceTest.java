@@ -1,5 +1,6 @@
 package de.isah.vocabtrainer.dictionary.persist;
 
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 
 import org.junit.Test;

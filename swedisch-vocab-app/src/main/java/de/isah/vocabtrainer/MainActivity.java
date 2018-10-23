@@ -1,19 +1,14 @@
 package de.isah.vocabtrainer;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -26,19 +21,8 @@ import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.LearnWordList;
 import de.isah.vocabtrainer.dictionary.constants.FileConstants;
-import de.isah.vocabtrainer.dictionary.constants.ListConstants;
-import de.isah.vocabtrainer.dictionary.persist.AbstractFileHandler;
-import de.isah.vocabtrainer.dictionary.word.Word;
-import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateCorrect;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateGSCorrect;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 
-import de.isah.vocabtrainer.dictionary.Dictionary;
-import de.isah.vocabtrainer.dictionary.DictionaryCache;
-import de.isah.vocabtrainer.dictionary.LearnWordList;
-import de.isah.vocabtrainer.dictionary.constants.FileConstants;
-import de.isah.vocabtrainer.dictionary.persist.AbstractFileHandler;
 import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 /**

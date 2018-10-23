@@ -1,7 +1,7 @@
 package de.isah.vocabtrainer;
 
-import de.isah.vocabtrainer.dictionary.persist.AbstractFileHandler;
-import de.isah.vocabtrainer.dictionary.persist.EmptyFileHandler;
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
+import de.isah.vocabtrainer.dictionary.persist.filehandling.EmptyFileHandler;
 
 /**
  * Created by isa.heinze on 08.07.2018.

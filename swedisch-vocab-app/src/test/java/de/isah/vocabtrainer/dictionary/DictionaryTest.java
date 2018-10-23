@@ -121,7 +121,7 @@ public class DictionaryTest {
         Dictionary dictionary = new Dictionary("x");
 
         dictionary.createToLearnList(10);
-        assertEquals(Integer.valueOf(4), Integer.valueOf(dictionary.getToLearnList().size()));
+        assertEquals(Integer.valueOf(6), Integer.valueOf(dictionary.getToLearnList().size()));
     }
 
     @Test
@@ -130,7 +130,7 @@ public class DictionaryTest {
 
         dictionary.createToLearnList(10);
         dictionary.createToLearnList(10);
-        assertEquals(Integer.valueOf(4), Integer.valueOf(dictionary.getToLearnList().size()));
+        assertEquals(Integer.valueOf(6), Integer.valueOf(dictionary.getToLearnList().size()));
     }
 
     @Test
@@ -139,7 +139,7 @@ public class DictionaryTest {
         dictionary.getAllWordsList().getWord(0).setState(new WordStateLearn());
         dictionary.getToLearnList().addWord(dictionary.getAllWordsList().getWord(0));
         dictionary.createToLearnList(10);
-        assertEquals(Integer.valueOf(4), Integer.valueOf(dictionary.getToLearnList().size()));
+        assertEquals(Integer.valueOf(6), Integer.valueOf(dictionary.getToLearnList().size()));
     }
 
     @Test

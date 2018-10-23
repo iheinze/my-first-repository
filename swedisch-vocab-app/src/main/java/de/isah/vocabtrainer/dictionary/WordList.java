@@ -58,4 +58,11 @@ public class WordList implements Serializable{
         words.remove(word);
         wordsMap.remove(word.getKey());
     }
+
+    public void removeWords(List<Word> wordsToBeRemoved){
+        words.removeAll(wordsToBeRemoved);
+        for (Word w : wordsToBeRemoved){
+            wordsMap.remove(w.getKey());
+        }
+    }
 }

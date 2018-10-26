@@ -91,6 +91,33 @@
                 android:layout_height="wrap_content"
                 android:onClick="editWord"
                 android:text="@string/details_button_test_edit" />
+
+            <Button
+                android:id="@+id/buttonAddToNewList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="addToNewList"
+                android:text="@string/edit_button_add_to_new" />
+
+            <Button
+                android:id="@+id/buttonRemoveFromNewList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="removeFromNewList"
+                android:text="@string/edit_button_remove_from_new" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+
+            <Button
+                android:id="@+id/buttonDeleteFromDictionary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="deleteWord"
+                android:text="@string/edit_button_delete_word"
+                android:textColor="@color/colorAccent" />
+
         </LinearLayout>
     </ScrollView>
 </android.support.design.widget.CoordinatorLayout>

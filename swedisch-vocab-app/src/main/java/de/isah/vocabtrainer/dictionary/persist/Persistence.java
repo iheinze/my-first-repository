@@ -31,4 +31,6 @@ public interface Persistence {
     boolean disableImportExport();
 
     boolean disableDeleteWords();
+
+    boolean disableEditWords();
 }

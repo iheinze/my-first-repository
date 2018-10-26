@@ -1,13 +1,10 @@
 package de.isah.vocabtrainer;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,7 +27,7 @@ import java.util.regex.Pattern;
  * Created by isa.heinze on 14.04.2018.
  */
 
-public class EditWordActivity extends AppCompatActivity {
+public class EditWordActivity extends VocabTrainerAppCompatActivity {
 
     private Dictionary dictionary;
     private Word currentWord;
@@ -51,9 +48,8 @@ public class EditWordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        SwedishVocabAppLogger.log("on create", EditWordActivity.class, sharedPref.getBoolean("pref_debug_mode", false));
+        SwedishVocabAppLogger.log("on create", EditWordActivity.class, isDebug);
 
         this.separator = sharedPref.getString("pref_word_separator", ",");
 
@@ -88,11 +84,13 @@ public class EditWordActivity extends AppCompatActivity {
     }
 
     public void saveWord(View v){
+        SwedishVocabAppLogger.log("saveWord", EditWordActivity.class, isDebug);
         // TODO check for null
         String swedish = this.swedishInput.getText().toString();
         String german = this.germanInput.getText().toString();
 
         if(swedish == null || german == null || "".equals(swedish) || "".equals(german)){
+            SwedishVocabAppLogger.log("Error: at least swedish and german must be specified", EditWordActivity.class, isDebug);
             Snackbar.make(v, "At least swedish and german must be specified.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
@@ -118,9 +116,11 @@ public class EditWordActivity extends AppCompatActivity {
                     setButtonVisibilities();
                 }
 
+                SwedishVocabAppLogger.log("word was saved", EditWordActivity.class, isDebug);
                 changed = true;
 
             } catch (IllegalArgumentException e){
+                SwedishVocabAppLogger.log("word could not be saved: "+e.getStackTrace(), EditWordActivity.class, isDebug);
                 changed = false;
             } finally {
                 String changedMessage;
@@ -137,32 +137,38 @@ public class EditWordActivity extends AppCompatActivity {
     }
 
     public void addToNewList(View v){
+        SwedishVocabAppLogger.log("addToNewList", EditWordActivity.class, isDebug);
         if(!(currentWord.getState() instanceof WordStateNew)){
             this.dictionary.addWordToNewList(currentWord);
             setButtonVisibilities();
         } else {
+            SwedishVocabAppLogger.log("word was already on new list", EditWordActivity.class, isDebug);
             Snackbar.make(v, "Word is already on new words list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     private void removeFromIncompleteAddToNew(View v){
+        SwedishVocabAppLogger.log("remove word from incomplete list", EditWordActivity.class, isDebug);
         if(currentWord.getState() instanceof WordStateIncomplete){
             this.dictionary.removeWordFromIncompleteList(currentWord);
             setButtonVisibilities();
         } else {
+            SwedishVocabAppLogger.log("word was not on incomplete list", EditWordActivity.class, isDebug);
             Snackbar.make(v, "Word is not on incomplete list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     private void removeFromAllListsAddToIncomplete(View v){
+        SwedishVocabAppLogger.log("add to incomplete", EditWordActivity.class, isDebug);
         try {
             if (!(currentWord.getState() instanceof WordStateIncomplete)) {
                 this.dictionary.addWordToIncompleteList(currentWord);
                 setButtonVisibilities();
 
             } else {
+                SwedishVocabAppLogger.log("word was already on incomplete list", EditWordActivity.class, isDebug);
                 Snackbar.make(v, "Word is already on incomplete list.", Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
@@ -173,16 +179,19 @@ public class EditWordActivity extends AppCompatActivity {
     }
 
     public void removeFromNewList(View v){
+        SwedishVocabAppLogger.log("remove from new list", EditWordActivity.class, isDebug);
         if(currentWord.getState() instanceof WordStateNew){
             this.dictionary.removeWordFromNewList(currentWord);
             setButtonVisibilities();
         } else {
+            SwedishVocabAppLogger.log("word was not on new list", EditWordActivity.class, isDebug);
             Snackbar.make(v, "Word is not on new words list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void deleteWord(View v){
+        SwedishVocabAppLogger.log("delete word", EditWordActivity.class, isDebug);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Warning");
         builder.setMessage("Are you sure you want to delete the word permanently?");
@@ -231,9 +240,11 @@ public class EditWordActivity extends AppCompatActivity {
     }
 
     private boolean doDelete(){
+        SwedishVocabAppLogger.log("do actual delete", EditWordActivity.class, isDebug);
         boolean deleteSuccess = this.dictionary.deleteWord(currentWord);
         disableTextInput();
         disableButtons();
+        SwedishVocabAppLogger.log("word was deleted? "+deleteSuccess, EditWordActivity.class, isDebug);
         return deleteSuccess;
     }
 

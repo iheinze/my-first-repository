@@ -255,6 +255,10 @@ public class Dictionary implements Serializable {
         return this.persistence.disableDeleteWords();
     }
 
+    public boolean isDisableEditWord() {
+        return this.persistence.disableEditWords();
+    }
+
     public String getPersistenceType(){
         return this.persistence.getClass().getSimpleName();
     }

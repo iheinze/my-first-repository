@@ -1,7 +1,5 @@
 package de.isah.vocabtrainer;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.os.Bundle;
@@ -34,9 +32,8 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        SwedishVocabAppLogger.log("on create", AddWordActivity.class, sharedPref.getBoolean("pref_debug_mode", false));
+        SwedishVocabAppLogger.log("on create", AddWordActivity.class, isDebug);
 
         this.separator = sharedPref.getString("pref_word_separator", ",");
 
@@ -47,10 +44,13 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
 
     public void addWord(View view){
 
+        SwedishVocabAppLogger.log("add word", AddWordActivity.class, isDebug);
+
         String swedish = ((EditText) findViewById(R.id.editTextSwedish)).getText().toString();
         String german = ((EditText) findViewById(R.id.editTextGerman)).getText().toString();
 
         if("".equals(swedish) || "".equals(german)){
+            SwedishVocabAppLogger.log("Error: at least swdish and german must be specified", AddWordActivity.class, isDebug);
             Snackbar.make(view, "At least swedish and german must be specified.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
@@ -81,12 +81,16 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
                 }
                 dictionary.addWord(addedWord);
                 addedMessage = "Word was added.";
+                SwedishVocabAppLogger.log("word was added", AddWordActivity.class, isDebug);
                 dictionary = DictionaryCache.getCachedDictionary();
             } catch (IllegalArgumentException e){
+                SwedishVocabAppLogger.log("word could not be added: "+e.getStackTrace(), AddWordActivity.class, isDebug);
                 addedMessage = "Word could not be added.";
             } catch (IllegalStateTransitionException e){
+                SwedishVocabAppLogger.log("word could not be added: "+e.getStackTrace(), AddWordActivity.class, isDebug);
                 addedMessage = "Word could not be added.";
             } catch (WordAlreadyExistsException e){
+                SwedishVocabAppLogger.log("word could not be added: "+e.getStackTrace(), AddWordActivity.class, isDebug);
                 addedMessage = e.getMessage();
             } finally {
                 Snackbar.make(view, addedMessage, Snackbar.LENGTH_LONG).setAction("Action", null).show();

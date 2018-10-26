@@ -122,4 +122,9 @@ public class AppFilePersistence implements Persistence {
     public boolean disableDeleteWords() {
         return true;
     }
+
+    @Override
+    public boolean disableEditWords() {
+        return true;
+    }
 }

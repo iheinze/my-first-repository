@@ -3,6 +3,8 @@ package de.isah.vocabtrainer;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
+
 
 /**
  *
@@ -12,6 +14,7 @@ public class InfoActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwedishVocabAppLogger.log("on create", InfoActivity.class, isDebug);
         setContentView(R.layout.activity_info);
 
         StringBuilder statsStringBuilder = new StringBuilder();

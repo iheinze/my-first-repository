@@ -226,4 +226,9 @@ public class UserFilePersistence implements Persistence {
     public boolean disableDeleteWords() {
         return false;
     }
+
+    @Override
+    public boolean disableEditWords() {
+        return false;
+    }
 }

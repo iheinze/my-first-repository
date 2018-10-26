@@ -6,6 +6,7 @@ import android.widget.TextView;
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.constants.FileConstants;
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 /**
  *
@@ -15,6 +16,8 @@ public class DebugInfoActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwedishVocabAppLogger.log("on create", DebugInfoActivity.class, isDebug);
+
         setContentView(R.layout.activity_debug_info);
 
         Dictionary dictionary = DictionaryCache.getCachedDictionary();

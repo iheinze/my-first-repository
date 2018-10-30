@@ -94,6 +94,11 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
             Snackbar.make(v, "At least swedish and german must be specified.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
+        // The word key consists of swdish and prefix. Since it is used in the Word Map, it cannot be changes just like that. A completely new word object is needed, the old one can be deleted.
+        else if (!currentWord.getSwedish().equals(swedish) || !currentWord.getPrefix().string.equals(getWordPrefix(this.prefixSpinner).string)){
+            Snackbar.make(v, "Swedish or prefix cannot be changed right now.", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        }
         else{
             boolean changed = false;
             try {

@@ -36,10 +36,8 @@ public class HardcodedValuesPersistence implements Persistence {
             for (int i = 0; i < this.hardcodedWords.size(); i++) {
                 this.hardcodedWords.getWord(i).setState(new WordStateDictionary());
             }
-        } catch (IllegalStateTransitionException e){
+        } catch (IllegalStateTransitionException | WordAlreadyExistsException e){
             //do nothing
-        } catch (WordAlreadyExistsException e) {
-            // do nothing
         }
     }
 

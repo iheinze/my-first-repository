@@ -19,11 +19,11 @@ import static java.lang.Math.floor;
 
 public class LearnWordList extends WordList {
 
-    public void shuffle(){
+    void shuffle(){
         Collections.shuffle(words);
     }
 
-    public void clearListFromKnownWords(){
+    void clearListFromKnownWords(){
         try {
             List<Word> wordsToBeRemoved = new ArrayList<>();
 

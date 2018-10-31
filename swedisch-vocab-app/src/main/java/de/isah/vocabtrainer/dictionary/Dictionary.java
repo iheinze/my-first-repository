@@ -60,9 +60,7 @@ public class Dictionary implements Serializable {
                     newWord.setState(new WordStateLearn());
                     this.toLearn.addWord(newWord);
                     countNew++;
-                } catch (IllegalStateTransitionException e){
-                    // do nothing
-                } catch (WordAlreadyExistsException e){
+                } catch (IllegalStateTransitionException | WordAlreadyExistsException  e){
                     // do nothing
                 }
             }
@@ -78,9 +76,7 @@ public class Dictionary implements Serializable {
                     randWord.setState(new WordStateLearn());
                     this.toLearn.addWord(randWord);
                     countOld++;
-                } catch (IllegalStateTransitionException e){
-                    // do nothing
-                } catch (WordAlreadyExistsException e){
+                } catch (IllegalStateTransitionException | WordAlreadyExistsException e){
                     // do nothing
                 }
             }
@@ -126,7 +122,7 @@ public class Dictionary implements Serializable {
         return this.toLearn;
     }
 
-    public LearnWordList getToLearnListNoShuffle() {
+    LearnWordList getToLearnListNoShuffle() {
         return this.toLearn;
     }
 
@@ -204,12 +200,12 @@ public class Dictionary implements Serializable {
     public boolean export() {
         boolean persist = this.persistence.persistAll(this.dictionary);
         boolean export = this.persistence.exportAll(this.dictionary);
-        return (persist && export) ? true : false;
+        return persist && export;
     }
 
     public boolean persist() {
         boolean persist = this.persistence.persistAll(this.dictionary);
-        return (persist) ? true : false;
+        return persist;
     }
 
     public boolean importDir() {

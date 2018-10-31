@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
@@ -83,14 +85,11 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
                 addedMessage = "Word was added.";
                 SwedishVocabAppLogger.log("word was added", AddWordActivity.class, isDebug);
                 dictionary = DictionaryCache.getCachedDictionary();
-            } catch (IllegalArgumentException e){
-                SwedishVocabAppLogger.log("word could not be added: "+e.getStackTrace(), AddWordActivity.class, isDebug);
-                addedMessage = "Word could not be added.";
-            } catch (IllegalStateTransitionException e){
-                SwedishVocabAppLogger.log("word could not be added: "+e.getStackTrace(), AddWordActivity.class, isDebug);
+            } catch (IllegalArgumentException | IllegalStateTransitionException e){
+                SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
                 addedMessage = "Word could not be added.";
             } catch (WordAlreadyExistsException e){
-                SwedishVocabAppLogger.log("word could not be added: "+e.getStackTrace(), AddWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
                 addedMessage = e.getMessage();
             } finally {
                 Snackbar.make(view, addedMessage, Snackbar.LENGTH_LONG).setAction("Action", null).show();

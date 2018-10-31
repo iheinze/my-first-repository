@@ -23,7 +23,6 @@ import java.io.Writer;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 
 /**
  * A persistence type which takes user defined words only. It saves them in a file which can be exported.

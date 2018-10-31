@@ -46,7 +46,7 @@ public class VocabTrainingFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_vocab_training, container, false);
 
@@ -54,7 +54,7 @@ public class VocabTrainingFragment extends Fragment {
 
         updateLearningSummary();
 
-        Button resetButton = (Button) rootView.findViewById(R.id.buttonResetLearningProgress);
+        Button resetButton = rootView.findViewById(R.id.buttonResetLearningProgress);
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +65,7 @@ public class VocabTrainingFragment extends Fragment {
             }
         });
 
-        Button updateButton = (Button) rootView.findViewById(R.id.buttonUpdateVocabList);
+        Button updateButton = rootView.findViewById(R.id.buttonUpdateVocabList);
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +144,8 @@ public class VocabTrainingFragment extends Fragment {
 
     private void showWord(final int size, final int counter, String direction) {
         Word w = this.toLearnList.getWord(counter);
-        String title = "Word " + Integer.valueOf(counter + 1) + "/" + size;
+        int newCount = counter + 1;
+        String title = "Word " + newCount + "/" + size;
 
         // Show swedish
         AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
@@ -190,7 +191,8 @@ public class VocabTrainingFragment extends Fragment {
 
             // show german
             Word w = words.getWord(counter);
-            String title = "Word " + Integer.valueOf(counter + 1) + "/" + size;
+            int newCount = counter + 1;
+            String title = "Word " + newCount + "/" + size;
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(title);
             builder.setIcon(R.mipmap.ic_launcher);
@@ -246,17 +248,15 @@ public class VocabTrainingFragment extends Fragment {
                 case "sg":
                     try {
                         w.setCorrectStateSG();
+                        break;
                     } catch (IllegalStateTransitionException e) {
-                        // do nothing
-                    } finally {
                         break;
                     }
                 case "gs":
                     try {
                         w.setCorrectStateGS();
+                        break;
                     } catch (IllegalStateTransitionException e) {
-                        // do nothing
-                    } finally {
                         break;
                     }
                 default:
@@ -265,9 +265,9 @@ public class VocabTrainingFragment extends Fragment {
 
             dialog.dismiss();
 
-            int newcounter = counter + 1;
-            if (newcounter < size) {
-                showWord(size, newcounter, direction);
+            int newCount = counter + 1;
+            if (newCount < size) {
+                showWord(size, newCount, direction);
             } else {
                 showSummary();
                 updateLearningSummary();
@@ -297,11 +297,12 @@ public class VocabTrainingFragment extends Fragment {
 
     private void updateLearningSummary() {
         System.out.println("calling updateLearningSummary()");
-        TextView learnSummaryTextView = (TextView) rootView.findViewById(R.id.textViewLearningSummary);
+        TextView learnSummaryTextView = rootView.findViewById(R.id.textViewLearningSummary);
         if (dictionary.getToLearnList() != null && dictionary.getToLearnList().size() > 0) {
             learnSummaryTextView.setText(dictionary.getToLearnList().printResults());
         } else {
-            learnSummaryTextView.setText("There are no words no the learn list.");
+            String text = "There are no words on the learn list.";
+            learnSummaryTextView.setText(text);
         }
     }
 }

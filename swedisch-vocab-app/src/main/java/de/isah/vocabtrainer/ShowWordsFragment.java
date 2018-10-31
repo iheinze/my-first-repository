@@ -2,6 +2,7 @@ package de.isah.vocabtrainer;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,6 @@ import java.util.ArrayList;
 public class ShowWordsFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private Dictionary dictionary;
     private View rootView;
     private static ArrayAdapter adapter;
 
@@ -45,16 +45,16 @@ public class ShowWordsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         rootView = inflater.inflate(R.layout.fragment_show_words, container, false);
 
-        dictionary = DictionaryCache.getCachedDictionary();
+        Dictionary dictionary = DictionaryCache.getCachedDictionary();
 
         ListView listView = rootView.findViewById(R.id.listViewAll);
-        ArrayList<Word> list = (ArrayList<Word>) this.dictionary.getAllWordsList().getOriginalList();
-        this.adapter = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, list);
+        ArrayList<Word> list = (ArrayList<Word>) dictionary.getAllWordsList().getOriginalList();
+        adapter = new ArrayAdapter(rootView.getContext(), android.R.layout.simple_list_item_1, list);
 
         Word word = new Word();
         adapter.sort(word.new WordComparator());

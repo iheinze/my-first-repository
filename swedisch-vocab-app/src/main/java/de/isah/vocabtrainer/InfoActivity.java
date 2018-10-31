@@ -17,18 +17,10 @@ public class InfoActivity extends VocabTrainerAppCompatActivity {
         SwedishVocabAppLogger.log("on create", InfoActivity.class, isDebug);
         setContentView(R.layout.activity_info);
 
-        StringBuilder statsStringBuilder = new StringBuilder();
-        statsStringBuilder.append("App Name: ");
-        statsStringBuilder.append(getResources().getString(R.string.app_name));
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("App Version: ");
-        statsStringBuilder.append(getResources().getString(R.string.app_version));
-        statsStringBuilder.append("\n");
-
-        TextView textView1 = (TextView) findViewById(R.id.textViewAppInfoName);
+        TextView textView1 = findViewById(R.id.textViewAppInfoName);
         textView1.setText(R.string.app_name);
 
-        TextView textView2 = (TextView) findViewById(R.id.textViewAppInfoVersion);
+        TextView textView2 = findViewById(R.id.textViewAppInfoVersion);
         textView2.setText(R.string.app_version);
     }
 

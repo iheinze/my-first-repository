@@ -32,20 +32,20 @@ public class SwedishVocabAppLogger {
     }
 
     private static void rotateFile() {
-        new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).renameTo(new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME_ROTATED));
+        boolean wasRenamed = new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).renameTo(new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME_ROTATED));
     }
 
     private static boolean fileRotateNeeded() {
         File f = new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME);
-        if(f.length() / 1024 / 1024 >= ROTATE_FILE_SIZE_MB){
-            return true;
-        }
-        return false;
+        return f.length() / 1024 / 1024 >= ROTATE_FILE_SIZE_MB;
     }
 
-    public static void deleteLogFile(){
-        new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).delete();
-        new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME_ROTATED).delete();
+    static void deleteLogFile(){
+        boolean wasDeleted1 = new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME).delete();
+        boolean wasDeleted2 = new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME_ROTATED).delete();
+        if(!wasDeleted1 | !wasDeleted2){
+            //
+        }
     }
 
     private static String getCurrentTimeStamp() {

@@ -17,7 +17,7 @@ public class HelpActivity extends VocabTrainerAppCompatActivity {
         SwedishVocabAppLogger.log("on create", HelpActivity.class, isDebug);
         setContentView(R.layout.activity_help);
 
-        WebView webView = (WebView) findViewById(R.id.webViewHelp);
+        WebView webView = findViewById(R.id.webViewHelp);
         webView.loadUrl("file:///android_asset/VocabAppHelp.html");
     }
 }

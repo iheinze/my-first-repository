@@ -3,6 +3,7 @@ package de.isah.vocabtrainer;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,6 @@ import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 public class OtherFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private View rootView;
-    private static Dictionary dictionary;
 
     public OtherFragment(){
 
@@ -37,11 +36,11 @@ public class OtherFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_other, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_other, container, false);
 
-        dictionary = DictionaryCache.getCachedDictionary();
+        Dictionary dictionary = DictionaryCache.getCachedDictionary();
 
         // Get debug preferences. If for some reason it does not work, debug mode should be on because there is something wrong.
         //disable add word button if needed.
@@ -57,7 +56,7 @@ public class OtherFragment extends Fragment {
             (rootView.findViewById(R.id.viewSpace)).setVisibility(View.VISIBLE);
         }
 
-        if(!this.dictionary.isDisableImportExport()) {
+        if(!dictionary.isDisableImportExport()) {
             rootView.findViewById(R.id.buttonDictExport).setEnabled(true);
             rootView.findViewById(R.id.buttonDictImport).setEnabled(true);
         } else {

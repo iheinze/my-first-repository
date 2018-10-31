@@ -19,7 +19,6 @@ import android.content.SharedPreferences;
 
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
-import de.isah.vocabtrainer.dictionary.LearnWordList;
 import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 
@@ -32,13 +31,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     public static final String PREVIOUS_FRAGMENT = "previousFragment";
     private static Dictionary dictionary;
-    private LearnWordList toLearnList;
     private String persistenceType = "";
-    //private AndroidResourceFileHandler fileHandler = new AndroidResourceFileHandler();
     private AbstractFileHandler fileHandler;
 
     private ViewPager mViewPager;
-    private SectionsPagerAdapter mSectionsPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         FileConstants.setFilePath(this.getFilesDir().getAbsolutePath());
         FileConstants.setExternalFilePath(this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath());
 
+
         SwedishVocabAppLogger.log("on create", MainActivity.class, sharedPref.getBoolean("pref_debug_mode", false));
 
         this.persistenceType = sharedPref.getString("pref_persist_method", "no selection");
@@ -55,21 +52,20 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         this.fileHandler = FileHandlerFactory.create(this.persistenceType);
         this.fileHandler.openIniDictionaryFile(getAssets());
 
-        this.dictionary = DictionaryCache.getCachedDictionary(persistenceType);
-        this.toLearnList = this.dictionary.getToLearnList();
+        dictionary = DictionaryCache.getCachedDictionary(persistenceType);
 
         this.fileHandler.closeIniDictionary();
 
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        SectionsPagerAdapter mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(this.getIntent().getIntExtra(PREVIOUS_FRAGMENT, 0));
 
@@ -145,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onStop() {
         super.onStop();
-        this.dictionary.persist();
+        dictionary.persist();
     }
 
     @Override
@@ -171,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -209,7 +205,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
     }
 
-    /**
+    /*
      * Start Other stuff
      */
 
@@ -217,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         this.fileHandler = FileHandlerFactory.create(this.persistenceType);
         this.fileHandler.openIniDictionaryFile(getAssets());
         boolean reload = DictionaryCache.reloadDictionary(this.persistenceType);
-        this.dictionary = DictionaryCache.getCachedDictionary(this.persistenceType);
+        dictionary = DictionaryCache.getCachedDictionary(this.persistenceType);
         this.fileHandler.closeIniDictionary();
         return reload;
     }
@@ -238,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     public void exportWords(View view) {
-        boolean export = this.dictionary.export();
+        boolean export = dictionary.export();
 
         String exportMessage;
         if (export) {
@@ -253,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     public void importWords(View view) {
-        boolean importResult = this.dictionary.importDir();
+        boolean importResult = dictionary.importDir();
 
         String importMessage;
         if (importResult) {
@@ -267,7 +263,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     }
 
-    /**
+    /*
      * End Other stuff
      */
 }

@@ -11,6 +11,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
@@ -58,8 +60,11 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
 
         this.dictionary = DictionaryCache.getCachedDictionary();
 
-        //TODO: check for null
-        currentWord = this.dictionary.getAllWordsList().getWord(getIntent().getExtras().getString("wordkey"));
+        if(getIntent().getExtras() != null) {
+            currentWord = this.dictionary.getAllWordsList().getWord(getIntent().getExtras().getString("wordkey"));
+        } else {
+            //TODO what to do if this fails?
+        }
 
         // since there is quite a lot of done with the buttons and text fields it makes sense to just save them in fields and reuse them.
         this.prefixSpinner = findViewById(R.id.spinnerWordPrefix);
@@ -86,11 +91,10 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
 
     public void saveWord(View v){
         SwedishVocabAppLogger.log("saveWord", EditWordActivity.class, isDebug);
-        // TODO check for null
         String swedish = this.swedishInput.getText().toString();
         String german = this.germanInput.getText().toString();
 
-        if(swedish == null || german == null || "".equals(swedish) || "".equals(german)){
+        if("".equals(swedish) || "".equals(german)){
             SwedishVocabAppLogger.log("Error: at least swedish and german must be specified", EditWordActivity.class, isDebug);
             Snackbar.make(v, "At least swedish and german must be specified.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
@@ -116,14 +120,11 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
                 SwedishVocabAppLogger.log("word was saved", EditWordActivity.class, isDebug);
                 changed = true;
 
-            } catch (IllegalArgumentException e){
-                SwedishVocabAppLogger.log("word could not be saved: "+e.getStackTrace(), EditWordActivity.class, isDebug);
-                changed = false;
-            } catch (IllegalStateTransitionException e){
-                SwedishVocabAppLogger.log("word could not be saved: "+e.getStackTrace(), AddWordActivity.class, isDebug);
+            } catch (IllegalArgumentException | IllegalStateTransitionException e){
+                SwedishVocabAppLogger.log("word could not be saved: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
                 changed = false;
             } catch (WordAlreadyExistsException e){
-                SwedishVocabAppLogger.log("word could not be saved because a similar word already exists: "+e.getStackTrace(), AddWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be saved because a similar word already exists: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
                 changed = false;
             }  finally {
                 String changedMessage;
@@ -147,7 +148,7 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
                 changed = true;
 
             } catch (IllegalArgumentException e){
-                SwedishVocabAppLogger.log("word could not be saved: "+e.getStackTrace(), EditWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be saved: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
                 changed = false;
             } finally {
                 String changedMessage;
@@ -308,7 +309,7 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
 
         private View v;
 
-        public DoDeleteWordOnClickListener(View v){
+        DoDeleteWordOnClickListener(View v){
             this.v = v;
         }
 

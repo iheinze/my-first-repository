@@ -168,27 +168,18 @@ public class Word implements Serializable {
         return this.state.getWordListsNames();
     }
 
-    public String printWholeWord() {
-        StringBuilder builder = new StringBuilder();
-        builder.append(printSwedishAndGrammar());
-        builder.append("\n\n");
-        builder.append(printGerman());
-        builder.append("\n\n");
-        builder.append(printRemark());
-        builder.append("\n\n");
-        builder.append(printLists());
-        return builder.toString();
+    String printWholeWord() {
+        return printSwedishAndGrammar()+"\n\n"+printGerman()+"\n\n"+printRemark()+"\n\n"+printLists();
     }
 
     public void setState(WordState newState) throws IllegalStateTransitionException {
+        if(this.state == null || newState == null) {
+            throw new IllegalStateTransitionException("At least one of the states was null.");
+        }
         if (stateTransitionIsValid(this.state, newState)) {
             this.state = newState;
         } else {
-            String newClassName = null;
-            if (newState != null) {
-                newClassName = newState.getClass().getName();
-            }
-            throw new IllegalStateTransitionException("The transition from " + this.state.getClass().getName() + " to " + newClassName + " is not allowed");
+            throw new IllegalStateTransitionException("The transition from " + this.state.getClass().getName() + " to " + newState.getClass().getName() + " is not allowed");
         }
     }
 
@@ -214,13 +205,13 @@ public class Word implements Serializable {
 
     private boolean stateTransitionIsValid(WordState oldState, WordState newState) {
 
+        if (newState == null || oldState == null) {
+            return false;
+        }
+
         // setting to Incomplete is always possible
         if (newState instanceof WordStateIncomplete) {
             return true;
-        }
-
-        if (newState == null) {
-            return false;
         }
 
         if (oldState.getClass().equals(newState.getClass())) {
@@ -297,16 +288,12 @@ public class Word implements Serializable {
             for (int i = 1; i < grammar.length; i++) {
                 builder.append(",").append(grammar[i]);
             }
-        } else {
-            builder.append("");
         }
 
         builder.append(";");
 
         if (remark != null && !"".equals(remark)) {
             builder.append(remark);
-        } else {
-            builder.append("");
         }
 
         builder.append(";");

@@ -6,10 +6,10 @@ import de.isah.vocabtrainer.dictionary.word.WordPrefix;
  * Created by isa.heinze on 30.04.2018.
  */
 
-public class AndroidSpinnerItemWordPrefixMapper {
+class AndroidSpinnerItemWordPrefixMapper {
 
 
-    public static WordPrefix mapSpinnerItemToWordPrefix(String item){
+    static WordPrefix mapSpinnerItemToWordPrefix(String item){
         WordPrefix prefix;
         switch (item){
             case "none":
@@ -30,7 +30,7 @@ public class AndroidSpinnerItemWordPrefixMapper {
         return prefix;
     }
 
-    public static int mapWordPrefixToSpinnerItem(WordPrefix prefix){
+    static int mapWordPrefixToSpinnerItem(WordPrefix prefix){
         switch (prefix.string){
             case "none":
                 return 1;

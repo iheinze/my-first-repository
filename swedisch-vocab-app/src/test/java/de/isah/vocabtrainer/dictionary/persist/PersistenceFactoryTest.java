@@ -1,13 +1,17 @@
 package de.isah.vocabtrainer.dictionary.persist;
 
+import de.isah.vocabtrainer.FileHandlerFactory;
 import de.isah.vocabtrainer.dictionary.constants.FileConstants;
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import static org.junit.Assert.*;
 
@@ -43,6 +47,9 @@ public class PersistenceFactoryTest {
 
     @Test
     public void testFileTwo() throws IOException{
+        String testDir = "none;med;mit;;;WordStateDictionary--en;bil;Auto;bilen,bilar,bilarna;;WordStateDictionary--";
+        InputStream inStream = new ByteArrayInputStream(testDir.getBytes("UTF-8"));
+        AbstractFileHandler.setFileInStream(inStream);
         FileConstants.setFilePath(".");
         PersistenceFactory factory = new PersistenceFactory();
         assertTrue(factory.create("2") instanceof AppFilePersistence);

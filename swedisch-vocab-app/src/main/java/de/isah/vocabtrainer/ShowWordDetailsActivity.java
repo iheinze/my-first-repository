@@ -40,7 +40,11 @@ public class ShowWordDetailsActivity extends VocabTrainerAppCompatActivity {
 
         // for display it is ok to create a new word from string, does not work for editing
         this.dictionary = DictionaryCache.getCachedDictionary();
-        currentWord = this.dictionary.getAllWordsList().getWord(getIntent().getExtras().getString("wordkey"));
+        if(getIntent().getExtras() != null) {
+            currentWord = this.dictionary.getAllWordsList().getWord(getIntent().getExtras().getString("wordkey"));
+        } else {
+            //TODO what to do if this fails?
+        }
 
         TextView textViewSwedish = findViewById(R.id.textViewShowWordDetailsSwedish);
         textViewSwedish.setText(currentWord.printSwedishAndGrammar());
@@ -156,7 +160,7 @@ public class ShowWordDetailsActivity extends VocabTrainerAppCompatActivity {
 
         private View v;
 
-        public DoDeleteWordOnClickListener(View v){
+        DoDeleteWordOnClickListener(View v){
             this.v = v;
         }
 

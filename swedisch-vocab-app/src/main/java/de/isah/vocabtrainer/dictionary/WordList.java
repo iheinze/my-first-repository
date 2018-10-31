@@ -15,7 +15,7 @@ import java.util.Map;
 public class WordList implements Serializable{
 
     List<Word> words = new ArrayList<>();
-    Map<String,Word> wordsMap = new LinkedHashMap<>();
+    private Map<String,Word> wordsMap = new LinkedHashMap<>();
 
     public WordList(){
 
@@ -26,7 +26,7 @@ public class WordList implements Serializable{
         //return wordsMap.size();
     }
 
-    public boolean doesContain(Word w){
+    boolean doesContain(Word w){
         return words.contains(w);
         //return wordsMap.containsValue(w);
     }
@@ -45,7 +45,6 @@ public class WordList implements Serializable{
             throw new WordAlreadyExistsException("This word or a similar one exists.");
         }
         words.add(w);
-        // TODO the to string should be something else
         wordsMap.put(w.getKey(), w);
     }
 
@@ -54,12 +53,12 @@ public class WordList implements Serializable{
         //return new ArrayList<>(wordsMap.values());
     }
 
-    public void removeWord(Word word){
+    void removeWord(Word word){
         words.remove(word);
         wordsMap.remove(word.getKey());
     }
 
-    public void removeWords(List<Word> wordsToBeRemoved){
+    void removeWords(List<Word> wordsToBeRemoved){
         words.removeAll(wordsToBeRemoved);
         for (Word w : wordsToBeRemoved){
             wordsMap.remove(w.getKey());

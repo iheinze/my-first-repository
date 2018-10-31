@@ -12,7 +12,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by isa.heinze on 23.06.2018.
  */
 
-public class VocabTrainerAppCompatActivity extends AppCompatActivity {
+public abstract class VocabTrainerAppCompatActivity extends AppCompatActivity {
 
     protected boolean isDebug;
     protected SharedPreferences sharedPref;
@@ -28,9 +28,10 @@ public class VocabTrainerAppCompatActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         Intent upIntent = getSupportParentActivityIntent();
-        upIntent.putExtra(MainActivity.PREVIOUS_FRAGMENT, this.getIntent().getIntExtra(MainActivity.PREVIOUS_FRAGMENT,0));
 
         if (upIntent != null) {
+            upIntent.putExtra(MainActivity.PREVIOUS_FRAGMENT, this.getIntent().getIntExtra(MainActivity.PREVIOUS_FRAGMENT,0));
+
             if (supportShouldUpRecreateTask(upIntent)) {
                 TaskStackBuilder b = TaskStackBuilder.create(this);
                 onCreateSupportNavigateUpTaskStack(b);

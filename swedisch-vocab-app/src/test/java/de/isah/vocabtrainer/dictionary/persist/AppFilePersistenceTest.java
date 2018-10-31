@@ -62,7 +62,7 @@ public class AppFilePersistenceTest {
     }
 
     @Test
-    public void testPersistInputNull() throws UnsupportedEncodingException{
+    public void testPersistInputNull(){
         AbstractFileHandler.setFileInStream(null);
         AppFilePersistence persistence = new AppFilePersistence();
         persistence.addWord(new WordBuilder().build());

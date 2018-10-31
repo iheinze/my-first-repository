@@ -1,7 +1,6 @@
 package de.isah.vocabtrainer;
 
 import android.graphics.Point;
-import android.hardware.display.DisplayManager;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 

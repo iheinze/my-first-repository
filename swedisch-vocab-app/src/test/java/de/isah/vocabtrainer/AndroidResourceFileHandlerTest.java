@@ -15,7 +15,7 @@ public class AndroidResourceFileHandlerTest {
 
     @Test
     @Ignore("This is not so easy to test, because android stuff is needed.")
-    public void openIniDictionaryFile() throws Exception {
+    public void openIniDictionaryFile() {
 
         AppCompatActivity testACA = new AppCompatActivity();
         AssetManager testAm = testACA.getAssets(); //  this line causes trouble

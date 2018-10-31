@@ -9,10 +9,7 @@ import de.isah.vocabtrainer.dictionary.word.state.WordStateLearn;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 
-import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -24,7 +21,7 @@ import static org.junit.Assert.*;
 public class WordUnitTest {
 
     @Test
-    public void testNormalChar() throws Exception {
+    public void testNormalChar() {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.NONE);
@@ -82,7 +79,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testTwoGerman() throws Exception {
+    public void testTwoGerman() {
         Word word = new Word();
         word.setGerman("german1", "german2");
 
@@ -90,19 +87,19 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testGermanNull() throws Exception {
+    public void testGermanNull() {
         Word word = new Word();
         assertEquals("null", word.printGerman());
     }
 
     @Test(expected = NullPointerException.class)
-    public void testSwedishNull() throws Exception {
+    public void testSwedishNull() {
         Word word = new Word();
         assertEquals("null", word.printSwedishAndGrammar());
     }
 
     @Test
-    public void testGrammar() throws Exception {
+    public void testGrammar() {
         Word word = new Word();
         word.setSwedish("word", WordPrefix.NONE);
         word.setGrammar("grammar1");
@@ -111,7 +108,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testTwoGrammar() throws Exception {
+    public void testTwoGrammar() {
         Word word = new Word();
         word.setSwedish("word", WordPrefix.NONE);
         word.setGrammar("grammar1", "grammar2");
@@ -120,7 +117,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testRemark() throws Exception {
+    public void testRemark() {
         Word word = new Word();
         word.setSwedish("word", WordPrefix.NONE);
         word.setRemark("test remark");
@@ -162,7 +159,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testTabsEn() throws Exception {
+    public void testTabsEn() {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.EN);
@@ -175,7 +172,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testTabsEtt() throws Exception {
+    public void testTabsEtt() {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.ETT);
@@ -188,7 +185,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testTabsAtt() throws Exception {
+    public void testTabsAtt() {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.ATT);
@@ -257,7 +254,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSwedishWithPrefix() throws Exception {
+    public void testSwedishWithPrefix() {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.EN);
@@ -304,7 +301,7 @@ public class WordUnitTest {
         w2.setSwedish("xxx", WordPrefix.NONE);
         w2.setGerman("xxx");
         int result = comparator.compare(w1,w2);
-        assertTrue(result == 0);
+        assertEquals(0, result);
     }
 
     @Test
@@ -322,32 +319,32 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testValidateValid() throws Exception {
+    public void testValidateValid() {
         Word word = new Word();
         word.setRemark("The chars -()/., are allowed");
         // no exception is expected, no assert needed
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testValidateGerman() throws Exception {
+    public void testValidateGerman() {
         Word word = new Word();
         word.setGerman("&<>$%§");
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testValidateSwedisch1() throws Exception {
+    public void testValidateSwedisch1() {
         Word word = new Word();
         word.setSwedish("&<>$%§", WordPrefix.NONE);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testValidateSwedisch2() throws Exception {
+    public void testValidateSwedisch2() {
         Word word = new Word();
         word.setSwedish("&<>$%§", WordPrefix.NONE);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testValidateGrammar() throws Exception {
+    public void testValidateGrammar() {
         Word word = new Word();
         word.setGrammar("&<>$%§");
     }

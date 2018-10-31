@@ -62,7 +62,7 @@ public class UserFilePersistenceTest {
     public void testPersistWordList() throws IOException, WordAlreadyExistsException {
         FileConstants.setFilePath("src/test/assets");
         File outFile = new File(FileConstants.getFilePath()+ "/dictionary.txt");
-        outFile.createNewFile();
+        boolean b = outFile.createNewFile();
 
         UserFilePersistence persistence = new UserFilePersistence();
         WordList list = new WordList();

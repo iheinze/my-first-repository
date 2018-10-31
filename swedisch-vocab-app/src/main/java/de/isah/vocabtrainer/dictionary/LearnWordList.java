@@ -56,13 +56,12 @@ public class LearnWordList extends WordList {
             }
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("Total Number of Words: ").append(size).append("\n");
-        builder.append("Correct (Swedish-German): ").append(counterSG).append(" ").append((generateSmiley(size, counterSG))).append("\n");
-        builder.append("Correct (German-Swedish): ").append(counterGS).append(" ").append(generateSmiley(size, counterGS)).append("\n");
-        builder.append("\n");
-        builder.append(generateMessage(size, counterSG, counterGS));
-        return builder.toString();
+        return "Total Number of Words: " + size+ "\n"
+                + "Correct (Swedish-German): " + counterSG + " " + generateSmiley(size, counterSG)+ "\n"
+                + "Correct (German-Swedish): " + counterGS + " " + generateSmiley(size, counterGS) + "\n"
+                + "\n"
+                + generateMessage(size, counterSG, counterGS);
+
     }
 
     private String generateSmiley(int size, int correct){

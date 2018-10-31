@@ -22,43 +22,38 @@ public class DebugInfoActivity extends VocabTrainerAppCompatActivity {
 
         Dictionary dictionary = DictionaryCache.getCachedDictionary();
 
-        StringBuilder statsStringBuilder = new StringBuilder();
-        statsStringBuilder.append("---DEBUG---");
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("App Name: ");
-        statsStringBuilder.append(getResources().getString(R.string.app_name));
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("App Version: ");
-        statsStringBuilder.append(getResources().getString(R.string.app_version));
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("Persistence type: ");
-        statsStringBuilder.append(dictionary.getPersistenceType());
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("Number of words in dictionary: ");
-        statsStringBuilder.append(dictionary.getNWordsInDict());
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("Number of new words: ");
-        statsStringBuilder.append(dictionary.getNWordsNew());
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("Number of words in toLearn List: ");
-        statsStringBuilder.append(dictionary.getToLearnList().size());
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("Number of words in incomplete List: ");
-        statsStringBuilder.append(dictionary.getIncompleteList().size());
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("File Path: ");
-        statsStringBuilder.append(FileConstants.getFilePath());
-        statsStringBuilder.append("\n");
-        statsStringBuilder.append("External File Path: ");
-        statsStringBuilder.append(FileConstants.getExternalFilePath());
-        statsStringBuilder.append("\n");
+        String text = "---DEBUG---"
+                + "\n" +"\n"
+                + "App Name: "
+                + getResources().getString(R.string.app_name)
+                + "\n"
+                + "App Version: "
+                + getResources().getString(R.string.app_version)
+                + "\n" +"\n"
+                + "Persistence type: "
+                + dictionary.getPersistenceType()
+                + "\n" +"\n"
+                + "Number of words in dictionary: "
+                + dictionary.getNWordsInDict()
+                + "\n"
+                +"Number of new words: "
+                + dictionary.getNWordsNew()
+                +"\n"
+                + "Number of words in toLearn List: "
+                + dictionary.getToLearnList().size()
+                + "\n"
+                + "Number of words in incomplete List: "
+                + dictionary.getIncompleteList().size()
+                + "\n" + "\n"
+                + "File Path: "
+                + FileConstants.getFilePath()
+                + "\n"
+                + "External File Path: "
+                + FileConstants.getExternalFilePath()
+                + "\n";
 
         TextView textView = findViewById(R.id.textViewDebugInfo);
-        textView.setText(statsStringBuilder.toString());
+        textView.setText(text);
     }
 
 }

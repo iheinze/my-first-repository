@@ -1,6 +1,8 @@
 package de.isah.vocabtrainer.dictionary;
 
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
+import de.isah.vocabtrainer.dictionary.exception.WordAlreadyOnListException;
+import de.isah.vocabtrainer.dictionary.exception.WordNotOnListException;
 import de.isah.vocabtrainer.dictionary.persist.Persistence;
 import de.isah.vocabtrainer.dictionary.persist.PersistenceFactory;
 import de.isah.vocabtrainer.dictionary.word.Word;
@@ -57,9 +59,11 @@ public class Dictionary implements Serializable {
             while (this.toLearn.size() < toLearnListLength && newWords.size() > 0) {
                 try {
                     Word newWord = newWords.poll();
-                    newWord.setState(new WordStateLearn());
-                    this.toLearn.addWord(newWord);
-                    countNew++;
+                    if(newWord != null) {
+                        newWord.setState(new WordStateLearn());
+                        this.toLearn.addWord(newWord);
+                        countNew++;
+                    }
                 } catch (IllegalStateTransitionException | WordAlreadyExistsException  e){
                     // do nothing
                 }
@@ -161,23 +165,21 @@ public class Dictionary implements Serializable {
 
     }
 
-    public boolean addWordToNewList(Word word) {
-        try {
+    public void addWordToNewList(Word word) throws IllegalStateTransitionException, WordAlreadyOnListException {
+        if(!(word.getState() instanceof WordStateNew)) {
             word.setState(new WordStateNew());
             this.newWords.add(word);
-            return true;
-        } catch (IllegalStateTransitionException e) {
-            return false;
+        } else {
+            throw new WordAlreadyOnListException("Word "+word.getKey()+" was already on new list.");
         }
     }
 
-    public boolean removeWordFromNewList(Word word) {
-        try {
+    public void removeWordFromNewList(Word word) throws IllegalStateTransitionException, WordNotOnListException {
+        if(word.getState() instanceof WordStateNew){
             word.setState(new WordStateDictionary());
             this.newWords.remove(word);
-            return true;
-        } catch (IllegalStateTransitionException e){
-            return false;
+        } else {
+            throw new WordNotOnListException("the word was "+word.getKey()+" was not on the new list");
         }
     }
 
@@ -204,8 +206,7 @@ public class Dictionary implements Serializable {
     }
 
     public boolean persist() {
-        boolean persist = this.persistence.persistAll(this.dictionary);
-        return persist;
+        return this.persistence.persistAll(this.dictionary);
     }
 
     public boolean importDir() {
@@ -216,26 +217,24 @@ public class Dictionary implements Serializable {
         return importResult;
     }
 
-    public boolean removeWordFromIncompleteList(Word word) {
-        try {
+    public void removeWordFromIncompleteList(Word word) throws IllegalStateTransitionException, WordNotOnListException {
+        if(word.getState() instanceof WordStateIncomplete) {
             word.setState(new WordStateNew());
             this.incompleteList.removeWord(word);
             this.newWords.add(word);
-            return true;
-        } catch (IllegalStateTransitionException e){
-            return false;
+        } else {
+            throw new WordNotOnListException("word was not on the incomplete list");
         }
     }
 
-    public boolean addWordToIncompleteList(Word word) throws WordAlreadyExistsException{
-        try {
+    public void addWordToIncompleteList(Word word) throws WordAlreadyExistsException, IllegalStateTransitionException, WordAlreadyOnListException{
+        if (!(word.getState() instanceof WordStateIncomplete)) {
             word.setState(new WordStateIncomplete());
             this.incompleteList.addWord(word);
             this.toLearn.removeWord(word);
             this.newWords.remove(word);
-            return true;
-        } catch (IllegalStateTransitionException e) {
-            return false;
+        } else {
+            throw new WordAlreadyOnListException("word was already on incomplete list");
         }
     }
 

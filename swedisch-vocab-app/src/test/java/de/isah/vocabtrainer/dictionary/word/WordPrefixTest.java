@@ -1,7 +1,5 @@
 package de.isah.vocabtrainer.dictionary.word;
 
-import de.isah.vocabtrainer.dictionary.word.WordPrefix;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;

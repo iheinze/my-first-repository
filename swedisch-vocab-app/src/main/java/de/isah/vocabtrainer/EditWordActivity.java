@@ -16,6 +16,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
+import de.isah.vocabtrainer.dictionary.exception.WordAlreadyOnListException;
+import de.isah.vocabtrainer.dictionary.exception.WordNotOnListException;
 import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
@@ -63,7 +65,7 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
         if(getIntent().getExtras() != null) {
             currentWord = this.dictionary.getAllWordsList().getWord(getIntent().getExtras().getString("wordkey"));
         } else {
-            //TODO what to do if this fails?
+            currentWord = new Word();
         }
 
         // since there is quite a lot of done with the buttons and text fields it makes sense to just save them in fields and reuse them.
@@ -186,24 +188,32 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
 
     public void addToNewList(View v){
         SwedishVocabAppLogger.log("addToNewList", EditWordActivity.class, isDebug);
-        if(!(currentWord.getState() instanceof WordStateNew)){
+        try{
             this.dictionary.addWordToNewList(currentWord);
             setButtonVisibilities();
-        } else {
+        } catch (WordAlreadyOnListException e){
             SwedishVocabAppLogger.log("word was already on new list", EditWordActivity.class, isDebug);
             Snackbar.make(v, "Word is already on new words list.", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (IllegalStateTransitionException e){
+            SwedishVocabAppLogger.log("word could not be added to new list: "+ ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+            Snackbar.make(v, "Word could not be added to new list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     private void removeFromIncompleteAddToNew(View v){
         SwedishVocabAppLogger.log("remove word from incomplete list", EditWordActivity.class, isDebug);
-        if(currentWord.getState() instanceof WordStateIncomplete){
+        try{
             this.dictionary.removeWordFromIncompleteList(currentWord);
             setButtonVisibilities();
-        } else {
-            SwedishVocabAppLogger.log("word was not on incomplete list", EditWordActivity.class, isDebug);
+        } catch (WordNotOnListException e){
+            SwedishVocabAppLogger.log("word was not on incomplete list. ", EditWordActivity.class, isDebug);
             Snackbar.make(v, "Word is not on incomplete list.", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (IllegalStateTransitionException e){
+            SwedishVocabAppLogger.log("word could not be deleted from incomplete list. ", EditWordActivity.class, isDebug);
+            Snackbar.make(v, "Word could not be deleted from incomplete list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
@@ -211,29 +221,35 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
     private void removeFromAllListsAddToIncomplete(View v){
         SwedishVocabAppLogger.log("add to incomplete", EditWordActivity.class, isDebug);
         try {
-            if (!(currentWord.getState() instanceof WordStateIncomplete)) {
-                this.dictionary.addWordToIncompleteList(currentWord);
-                setButtonVisibilities();
-
-            } else {
-                SwedishVocabAppLogger.log("word was already on incomplete list", EditWordActivity.class, isDebug);
-                Snackbar.make(v, "Word is already on incomplete list.", Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show();
-            }
+            this.dictionary.addWordToIncompleteList(currentWord);
+            setButtonVisibilities();
         } catch (WordAlreadyExistsException e){
+            SwedishVocabAppLogger.log("word already existed", EditWordActivity.class, isDebug);
             Snackbar.make(v, e.getMessage(), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        } catch (WordAlreadyOnListException e){
+            SwedishVocabAppLogger.log("word was already on incomplete list", EditWordActivity.class, isDebug);
+            Snackbar.make(v, "Word is already on incomplete list.", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (IllegalStateTransitionException e) {
+            SwedishVocabAppLogger.log("word could not be added to new list: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+            Snackbar.make(v, "Word could not be added to word list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void removeFromNewList(View v){
         SwedishVocabAppLogger.log("remove from new list", EditWordActivity.class, isDebug);
-        if(currentWord.getState() instanceof WordStateNew){
+        try {
             this.dictionary.removeWordFromNewList(currentWord);
             setButtonVisibilities();
-        } else {
+        } catch (WordNotOnListException e){
             SwedishVocabAppLogger.log("word was not on new list", EditWordActivity.class, isDebug);
             Snackbar.make(v, "Word is not on new words list.", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (IllegalStateTransitionException e){
+            SwedishVocabAppLogger.log("word could not be removed from new list: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+            Snackbar.make(v, "Word could not be removed from word list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }

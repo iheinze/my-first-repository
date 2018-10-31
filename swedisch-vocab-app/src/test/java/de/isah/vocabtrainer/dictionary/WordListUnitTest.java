@@ -1,14 +1,8 @@
 package de.isah.vocabtrainer.dictionary;
 
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
-import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateCorrect;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateGSCorrect;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateLearn;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 
 import org.junit.Test;
 

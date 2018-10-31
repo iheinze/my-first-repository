@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mViewPager.setCurrentItem(this.getIntent().getIntExtra(PREVIOUS_FRAGMENT, 0));
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
     }

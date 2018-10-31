@@ -9,11 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
+import de.isah.vocabtrainer.dictionary.exception.WordAlreadyOnListException;
+import de.isah.vocabtrainer.dictionary.exception.WordNotOnListException;
 import de.isah.vocabtrainer.dictionary.word.Word;
+import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 /**
@@ -43,7 +47,7 @@ public class ShowWordDetailsActivity extends VocabTrainerAppCompatActivity {
         if(getIntent().getExtras() != null) {
             currentWord = this.dictionary.getAllWordsList().getWord(getIntent().getExtras().getString("wordkey"));
         } else {
-            //TODO what to do if this fails?
+            currentWord = new Word();
         }
 
         TextView textViewSwedish = findViewById(R.id.textViewShowWordDetailsSwedish);
@@ -79,24 +83,32 @@ public class ShowWordDetailsActivity extends VocabTrainerAppCompatActivity {
 
     public void addToNewList(View v){
         SwedishVocabAppLogger.log("add to new list", ShowWordDetailsActivity.class, isDebug);
-        if(!(currentWord.getState() instanceof WordStateNew)){
+        try{
             this.dictionary.addWordToNewList(currentWord);
             setButtonVisibilities();
-        } else {
+        } catch (WordAlreadyOnListException e){
             SwedishVocabAppLogger.log("word was already on new list", ShowWordDetailsActivity.class, isDebug);
             Snackbar.make(v, "Word is already on new words list.", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch (IllegalStateTransitionException e){
+            SwedishVocabAppLogger.log("word could not be added to new list: "+ExceptionUtils.getStackTrace(e), ShowWordDetailsActivity.class, isDebug);
+            Snackbar.make(v, "Word could not be added to new list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void removeFromNewList(View v){
         SwedishVocabAppLogger.log("remove from new list", ShowWordDetailsActivity.class, isDebug);
-        if(currentWord.getState() instanceof WordStateNew){
+        try{
             this.dictionary.removeWordFromNewList(currentWord);
             setButtonVisibilities();
-        } else {
+        } catch (WordNotOnListException e){
             SwedishVocabAppLogger.log("word was not on new list", ShowWordDetailsActivity.class, isDebug);
             Snackbar.make(v, "Word is not on new words list.", Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show();
+        } catch ( IllegalStateTransitionException e){
+            SwedishVocabAppLogger.log("word could not be removed from new list: "+ExceptionUtils.getStackTrace(e), ShowWordDetailsActivity.class, isDebug);
+            Snackbar.make(v, "Word could not be removed from new list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }

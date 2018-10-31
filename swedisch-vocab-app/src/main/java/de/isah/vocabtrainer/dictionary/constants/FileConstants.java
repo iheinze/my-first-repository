@@ -1,7 +1,5 @@
 package de.isah.vocabtrainer.dictionary.constants;
 
-import android.support.annotation.NonNull;
-
 /**
  * Constants related to files which are needed throughout the app
  *

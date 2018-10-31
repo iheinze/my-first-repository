@@ -54,7 +54,7 @@ public class SwedishVocabAppLoggerTest {
     }
 
     @Test
-    public void testFileRotate() throws  IOException {
+    public void testFileRotate() {
         String log = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
         for(int i = 0; i< 5500; i++) {
             SwedishVocabAppLogger.log(log, SwedishVocabAppLoggerTest.class, true);
@@ -63,7 +63,7 @@ public class SwedishVocabAppLoggerTest {
     }
 
     @Test
-    public void testTwoFileRotates() throws  IOException {
+    public void testTwoFileRotates() {
         String log = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
         for(int i = 0; i< 11000; i++) {
             SwedishVocabAppLogger.log(log, SwedishVocabAppLoggerTest.class, true);

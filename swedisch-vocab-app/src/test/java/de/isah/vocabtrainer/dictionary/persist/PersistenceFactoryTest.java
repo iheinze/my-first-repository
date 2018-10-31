@@ -1,6 +1,5 @@
 package de.isah.vocabtrainer.dictionary.persist;
 
-import de.isah.vocabtrainer.FileHandlerFactory;
 import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 

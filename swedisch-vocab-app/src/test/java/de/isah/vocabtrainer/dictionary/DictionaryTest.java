@@ -1,6 +1,8 @@
 package de.isah.vocabtrainer.dictionary;
 
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
+import de.isah.vocabtrainer.dictionary.exception.WordAlreadyOnListException;
+import de.isah.vocabtrainer.dictionary.exception.WordNotOnListException;
 import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
@@ -43,14 +45,8 @@ public class DictionaryTest {
     public void testCreateToLearnList() throws IOException{
         Dictionary dictionary = new Dictionary("x");
 
-        StringBuilder builderExpected = new StringBuilder();
-        builderExpected.append("Words added: ").append(2).append("/").append(2);
-        /*
-        builderExpected.append("Words that stayed: ").append(0).append("\n");
-        builderExpected.append("New words added: ").append(0).append("\n");
-        builderExpected.append("Old words added: ").append(2).append("\n");
-        builderExpected.append("Total words: ").append(2);
-*/
+        String expected = "Words added: 2/2";
+
         String result = dictionary.createToLearnList(2);
 
         assertEquals(Integer.valueOf(2), Integer.valueOf(dictionary.getToLearnList().size()));
@@ -58,11 +54,11 @@ public class DictionaryTest {
         assertTrue(dictionary.getToLearnList().getWord(0).getState() instanceof WordStateLearn);
         assertTrue(dictionary.getToLearnList().getWord(1).getState() instanceof WordStateLearn);
 
-        assertEquals(builderExpected.toString(), result);
+        assertEquals(expected, result);
     }
 
     @Test
-    public void testCreateToLearnListAfterIncomplete() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException{
+    public void testCreateToLearnListAfterIncomplete() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException, WordAlreadyOnListException {
         Dictionary dictionary = new Dictionary("x");
 
         // create inital learn list
@@ -99,21 +95,15 @@ public class DictionaryTest {
         Word wordToBeAdded = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
         dictionary.addWord(wordToBeAdded);
 
-        StringBuilder builderExpected = new StringBuilder();
-        builderExpected.append("Words added: ").append(2).append("/").append(2);
-        /*
-        builderExpected.append("Words that stayed: ").append(0).append("\n");
-        builderExpected.append("New words added: ").append(1).append("\n");
-        builderExpected.append("Old words added: ").append(1).append("\n");
-        builderExpected.append("Total words: ").append(2);
-*/
+        String expected = "Words added: 2/2";
+
         String result = dictionary.createToLearnList(2);
 
         assertEquals(Integer.valueOf(2), Integer.valueOf(dictionary.getToLearnList().size()));
         assertTrue(dictionary.getToLearnList().doesContain(wordToBeAdded));
         assertTrue(wordToBeAdded.getState() instanceof WordStateLearn);
 
-        assertEquals(builderExpected.toString(), result);
+        assertEquals(expected, result);
     }
 
     @Test
@@ -160,7 +150,7 @@ public class DictionaryTest {
     }
 
     @Test
-    public void testRemoveWordFromNewList() throws IOException, WordAlreadyExistsException {
+    public void testRemoveWordFromNewList() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException, WordNotOnListException {
         Dictionary dictionary = new Dictionary("x");
         int nExpectedAll = dictionary.getNWordsInDict();
         int nExpectedNew = dictionary.getNWordsNew();
@@ -175,7 +165,7 @@ public class DictionaryTest {
     }
 
     @Test
-    public void testAddWordToNewList() throws IOException, WordAlreadyExistsException {
+    public void testAddWordToNewList() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException, WordNotOnListException, WordAlreadyOnListException {
         Dictionary dictionary = new Dictionary("x");
         int nExpectedAll = dictionary.getNWordsInDict();
         int nExpectedNew = dictionary.getNWordsNew();

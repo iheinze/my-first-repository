@@ -17,6 +17,7 @@ import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
 import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
+import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
@@ -96,30 +97,51 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
         }
         // The word key consists of swdish and prefix. Since it is used in the Word Map, it cannot be changes just like that. A completely new word object is needed, the old one can be deleted.
         else if (!currentWord.getSwedish().equals(swedish) || !currentWord.getPrefix().string.equals(getWordPrefix(this.prefixSpinner).string)){
-            Snackbar.make(v, "Swedish or prefix cannot be changed right now.", Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null).show();
+            boolean changed = false;
+            try {
+                WordBuilder builder = new WordBuilder();
+                builder.addSwedish(swedish, getWordPrefix(this.prefixSpinner));
+                changeWord(v, german, builder);
+
+                Word newWord = builder.build();
+                if(!incompleteCheckbox.isChecked()){
+                    newWord.setState(new WordStateNew());
+                } else {
+                    newWord.setState(new WordStateIncomplete());
+                }
+                this.dictionary.addWord(newWord);
+
+                this.dictionary.deleteWord(currentWord);
+
+                SwedishVocabAppLogger.log("word was saved", EditWordActivity.class, isDebug);
+                changed = true;
+
+            } catch (IllegalArgumentException e){
+                SwedishVocabAppLogger.log("word could not be saved: "+e.getStackTrace(), EditWordActivity.class, isDebug);
+                changed = false;
+            } catch (IllegalStateTransitionException e){
+                SwedishVocabAppLogger.log("word could not be saved: "+e.getStackTrace(), AddWordActivity.class, isDebug);
+                changed = false;
+            } catch (WordAlreadyExistsException e){
+                SwedishVocabAppLogger.log("word could not be saved because a similar word already exists: "+e.getStackTrace(), AddWordActivity.class, isDebug);
+                changed = false;
+            }  finally {
+                String changedMessage;
+                if(changed) {
+                    changedMessage= "Word was changed.";
+                } else {
+                    changedMessage= "Word could not be changed.";
+                }
+                Snackbar.make(v, changedMessage, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show();
+            }
+
         }
         else{
             boolean changed = false;
             try {
                 WordBuilder builder = new WordBuilder(currentWord);
-                builder.addSwedish(swedish, getWordPrefix(this.prefixSpinner)).addGerman(german.split(Pattern.quote(this.separator)));
-
-                String grammar = this.grammarInput.getText().toString();
-                builder.addGrammar(grammar.split(Pattern.quote(this.separator)));
-
-                String remarks = this.remarkInput.getText().toString();
-                builder.addRemark(remarks);
-
-                if(currentWord.getState() instanceof WordStateIncomplete && !this.incompleteCheckbox.isChecked()){
-                    removeFromIncompleteAddToNew(v);
-                    setButtonVisibilities();
-                }
-
-                if(!(currentWord.getState() instanceof WordStateIncomplete) && this.incompleteCheckbox.isChecked()){
-                    removeFromAllListsAddToIncomplete(v);
-                    setButtonVisibilities();
-                }
+                changeWord(v, german, builder);
 
                 SwedishVocabAppLogger.log("word was saved", EditWordActivity.class, isDebug);
                 changed = true;
@@ -132,12 +154,32 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
                 if(changed) {
                     changedMessage= "Word was changed.";
                 } else {
-                    changedMessage= "Word could not be changed changed.";
+                    changedMessage= "Word could not be changed.";
                 }
                 Snackbar.make(v, changedMessage, Snackbar.LENGTH_SHORT)
                         .setAction("Action", null).show();
             }
 
+        }
+    }
+
+    private void changeWord(View v, String german, WordBuilder builder) {
+        builder.addGerman(german.split(Pattern.quote(this.separator)));
+
+        String grammar = this.grammarInput.getText().toString();
+        builder.addGrammar(grammar.split(Pattern.quote(this.separator)));
+
+        String remarks = this.remarkInput.getText().toString();
+        builder.addRemark(remarks);
+
+        if(currentWord.getState() instanceof WordStateIncomplete && !this.incompleteCheckbox.isChecked()){
+            removeFromIncompleteAddToNew(v);
+            setButtonVisibilities();
+        }
+
+        if(!(currentWord.getState() instanceof WordStateIncomplete) && this.incompleteCheckbox.isChecked()){
+            removeFromAllListsAddToIncomplete(v);
+            setButtonVisibilities();
         }
     }
 

@@ -9,6 +9,9 @@ import de.isah.vocabtrainer.dictionary.word.state.WordStateLearn;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -33,7 +36,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSpecialChar() throws Exception {
+    public void testSpecialChar() {
         Word word = new Word();
         word.setGerman("äöüßÄÖÜ");
         word.setSwedish("äöåÄÖÅ", WordPrefix.NONE);
@@ -534,5 +537,105 @@ public class WordUnitTest {
         w.setState(new WordStateDictionary());
         w.setState(new WordStateIncomplete());
         assertTrue(w.getState() instanceof WordStateIncomplete);
+    }
+
+    @Test
+    public void testJsonFull() throws JSONException {
+
+        JSONArray grammar = new JSONArray();
+        grammar.put("pojken");
+        grammar.put("pojkar");
+        grammar.put("pojkarna");
+
+        JSONArray german = new JSONArray();
+        german.put("Junge");
+
+        JSONObject wordJson = new JSONObject();
+        wordJson.put("prefix", "en");
+        wordJson.put("swedish", "pojke");
+        wordJson.put("german", german);
+        wordJson.put("grammar", grammar);
+        wordJson.put("remark", "test");
+        wordJson.put("state", "WordStateDictionary");
+
+        Word word = new Word(wordJson);
+        assertEquals(WordPrefix.EN, word.getPrefix());
+        assertEquals("pojke", word.getSwedish());
+        assertEquals("WordStateDictionary", word.getState().getName());
+        assertEquals("Junge", word.printGerman());
+        assertEquals("pojken, pojkar, pojkarna", word.printGrammar());
+        assertEquals("test", word.printRemark());
+
+    }
+
+    @Test
+    public void testJsonMin() throws JSONException {
+
+        JSONArray german = new JSONArray();
+        german.put("Junge");
+
+        JSONObject wordJson = new JSONObject();
+        wordJson.put("prefix", "en");
+        wordJson.put("swedish", "pojke");
+        wordJson.put("german", german);
+
+        Word word = new Word(wordJson);
+        assertEquals(WordPrefix.EN, word.getPrefix());
+        assertEquals("pojke", word.getSwedish());
+        assertEquals("WordStateInitial", word.getState().getName());
+        assertEquals("Junge", word.printGerman());
+        assertEquals("", word.printGrammar());
+        assertEquals("", word.printRemark());
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testJsonSwedishMissing() throws JSONException {
+
+        JSONArray german = new JSONArray();
+        german.put("Junge");
+
+        JSONObject wordJson = new JSONObject();
+        wordJson.put("prefix", "en");
+        wordJson.put("german", german);
+
+        new Word(wordJson);
+    }
+
+    @Test
+    public void testSerializeToJsonFull() throws JSONException {
+        JSONArray grammar = new JSONArray();
+        grammar.put("pojken");
+        grammar.put("pojkar");
+        grammar.put("pojkarna");
+
+        JSONArray german = new JSONArray();
+        german.put("Junge");
+
+        JSONObject wordJson = new JSONObject();
+        wordJson.put("prefix", "en");
+        wordJson.put("swedish", "pojke");
+        wordJson.put("german", german);
+        wordJson.put("grammar", grammar);
+        wordJson.put("remark", "test");
+        wordJson.put("state", "WordStateDictionary");
+
+        Word word = new Word(wordJson);
+        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"grammar\":[\"pojken\",\"pojkar\",\"pojkarna\"],\"prefix\":\"en\",\"remark\":\"test\",\"state\":\"WordStateDictionary\"}", word.serializeToJsonString());
+    }
+
+    @Test
+    public void testSerializeToJsonMin() throws JSONException {
+
+        JSONArray german = new JSONArray();
+        german.put("Junge");
+
+        JSONObject wordJson = new JSONObject();
+        wordJson.put("prefix", "en");
+        wordJson.put("swedish", "pojke");
+        wordJson.put("german", german);
+
+        Word word = new Word(wordJson);
+        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"grammar\":[],\"prefix\":\"en\",\"remark\":\"\",\"state\":\"WordStateInitial\"}", word.serializeToJsonString());
     }
 }

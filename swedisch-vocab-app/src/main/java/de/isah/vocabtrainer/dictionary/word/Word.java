@@ -1,5 +1,10 @@
 package de.isah.vocabtrainer.dictionary.word;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.text.Collator;
 import java.util.Comparator;
@@ -57,6 +62,35 @@ public class Word implements Serializable {
             this.state = factory.create(wordStrings[5]);
         } else {
             throw new IllegalArgumentException("word has wrong format: --" + serializedString+"--");
+        }
+    }
+
+    public Word(JSONObject jsonWord){
+        this.state = new WordStateInitial();
+
+        try{
+            this.prefix = mapPrefix(jsonWord.getString("prefix"));
+            this.swedish = jsonWord.getString("swedish");
+            JSONArray germanJson = jsonWord.getJSONArray("german");
+            this.german = germanJson.join(",").replaceAll("\"", "").split(",");
+            if(jsonWord.has("grammar")) {
+                JSONArray grammarJson = jsonWord.getJSONArray("grammar");
+                this.grammar = grammarJson.join(",").replaceAll("\"", "").split(",");
+            } else {
+                this.grammar = new String[0];
+            }
+            this.key = createKey(this.swedish, this.prefix);
+            if(jsonWord.has("remark")) {
+                this.remark = jsonWord.getString("remark");
+            } else {
+                this.remark = "";
+            }
+            WordStateFactory factory = new WordStateFactory();
+            if (jsonWord.has("state")) {
+                this.state = factory.create(jsonWord.getString("state"));
+            }
+        } catch (JSONException e){
+            throw new IllegalArgumentException("word has wrong format: "+jsonWord.toString());
         }
     }
 
@@ -303,6 +337,34 @@ public class Word implements Serializable {
         builder.append("--");
 
         return builder.toString();
+    }
+
+    // TODO check JSONException handling
+    public String serializeToJsonString() throws JSONException {
+        JSONObject json = toJson();
+        return json.toString();
+    }
+
+    public JSONObject toJson() throws JSONException {
+        JSONArray german = new JSONArray();
+        for(String s : this.german){
+            german.put(s);
+        }
+
+        JSONArray grammar = new JSONArray();
+        for (String s : this.grammar) {
+            grammar.put(s);
+        }
+
+        JSONObject json = new JSONObject();
+        json.put("remark", this.remark);
+        json.put("swedish", this.swedish);
+        json.put("state", this.state.getName());
+        json.put("prefix", this.prefix.string);
+        json.put("grammar", grammar);
+        json.put("german", german);
+
+        return json;
     }
 
     @Override

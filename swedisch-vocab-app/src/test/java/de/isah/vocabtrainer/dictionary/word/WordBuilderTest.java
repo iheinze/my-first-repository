@@ -3,6 +3,7 @@ package de.isah.vocabtrainer.dictionary.word;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateDictionary;
 
+import org.json.JSONException;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -76,4 +77,23 @@ public class WordBuilderTest {
 
         assertEquals("mswedish\nmgrammar1\nmgrammar2\nmgrammar3\n\nmgerman1, mgerman2\n\nmremark\n\ndictionary list",modifiedWord.printWholeWord());
     }
+
+    @Test
+    public void testAllJson() throws IllegalStateTransitionException, JSONException {
+        WordBuilder builder = new WordBuilder();
+        Word w = builder.addSwedish("swedish", WordPrefix.NONE).addGerman("german1","german2").addGrammar("grammar1","grammar2","grammar3").addRemark("remark").build();
+        w.setState(new WordStateDictionary());
+
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\",\"grammar3\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateDictionary\"}",w.serializeToJsonString());
+    }
+
+    @Test
+    public void testMinJson() throws IllegalStateTransitionException, JSONException {
+        WordBuilder builder = new WordBuilder();
+        Word w = builder.addSwedish("swedish", WordPrefix.NONE).addGerman("german1").build();
+        w.setState(new WordStateDictionary());
+
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"grammar\":[],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}",w.serializeToJsonString());
+    }
+
 }

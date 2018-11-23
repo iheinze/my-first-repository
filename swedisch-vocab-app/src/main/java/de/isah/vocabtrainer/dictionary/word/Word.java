@@ -352,8 +352,10 @@ public class Word implements Serializable {
         }
 
         JSONArray grammar = new JSONArray();
-        for (String s : this.grammar) {
-            grammar.put(s);
+        if(this.grammar != null && this.grammar.length > 0){
+            for (String s : this.grammar) {
+                grammar.put(s);
+            }
         }
 
         JSONObject json = new JSONObject();

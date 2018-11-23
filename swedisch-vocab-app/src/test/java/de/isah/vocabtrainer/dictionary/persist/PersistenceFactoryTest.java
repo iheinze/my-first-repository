@@ -43,22 +43,28 @@ public class PersistenceFactoryTest {
         assertTrue(factory.create("1") instanceof UserFilePersistence);
     }
 
-
     @Test
     public void testFileTwo() throws IOException{
+        FileConstants.setFilePath(".");
+        PersistenceFactory factory = new PersistenceFactory();
+        assertTrue(factory.create("2") instanceof UserFilePersistenceJson);
+    }
+
+    @Test
+    public void testFileThree() throws IOException{
         String testDir = "none;med;mit;;;WordStateDictionary--en;bil;Auto;bilen,bilar,bilarna;;WordStateDictionary--";
         InputStream inStream = new ByteArrayInputStream(testDir.getBytes("UTF-8"));
         AbstractFileHandler.setFileInStream(inStream);
         FileConstants.setFilePath(".");
         PersistenceFactory factory = new PersistenceFactory();
-        assertTrue(factory.create("2") instanceof AppFilePersistence);
+        assertTrue(factory.create("3") instanceof AppFilePersistence);
     }
 
     @Test
     public void testHardCoded() throws IOException{
         FileConstants.setFilePath(".");
         PersistenceFactory factory = new PersistenceFactory();
-        assertTrue(factory.create("3") instanceof HardcodedValuesPersistence);
+        assertTrue(factory.create("4") instanceof HardcodedValuesPersistence);
     }
 
     @Test

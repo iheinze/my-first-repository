@@ -23,9 +23,12 @@ public class PersistenceFactory {
                 persistence = new UserFilePersistence();
                 break;
             case "2":
-                persistence = new AppFilePersistence();
+                persistence = new UserFilePersistenceJson();
                 break;
             case "3":
+                persistence = new AppFilePersistence();
+                break;
+            case "4":
                 persistence = new HardcodedValuesPersistence();
                 break;
             default:

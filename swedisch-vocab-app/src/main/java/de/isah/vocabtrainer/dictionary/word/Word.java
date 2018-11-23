@@ -359,11 +359,15 @@ public class Word implements Serializable {
         }
 
         JSONObject json = new JSONObject();
-        json.put("remark", this.remark);
+        if(this.remark != null && this.remark.length() > 0) {
+            json.put("remark", this.remark);
+        }
         json.put("swedish", this.swedish);
         json.put("state", this.state.getName());
         json.put("prefix", this.prefix.string);
-        json.put("grammar", grammar);
+        if(this.grammar != null && this.grammar.length > 0) {
+            json.put("grammar", grammar);
+        }
         json.put("german", german);
 
         return json;

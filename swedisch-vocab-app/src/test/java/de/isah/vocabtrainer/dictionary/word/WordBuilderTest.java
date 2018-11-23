@@ -93,7 +93,7 @@ public class WordBuilderTest {
         Word w = builder.addSwedish("swedish", WordPrefix.NONE).addGerman("german1").build();
         w.setState(new WordStateDictionary());
 
-        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"grammar\":[],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}",w.serializeToJsonString());
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}",w.serializeToJsonString());
     }
 
 }

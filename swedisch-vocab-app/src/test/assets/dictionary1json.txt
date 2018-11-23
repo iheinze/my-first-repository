@@ -1,3 +1,3 @@
-{"swedish":"bil","german":["Auto"],"grammar":["bilen","bilar","bilarna"],"prefix":"en","remark":"","state":"WordStateDictionary"}--{"swedish":"penna","german":["Stift"],"grammar":["pennan","pennor","pennorna"],"prefix":"en","remark":"","state":"WordStateDictionary"}--
-{"swedish":"flicka","german":["Mädchen"],"grammar":["flickan","flickor","flickorna"],"prefix":"en","remark":"","state":"WordStateNew"}--
-{"swedish":"och","german":["und"],"grammar":[],"prefix":"none","remark":"","state":"WordStateLearn"}--
+{"swedish":"bil","german":["Auto"],"grammar":["bilen","bilar","bilarna"],"prefix":"en","state":"WordStateDictionary"}--{"swedish":"penna","german":["Stift"],"grammar":["pennan","pennor","pennorna"],"prefix":"en","state":"WordStateDictionary"}--
+{"swedish":"flicka","german":["Mädchen"],"grammar":["flickan","flickor","flickorna"],"prefix":"en","state":"WordStateNew"}--
+{"swedish":"och","german":["und"],"prefix":"none","state":"WordStateLearn"}--

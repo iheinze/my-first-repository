@@ -636,6 +636,15 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"grammar\":[],\"prefix\":\"en\",\"remark\":\"\",\"state\":\"WordStateInitial\"}", word.serializeToJsonString());
+        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"prefix\":\"en\",\"state\":\"WordStateInitial\"}", word.serializeToJsonString());
+    }
+
+    @Test
+    public void testSerializeToJsonMin2() throws JSONException {
+        JSONObject wordJson = new JSONObject("{\"swedish\":\"och\",\"german\":[\"und\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}");
+
+        Word word = new Word(wordJson);
+        //assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"grammar\":[],\"prefix\":\"none\",\"remark\":\"\",\"state\":\"WordStateLearn\"}", word.serializeToJsonString());
+        assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}", word.serializeToJsonString());
     }
 }

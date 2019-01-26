@@ -1,5 +1,6 @@
 package de.isah.vocabtrainer.dictionary;
 
+import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyOnListException;
 import de.isah.vocabtrainer.dictionary.exception.WordNotOnListException;
@@ -12,9 +13,11 @@ import de.isah.vocabtrainer.dictionary.word.state.WordStateLearn;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 
+import org.json.JSONException;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.Assert.*;
 

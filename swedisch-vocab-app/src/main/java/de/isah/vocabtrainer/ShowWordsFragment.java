@@ -3,6 +3,7 @@ package de.isah.vocabtrainer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ import de.isah.vocabtrainer.dictionary.constants.ListConstants;
 import de.isah.vocabtrainer.dictionary.word.Word;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -58,7 +60,7 @@ public class ShowWordsFragment extends Fragment {
 
         Word word = new Word();
         adapter.sort(word.new WordComparator());
-        if(!StringUtils.isEmpty(ListConstants.getConstraint())) {
+        if (!StringUtils.isEmpty(ListConstants.getConstraint())) {
             adapter.getFilter().filter(ListConstants.getConstraint());
         }
         listView.setAdapter(adapter);
@@ -67,7 +69,7 @@ public class ShowWordsFragment extends Fragment {
         listView.setOnScrollListener(new WordListOnScrollListener());
 
         SearchView searchView = rootView.findViewById(R.id.searchView);
-        if(!StringUtils.isEmpty(ListConstants.getConstraint())) {
+        if (!StringUtils.isEmpty(ListConstants.getConstraint())) {
             searchView.setQuery(ListConstants.getConstraint(), false);
             searchView.setIconified(false);
         }
@@ -92,16 +94,19 @@ public class ShowWordsFragment extends Fragment {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            try {
+                Bundle bundle = new Bundle();
+                bundle.putInt("position", position);
+                bundle.putLong("id", id);
+                bundle.putString("word", ((Word) parent.getItemAtPosition(position)).serialize());
+                bundle.putString("wordkey", ((Word) parent.getItemAtPosition(position)).getKey());
 
-            Bundle bundle = new Bundle();
-            bundle.putInt("position", position);
-            bundle.putLong("id", id);
-            bundle.putString("word", ((Word)parent.getItemAtPosition(position)).serialize());
-            bundle.putString("wordkey", ((Word) parent.getItemAtPosition(position)).getKey());
-
-            Intent intent = new Intent(rootView.getContext(), ShowWordDetailsActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+                Intent intent = new Intent(rootView.getContext(), ShowWordDetailsActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } catch (JSONException e) {
+                Snackbar.make(view, "An error occurred", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+            }
         }
     }
 
@@ -118,8 +123,8 @@ public class ShowWordsFragment extends Fragment {
         }
     }
 
-    static void reloadWordList(){
-        if(adapter != null) {
+    static void reloadWordList() {
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
     }

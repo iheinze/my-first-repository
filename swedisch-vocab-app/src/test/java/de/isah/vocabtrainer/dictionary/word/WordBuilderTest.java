@@ -84,7 +84,7 @@ public class WordBuilderTest {
         Word w = builder.addSwedish("swedish", WordPrefix.NONE).addGerman("german1","german2").addGrammar("grammar1","grammar2","grammar3").addRemark("remark").build();
         w.setState(new WordStateDictionary());
 
-        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\",\"grammar3\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateDictionary\"}",w.serializeToJsonString());
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\",\"grammar3\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateDictionary\"}--",w.serializeToJsonString());
     }
 
     @Test
@@ -93,7 +93,7 @@ public class WordBuilderTest {
         Word w = builder.addSwedish("swedish", WordPrefix.NONE).addGerman("german1").build();
         w.setState(new WordStateDictionary());
 
-        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}",w.serializeToJsonString());
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}--",w.serializeToJsonString());
     }
 
 }

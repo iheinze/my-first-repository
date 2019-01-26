@@ -1,5 +1,7 @@
 package de.isah.vocabtrainer.dictionary.persist;
 
+import org.json.JSONException;
+
 import de.isah.vocabtrainer.dictionary.LearnWordList;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
 import de.isah.vocabtrainer.dictionary.word.Word;
@@ -126,7 +128,7 @@ public class UserFilePersistence implements Persistence {
         try {
             appendToFile(w.serialize(), this.file);
             added = true;
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             // just do not write anything
             e.printStackTrace();
             added = false;
@@ -148,7 +150,7 @@ public class UserFilePersistence implements Persistence {
             }
 
             returnValue = true;
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             // just do not write anything
             e.printStackTrace();
             returnValue = false;
@@ -179,7 +181,7 @@ public class UserFilePersistence implements Persistence {
                 appendToFile(list.getWord(i).serialize(), exportFile);
             }
             returnValue = true;
-        } catch (IOException e) {
+        } catch (IOException | JSONException e) {
             // just do not write anything
             e.printStackTrace();
             returnValue = false;

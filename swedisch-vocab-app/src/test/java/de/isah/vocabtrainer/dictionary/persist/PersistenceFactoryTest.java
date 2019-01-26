@@ -52,7 +52,7 @@ public class PersistenceFactoryTest {
 
     @Test
     public void testFileThree() throws IOException{
-        String testDir = "none;med;mit;;;WordStateDictionary--en;bil;Auto;bilen,bilar,bilarna;;WordStateDictionary--";
+        String testDir = "{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}--{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateDictionary\"}--";
         InputStream inStream = new ByteArrayInputStream(testDir.getBytes("UTF-8"));
         AbstractFileHandler.setFileInStream(inStream);
         FileConstants.setFilePath(".");

@@ -1,3 +1,3 @@
-{"swedish":"swedish1","german":["german1"],"prefix":"none","state":"WordStateInitial"}
-{"swedish":"swedish2","german":["german2"],"prefix":"none","state":"WordStateInitial"}
-{"swedish":"swedish3","german":["german3"],"prefix":"none","state":"WordStateInitial"}
+{"swedish":"bil","german":["Auto"],"grammar":["bilen","bilar","bilarna"],"prefix":"en","state":"WordStateDictionary"}--{"swedish":"penna","german":["Stift"],"grammar":["pennan","pennor","pennorna"],"prefix":"en","state":"WordStateDictionary"}--
+{"swedish":"flicka","german":["Mädchen"],"grammar":["flickan","flickor","flickorna"],"prefix":"en","state":"WordStateNew"}--
+{"swedish":"och","german":["und"],"prefix":"none","state":"WordStateLearn"}--

@@ -129,36 +129,36 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSerializeFullWord(){
+    public void testSerializeFullWord() throws JSONException {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.NONE);
         word.setGerman("german1","german2");
         word.setGrammar("grammar1","grammar2");
         word.setRemark("remark");
 
-        assertEquals("none;swedish;german1,german2;grammar1,grammar2;remark;WordStateInitial--",word.serialize());
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
     }
 
     @Test
-    public void testSerializePartialWord(){
+    public void testSerializePartialWord() throws JSONException {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.NONE);
         word.setGerman("german1");
 
-        assertEquals("none;swedish;german1;;;WordStateInitial--",word.serialize());
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
     }
 
     @Test
-    public void testDeserializeFullWord(){
-        Word word = new Word("none;swedish;german1,german2;grammar1,grammar2;remark;WordStateLearn");
-        assertEquals("none;swedish;german1,german2;grammar1,grammar2;remark;WordStateLearn--",word.serialize());
+    public void testDeserializeFullWord() throws JSONException {
+        Word word = new Word("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateLearn\"}");
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateLearn\"}--",word.serialize());
         assertTrue(word.getState() instanceof WordStateLearn);
     }
 
     @Test
-    public void testDeserializePartialWord(){
-        Word word = new Word("none;swedish;german1; ; ;WordStateDictionary");
-        assertEquals("none;swedish;german1; ; ;WordStateDictionary--",word.serialize());
+    public void testDeserializePartialWord() throws JSONException {
+        Word word = new Word("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}");
+        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}--",word.serialize());
     }
 
     @Test
@@ -621,7 +621,7 @@ public class WordUnitTest {
         wordJson.put("state", "WordStateDictionary");
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"grammar\":[\"pojken\",\"pojkar\",\"pojkarna\"],\"prefix\":\"en\",\"remark\":\"test\",\"state\":\"WordStateDictionary\"}", word.serializeToJsonString());
+        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"grammar\":[\"pojken\",\"pojkar\",\"pojkarna\"],\"prefix\":\"en\",\"remark\":\"test\",\"state\":\"WordStateDictionary\"}--", word.serializeToJsonString());
     }
 
     @Test
@@ -636,7 +636,7 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"prefix\":\"en\",\"state\":\"WordStateInitial\"}", word.serializeToJsonString());
+        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"prefix\":\"en\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
     }
 
     @Test
@@ -645,6 +645,6 @@ public class WordUnitTest {
 
         Word word = new Word(wordJson);
         //assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"grammar\":[],\"prefix\":\"none\",\"remark\":\"\",\"state\":\"WordStateLearn\"}", word.serializeToJsonString());
-        assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}", word.serializeToJsonString());
+        assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}--", word.serializeToJsonString());
     }
 }

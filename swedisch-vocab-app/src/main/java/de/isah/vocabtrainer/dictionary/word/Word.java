@@ -44,6 +44,13 @@ public class Word implements Serializable {
     public Word(String serializedString) {
         this.state = new WordStateInitial();
 
+        try {
+            JSONObject wordJson = new JSONObject(serializedString);
+            init(wordJson);
+        } catch (JSONException e) {
+            throw new IllegalArgumentException("word has wrong format: "+serializedString);
+        }
+        /*
         String[] wordStrings = serializedString.split(";");
         boolean isValid = validateStrings(wordStrings[0], wordStrings[1], wordStrings[2]);
         if (!isValid) {
@@ -63,34 +70,39 @@ public class Word implements Serializable {
         } else {
             throw new IllegalArgumentException("word has wrong format: --" + serializedString+"--");
         }
+        */
     }
 
     public Word(JSONObject jsonWord){
         this.state = new WordStateInitial();
 
         try{
-            this.prefix = mapPrefix(jsonWord.getString("prefix"));
-            this.swedish = jsonWord.getString("swedish");
-            JSONArray germanJson = jsonWord.getJSONArray("german");
-            this.german = germanJson.join(",").replaceAll("\"", "").split(",");
-            if(jsonWord.has("grammar")) {
-                JSONArray grammarJson = jsonWord.getJSONArray("grammar");
-                this.grammar = grammarJson.join(",").replaceAll("\"", "").split(",");
-            } else {
-                this.grammar = new String[0];
-            }
-            this.key = createKey(this.swedish, this.prefix);
-            if(jsonWord.has("remark")) {
-                this.remark = jsonWord.getString("remark");
-            } else {
-                this.remark = "";
-            }
-            WordStateFactory factory = new WordStateFactory();
-            if (jsonWord.has("state")) {
-                this.state = factory.create(jsonWord.getString("state"));
-            }
+            init(jsonWord);
         } catch (JSONException e){
             throw new IllegalArgumentException("word has wrong format: "+jsonWord.toString());
+        }
+    }
+
+    private void init(JSONObject jsonWord) throws JSONException {
+        this.prefix = mapPrefix(jsonWord.getString("prefix"));
+        this.swedish = jsonWord.getString("swedish");
+        JSONArray germanJson = jsonWord.getJSONArray("german");
+        this.german = germanJson.join(",").replaceAll("\"", "").split(",");
+        if(jsonWord.has("grammar")) {
+            JSONArray grammarJson = jsonWord.getJSONArray("grammar");
+            this.grammar = grammarJson.join(",").replaceAll("\"", "").split(",");
+        } else {
+            this.grammar = new String[0];
+        }
+        this.key = createKey(this.swedish, this.prefix);
+        if(jsonWord.has("remark")) {
+            this.remark = jsonWord.getString("remark");
+        } else {
+            this.remark = "";
+        }
+        WordStateFactory factory = new WordStateFactory();
+        if (jsonWord.has("state")) {
+            this.state = factory.create(jsonWord.getString("state"));
         }
     }
 
@@ -305,7 +317,8 @@ public class Word implements Serializable {
         return this.state;
     }
 
-    public String serialize() {
+    public String serialize() throws JSONException {
+        /*
         StringBuilder builder = new StringBuilder();
         builder.append(this.prefix.string).append(";");
         builder.append(this.swedish).append(";");
@@ -337,15 +350,17 @@ public class Word implements Serializable {
         builder.append("--");
 
         return builder.toString();
+        */
+        return serializeToJsonString();
     }
 
     // TODO check JSONException handling
     public String serializeToJsonString() throws JSONException {
         JSONObject json = toJson();
-        return json.toString();
+        return json.toString()+"--";
     }
 
-    public JSONObject toJson() throws JSONException {
+    private JSONObject toJson() throws JSONException {
         JSONArray german = new JSONArray();
         for(String s : this.german){
             german.put(s);

@@ -26,8 +26,8 @@ public class UserFilePersistenceTest {
     @Test
     public void testReadFile() throws IOException{
         FileConstants.setFilePath("src/test/assets");
-        File inFile = new File(FileConstants.getFilePath()+ "/dictionary1.txt");
-        File outFile = new File(FileConstants.getFilePath()+ "/dictionary.txt");
+        File inFile = new File(FileConstants.getFilePath()+ "/dictionary1json.txt");
+        File outFile = new File(FileConstants.getFilePath()+ "/dictionaryjson.txt");
 
         CommonFileUtils.copyFile(inFile, outFile);
 
@@ -41,8 +41,8 @@ public class UserFilePersistenceTest {
     @Test
     public void testAddWord() throws IOException,IllegalStateTransitionException{
         FileConstants.setFilePath("src/test/assets");
-        File inFile = new File(FileConstants.getFilePath()+ "/dictionary1.txt");
-        File outFile = new File(FileConstants.getFilePath()+ "/dictionary.txt");
+        File inFile = new File(FileConstants.getFilePath()+ "/dictionary1json.txt");
+        File outFile = new File(FileConstants.getFilePath()+ "/dictionaryjson.txt");
 
         CommonFileUtils.copyFile(inFile, outFile);
 
@@ -61,7 +61,7 @@ public class UserFilePersistenceTest {
     @Test
     public void testPersistWordList() throws IOException, WordAlreadyExistsException {
         FileConstants.setFilePath("src/test/assets");
-        File outFile = new File(FileConstants.getFilePath()+ "/dictionary.txt");
+        File outFile = new File(FileConstants.getFilePath()+ "/dictionaryjson.txt");
         boolean b = outFile.createNewFile();
 
         UserFilePersistence persistence = new UserFilePersistence();

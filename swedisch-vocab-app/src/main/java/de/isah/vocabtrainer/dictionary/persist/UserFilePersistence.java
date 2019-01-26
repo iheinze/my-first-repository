@@ -52,7 +52,7 @@ public class UserFilePersistence implements Persistence {
 
     private void init() throws IOException {
         if (FileConstants.getFilePath() != null) {
-            this.file = new File(FileConstants.getFilePath() + "/dictionary.txt");
+            this.file = new File(FileConstants.getFilePath() + "/dictionaryjson.txt");
             if (!this.file.exists()) {
                 this.file.createNewFile();
             }

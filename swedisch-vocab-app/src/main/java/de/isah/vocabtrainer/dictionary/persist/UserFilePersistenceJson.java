@@ -219,6 +219,7 @@ public class UserFilePersistenceJson implements Persistence {
             this.allWords = new WordList();
             this.toLearnWords = new LearnWordList();
             this.newWords = new LinkedList<>();
+            this.incompleteList = new WordList();
 
             getWords(importFile);
             returnValue = persistAll(this.allWords);

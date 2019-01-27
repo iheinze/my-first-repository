@@ -1,0 +1,3 @@
+{"swedish":"swedish1","german":["german1"],"prefix":"none","state":"WordStateInitial"}--
+{"swedish":"swedish2","german":["german2"],"prefix":"none","state":"WordStateInitial"}--
+{"swedish":"swedish3","german":["german3"],"prefix":"none","state":"WordStateInitial"}--

@@ -61,7 +61,7 @@ public class AppFilePersistence implements Persistence {
                         this.toLearnWords.addWord(word);
                     }
 
-                    // TODO: what about the Correct States???
+                    // Note: learning progress (correct states) cannot be saved in app file, so it is not needed to be taken into account
 
                 } catch (WordAlreadyExistsException e){
                     // do nothing

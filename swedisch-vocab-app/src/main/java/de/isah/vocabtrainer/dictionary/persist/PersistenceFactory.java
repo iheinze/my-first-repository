@@ -20,15 +20,12 @@ public class PersistenceFactory {
 
         switch (persistenceType){
             case "1":
-                persistence = new UserFilePersistence();
-                break;
-            case "2":
                 persistence = new UserFilePersistenceJson();
                 break;
-            case "3":
+            case "2":
                 persistence = new AppFilePersistence();
                 break;
-            case "4":
+            case "3":
                 persistence = new HardcodedValuesPersistence();
                 break;
             default:

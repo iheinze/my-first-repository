@@ -11,8 +11,6 @@ public class FileConstants {
     private static String filePath;
     private static String fileExternalPath;
 
-    public static final int WORD_STRINGARRAY_LENGTH = 6;
-
     public static void setFilePath(String currentFilePath){
         filePath = currentFilePath;
     }

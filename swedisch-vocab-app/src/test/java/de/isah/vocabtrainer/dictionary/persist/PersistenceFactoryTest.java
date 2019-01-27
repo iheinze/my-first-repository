@@ -40,15 +40,9 @@ public class PersistenceFactoryTest {
     public void testFile() throws IOException{
         FileConstants.setFilePath(".");
         PersistenceFactory factory = new PersistenceFactory();
-        assertTrue(factory.create("1") instanceof UserFilePersistence);
+        assertTrue(factory.create("1") instanceof UserFilePersistenceJson);
     }
 
-    @Test
-    public void testFileTwo() throws IOException{
-        FileConstants.setFilePath(".");
-        PersistenceFactory factory = new PersistenceFactory();
-        assertTrue(factory.create("2") instanceof UserFilePersistenceJson);
-    }
 
     @Test
     public void testFileThree() throws IOException{
@@ -57,14 +51,14 @@ public class PersistenceFactoryTest {
         AbstractFileHandler.setFileInStream(inStream);
         FileConstants.setFilePath(".");
         PersistenceFactory factory = new PersistenceFactory();
-        assertTrue(factory.create("3") instanceof AppFilePersistence);
+        assertTrue(factory.create("2") instanceof AppFilePersistence);
     }
 
     @Test
     public void testHardCoded() throws IOException{
         FileConstants.setFilePath(".");
         PersistenceFactory factory = new PersistenceFactory();
-        assertTrue(factory.create("4") instanceof HardcodedValuesPersistence);
+        assertTrue(factory.create("3") instanceof HardcodedValuesPersistence);
     }
 
     @Test

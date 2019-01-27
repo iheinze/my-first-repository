@@ -1,6 +1,5 @@
 package de.isah.vocabtrainer.dictionary.word;
 
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,7 +9,6 @@ import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
 
-import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
 import de.isah.vocabtrainer.dictionary.word.state.WordState;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateCorrect;
@@ -50,27 +48,6 @@ public class Word implements Serializable {
         } catch (JSONException e) {
             throw new IllegalArgumentException("word has wrong format: "+serializedString);
         }
-        /*
-        String[] wordStrings = serializedString.split(";");
-        boolean isValid = validateStrings(wordStrings[0], wordStrings[1], wordStrings[2]);
-        if (!isValid) {
-            throw new IllegalArgumentException("word contains illegal characters: " + serializedString);
-        }
-
-        if (wordStrings.length == FileConstants.WORD_STRINGARRAY_LENGTH) {
-            this.prefix = mapPrefix(wordStrings[0]);
-            this.swedish = wordStrings[1];
-            this.key = createKey(this.swedish, this.prefix);
-            this.german = wordStrings[2].split(",");
-            this.grammar = wordStrings[3].split(",");
-            this.remark = wordStrings[4];
-
-            WordStateFactory factory = new WordStateFactory();
-            this.state = factory.create(wordStrings[5]);
-        } else {
-            throw new IllegalArgumentException("word has wrong format: --" + serializedString+"--");
-        }
-        */
     }
 
     public Word(JSONObject jsonWord){
@@ -318,43 +295,9 @@ public class Word implements Serializable {
     }
 
     public String serialize() throws JSONException {
-        /*
-        StringBuilder builder = new StringBuilder();
-        builder.append(this.prefix.string).append(";");
-        builder.append(this.swedish).append(";");
-
-        builder.append(german[0]);
-        for (int i = 1; i < german.length; i++) {
-            builder.append(",").append(german[i]);
-        }
-
-        builder.append(";");
-
-        if (grammar != null && grammar.length > 0) {
-            builder.append(grammar[0]);
-            for (int i = 1; i < grammar.length; i++) {
-                builder.append(",").append(grammar[i]);
-            }
-        }
-
-        builder.append(";");
-
-        if (remark != null && !"".equals(remark)) {
-            builder.append(remark);
-        }
-
-        builder.append(";");
-
-        builder.append(this.state.getName());
-
-        builder.append("--");
-
-        return builder.toString();
-        */
         return serializeToJsonString();
     }
 
-    // TODO check JSONException handling
     public String serializeToJsonString() throws JSONException {
         JSONObject json = toJson();
         return json.toString()+"--";

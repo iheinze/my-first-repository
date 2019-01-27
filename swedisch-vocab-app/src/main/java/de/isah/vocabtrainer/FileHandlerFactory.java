@@ -14,10 +14,8 @@ public class FileHandlerFactory {
             case "1":
                 return new EmptyFileHandler();
             case "2":
-                return new EmptyFileHandler();
-            case "3":
                 return new AndroidResourceFileHandler();
-            case "4":
+            case "3":
                 return new EmptyFileHandler();
             default:
                 return new EmptyFileHandler();

@@ -13,7 +13,6 @@
     <string name="prefs_default_daily_words">25</string>
     <string-array name="persistenceType">
         <item>User File</item>
-        <item>User File (json)</item>
         <item>App File</item>
         <item>Hardcoded</item>
     </string-array>
@@ -21,7 +20,6 @@
         <item>1</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
     </string-array>
     <!-- menue -->
     <string name="menu_title_settings">Settings</string>

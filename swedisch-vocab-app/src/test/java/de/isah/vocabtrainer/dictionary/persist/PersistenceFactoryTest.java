@@ -68,4 +68,12 @@ public class PersistenceFactoryTest {
         assertTrue(factory.create("x") instanceof HardcodedValuesPersistence);
     }
 
+    @Test
+    public void testPersistenceExists() throws IOException{
+        FileConstants.setFilePath(".");
+        PersistenceFactory factory = new PersistenceFactory();
+        HardcodedValuesPersistence p1 = (HardcodedValuesPersistence) factory.create("3");
+        HardcodedValuesPersistence p2 = (HardcodedValuesPersistence) factory.create("3");
+        assertEquals(p1,p2);
+    }
 }

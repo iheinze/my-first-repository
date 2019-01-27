@@ -9,6 +9,7 @@ import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateCorrect;
+import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateLearn;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
@@ -32,6 +33,7 @@ public class DictionaryTest {
         Dictionary dictionary = new Dictionary("x");
         Integer nExpectedAll = dictionary.getNWordsInDict();
         Integer nExpectedNew = dictionary.getNWordsNew();
+        Integer nExpectedIncomplete = dictionary.getIncompleteList().size();
 
         //Note: in HardcodedValuesPersistence it is added twice, because we have the same list of words used at several places.
         Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
@@ -42,6 +44,47 @@ public class DictionaryTest {
         assertEquals(Integer.valueOf(0), Integer.valueOf(dictionary.getToLearnList().size()));
         assertTrue(newWord.getState() instanceof WordStateNew);
         assertFalse(newWord.getState() instanceof WordStateLearn);
+        assertEquals(nExpectedIncomplete+0,dictionary.getIncompleteList().size());
+    }
+
+    @Test
+    public void testAddIncompleteWord() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException {
+        Dictionary dictionary = new Dictionary("x");
+        Integer nExpectedAll = dictionary.getNWordsInDict();
+        Integer nExpectedNew = dictionary.getNWordsNew();
+        Integer nExpectedIncomplete = dictionary.getIncompleteList().size();
+
+        //Note: in HardcodedValuesPersistence it is added twice, because we have the same list of words used at several places.
+        Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        newWord.setState(new WordStateIncomplete());
+        dictionary.addWord(newWord);
+
+        assertEquals(nExpectedAll+1,dictionary.getNWordsInDict());
+        assertEquals(nExpectedNew+0,dictionary.getNWordsNew());
+        assertEquals(nExpectedIncomplete+1,dictionary.getIncompleteList().size());
+        assertEquals(Integer.valueOf(0), Integer.valueOf(dictionary.getToLearnList().size()));
+        assertTrue(newWord.getState() instanceof WordStateIncomplete);
+    }
+
+    @Test(expected = WordAlreadyOnListException.class)
+    public void testAddWordTwice() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException, WordAlreadyOnListException {
+        Dictionary dictionary = new Dictionary("x");
+
+        //Note: in HardcodedValuesPersistence it is added twice, because we have the same list of words used at several places.
+        Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        Word newWord2 = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        newWord2.setState(new WordStateNew());
+        dictionary.addWord(newWord);
+        dictionary.addWordToNewList(newWord2);
+    }
+
+    @Test(expected = WordNotOnListException.class)
+    public void testRemoveWordNotOnList() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException, WordNotOnListException {
+        Dictionary dictionary = new Dictionary("x");
+
+        //Note: in HardcodedValuesPersistence it is added twice, because we have the same list of words used at several places.
+        Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        dictionary.removeWordFromNewList(newWord);
     }
 
     @Test
@@ -188,5 +231,40 @@ public class DictionaryTest {
         Dictionary dictionary = new Dictionary("x");
 
         assertEquals("HardcodedValuesPersistence", dictionary.getPersistenceType());
+    }
+
+    @Test
+    public void testGetIncomplete() throws IOException{
+        Dictionary dictionary = new Dictionary("x");
+
+        assertEquals(0, dictionary.getIncompleteList().size());
+    }
+
+    @Test
+    public void testIsDisableAddWord() throws IOException{
+        Dictionary dictionary = new Dictionary("x");
+
+        assertFalse(dictionary.isDisableAddWord());
+    }
+
+    @Test
+    public void testIsDisableImportExport() throws IOException{
+        Dictionary dictionary = new Dictionary("x");
+
+        assertTrue(dictionary.isDisableImportExport());
+    }
+
+    @Test
+    public void testIsDisableDeleteWord() throws IOException{
+        Dictionary dictionary = new Dictionary("x");
+
+        assertFalse(dictionary.isDisableDeleteWord());
+    }
+
+    @Test
+    public void testIsDisableEditWord() throws IOException{
+        Dictionary dictionary = new Dictionary("x");
+
+        assertFalse(dictionary.isDisableEditWord());
     }
 }

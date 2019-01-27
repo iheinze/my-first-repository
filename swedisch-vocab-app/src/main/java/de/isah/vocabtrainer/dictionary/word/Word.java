@@ -61,7 +61,12 @@ public class Word implements Serializable {
     }
 
     private void init(JSONObject jsonWord) throws JSONException {
-        this.prefix = mapPrefix(jsonWord.getString("prefix"));
+        if(jsonWord.has("prefix")){
+            this.prefix = mapPrefix(jsonWord.getString("prefix"));
+        } else {
+            this.prefix = mapPrefix("none");
+        }
+
         this.swedish = jsonWord.getString("swedish");
         JSONArray germanJson = jsonWord.getJSONArray("german");
         this.german = germanJson.join(",").replaceAll("\"", "").split(",");
@@ -84,6 +89,7 @@ public class Word implements Serializable {
     }
 
     private WordPrefix mapPrefix(String wordString) {
+        System.out.println("word prefix: "+wordString);
         switch (wordString) {
             case "en":
                 return WordPrefix.EN;

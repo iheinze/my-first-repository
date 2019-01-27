@@ -60,6 +60,9 @@ public class AppFilePersistence implements Persistence {
                     if (word.getState() instanceof WordStateLearn) {
                         this.toLearnWords.addWord(word);
                     }
+
+                    // TODO: what about the Correct States???
+
                 } catch (WordAlreadyExistsException e){
                     // do nothing
                 }

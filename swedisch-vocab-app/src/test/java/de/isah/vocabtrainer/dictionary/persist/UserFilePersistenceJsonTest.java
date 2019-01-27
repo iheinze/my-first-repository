@@ -154,24 +154,28 @@ public class UserFilePersistenceJsonTest {
 
     @Test
     public void testDisableAddWords() throws IOException {
+        FileConstants.setFilePath("src/test/assets");
         UserFilePersistenceJson persistence = new UserFilePersistenceJson();
         assertFalse(persistence.disableAddWords());
     }
 
     @Test
     public void testDisableImportExport() throws IOException {
+        FileConstants.setFilePath("src/test/assets");
         UserFilePersistenceJson persistence = new UserFilePersistenceJson();
         assertFalse(persistence.disableImportExport());
     }
 
     @Test
     public void testDisableDeleteWords() throws IOException {
+        FileConstants.setFilePath("src/test/assets");
         UserFilePersistenceJson persistence = new UserFilePersistenceJson();
         assertFalse(persistence.disableDeleteWords());
     }
 
     @Test
     public void testDisableEditdWords() throws IOException {
+        FileConstants.setFilePath("src/test/assets");
         UserFilePersistenceJson persistence = new UserFilePersistenceJson();
         assertFalse(persistence.disableEditWords());
     }

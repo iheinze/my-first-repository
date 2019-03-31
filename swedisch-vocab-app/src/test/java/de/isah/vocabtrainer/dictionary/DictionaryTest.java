@@ -15,6 +15,7 @@ import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 
 import org.json.JSONException;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -267,4 +268,56 @@ public class DictionaryTest {
 
         assertFalse(dictionary.isDisableEditWord());
     }
+
+    @Test
+    public void testAddToIncompleteList() throws IOException, IllegalStateTransitionException, WordAlreadyOnListException, WordAlreadyExistsException {
+        Dictionary dictionary = new Dictionary("x");
+
+        int incompleteWordsBefore = dictionary.getIncompleteList().size();
+        
+        Word w1 = dictionary.getAllWordsList().words.get(0);
+        dictionary.addWordToIncompleteList(w1);
+
+        int incompleteWordsAfter = dictionary.getIncompleteList().size();
+
+        assertEquals(incompleteWordsBefore+1, incompleteWordsAfter);
+    }
+
+    @Test
+    public void testRemoveFromIncompleteList() throws IOException, IllegalStateTransitionException, WordAlreadyOnListException, WordAlreadyExistsException, WordNotOnListException {
+
+        Dictionary dictionary = new Dictionary("x");
+
+        Word w1 = dictionary.getAllWordsList().words.get(0);
+        dictionary.addWordToIncompleteList(w1);
+
+        int nWordsBefore = dictionary.getIncompleteList().size();
+        dictionary.removeWordFromIncompleteList(w1);
+        int nWordsAfter = dictionary.getIncompleteList().size();
+
+        assertEquals(0, dictionary.getIncompleteList().size());
+        assertTrue(w1.getState() instanceof WordStateNew);
+        assertEquals(nWordsBefore -1, nWordsAfter );
+    }
+
+    @Test(expected = WordAlreadyOnListException.class)
+    public void testAddToIncompleteListException() throws IOException, IllegalStateTransitionException, WordAlreadyOnListException, WordAlreadyExistsException {
+        Dictionary dictionary = new Dictionary("x");
+        Word w1 = dictionary.getAllWordsList().words.get(0);
+        dictionary.addWordToIncompleteList(w1);
+        dictionary.addWordToIncompleteList(w1);
+    }
+
+    @Test(expected = WordNotOnListException.class)
+    public void testRemoveFromIncompleteListException() throws IOException, IllegalStateTransitionException, WordAlreadyOnListException, WordAlreadyExistsException, WordNotOnListException {
+        Dictionary dictionary = new Dictionary("x");
+        Word w1 = dictionary.getAllWordsList().words.get(0);
+        dictionary.addWordToIncompleteList(w1);
+        dictionary.removeWordFromIncompleteList(w1);
+        dictionary.removeWordFromIncompleteList(w1);
+    }
+
+    @Ignore("to be implemented")
+    @Test
+    public void testImportDir(){}
 }

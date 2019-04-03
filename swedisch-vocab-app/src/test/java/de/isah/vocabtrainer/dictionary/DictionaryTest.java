@@ -317,7 +317,62 @@ public class DictionaryTest {
         dictionary.removeWordFromIncompleteList(w1);
     }
 
-    @Ignore("to be implemented")
     @Test
-    public void testImportDir(){}
+    public void testImportDir() throws IOException, WordAlreadyExistsException {
+        FileConstants.setFilePath("src/test/assets");
+        FileConstants.setExternalFilePath("src/test/assets");
+
+        Dictionary dictionary = new Dictionary("1");
+        dictionary.export();
+
+        int init = dictionary.getAllWordsList().size();
+
+        Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        boolean result = dictionary.addWord(newWord);
+
+        if(result){System.out.print("true");}
+
+        int afterAdd = dictionary.getAllWordsList().size();
+
+        dictionary.importDir();
+
+        int after = dictionary.getAllWordsList().size();
+
+        assertEquals(3, init);
+        assertEquals(4, afterAdd);
+        assertEquals(3, after);
+
+        dictionary.deleteWord(newWord);
+    }
+
+    @Ignore("Bug: if word was already on list the proper exeption is thrown but the word is added to the file nevertheless, but in that case no word should be added to the file. When deleting words are not removed from the file")
+    @Test
+    public void testBug() throws IOException, WordAlreadyExistsException {
+        FileConstants.setFilePath("src/test/assets");
+        //FileConstants.setExternalFilePath("src/test/assets");
+
+        Dictionary dictionary = new Dictionary("1");
+
+        int size1 = dictionary.getAllWordsList().size();
+
+        Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        dictionary.addWord(newWord);
+        int size2 = dictionary.getAllWordsList().size();
+        try {
+            dictionary.addWord(newWord);
+        } catch (WordAlreadyExistsException e){
+
+        }
+
+        int size3 = dictionary.getAllWordsList().size();
+
+        assertEquals(3, size1);
+        assertEquals(4, size2);
+        assertEquals(4, size3);
+
+        //TODO check what is in file, the word sould be added only once
+        dictionary.deleteWord(newWord);
+
+        //TODO check what is in file, the word should be gone again
+    }
 }

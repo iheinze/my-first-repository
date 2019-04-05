@@ -69,6 +69,7 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
             String addedMessage = "Word could not be added.";
             try {
                 addedMessage = addWord(swedish, german, getWordPrefix(spinner), isIncomplete);
+                dictionary = DictionaryCache.getCachedDictionary();
             } catch (IllegalArgumentException | IllegalStateTransitionException e){
                 SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
                 addedMessage = "Word could not be added.";
@@ -81,13 +82,17 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
 
         }
 
+        unsetValues();
+
+    }
+
+    private void unsetValues() {
         ((EditText) findViewById(R.id.editTextSwedish)).setText("");
         ((EditText) findViewById(R.id.editTextGerman)).setText("");
         ((EditText) findViewById(R.id.editTextGrammar)).setText("");
         ((EditText) findViewById(R.id.editTextRemarks)).setText("");
         ((Spinner) findViewById(R.id.spinnerWordPrefix)).setSelection(0);
         ((CheckBox) findViewById(R.id.checkBoxIncomplete)).setChecked(false);
-
     }
 
     @NonNull

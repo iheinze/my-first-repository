@@ -39,7 +39,6 @@ public class AddWordHandler {
         dictionary.addWord(addedWord);
         String addedMessage = "Word was added.";
         SwedishVocabAppLogger.log("word was added", AddWordActivity.class, isDebug);
-        dictionary = DictionaryCache.getCachedDictionary();
         return addedMessage;
     }
 }

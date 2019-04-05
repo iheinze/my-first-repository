@@ -53,7 +53,7 @@ public class LearnWordListTest {
     }
 
     @Test
-    public void testPrintResult() throws IllegalStateTransitionException, WordAlreadyExistsException {
+    public void testPrintResult1() throws IllegalStateTransitionException, WordAlreadyExistsException {
         LearnWordList words = new LearnWordList();
 
         Word word1 = new WordBuilder().addGerman("Hallo").addSwedish("hej", WordPrefix.NONE).build();
@@ -88,6 +88,92 @@ public class LearnWordListTest {
                 "Correct (German-Swedish): 2 "+String.valueOf(Character.toChars(0x1F61E))+"\n" +
                 "\n" +
                 "Still some work to do "+String.valueOf(Character.toChars(0x1F61E));
+        assertEquals(expected, words.printResults());
+    }
+
+    @Test
+    public void testPrintResult2() throws IllegalStateTransitionException, WordAlreadyExistsException {
+        LearnWordList words = new LearnWordList();
+
+        Word word1 = new WordBuilder().addGerman("Hallo").addSwedish("hej", WordPrefix.NONE).build();
+        word1.setState(new WordStateNew());
+        word1.setState(new WordStateLearn());
+        word1.setState(new WordStateSGCorrect());
+        word1.setState(new WordStateCorrect());
+        Word word2 = new WordBuilder().addGerman("Junge").addSwedish("pojke", WordPrefix.NONE).build();
+        word2.setState(new WordStateNew());
+        word2.setState(new WordStateLearn());
+        word2.setState(new WordStateSGCorrect());
+        word2.setState(new WordStateCorrect());
+        Word word3 = new WordBuilder().addGerman("Stift").addSwedish("penna", WordPrefix.NONE).build();
+        word3.setState(new WordStateNew());
+        word3.setState(new WordStateLearn());
+        word3.setState(new WordStateSGCorrect());
+        word3.setState(new WordStateCorrect());
+        Word word4 = new WordBuilder().addGerman("drei").addSwedish("tre", WordPrefix.NONE).build();
+        word4.setState(new WordStateNew());
+        word4.setState(new WordStateLearn());
+        word4.setState(new WordStateSGCorrect());
+        word4.setState(new WordStateCorrect());
+        Word word5 = new WordBuilder().addGerman("gut").addSwedish("bra", WordPrefix.NONE).build();
+        word5.setState(new WordStateNew());
+        word5.setState(new WordStateLearn());
+        word5.setState(new WordStateSGCorrect());
+        word5.setState(new WordStateCorrect());
+
+        words.addWord(word1);
+        words.addWord(word2);
+        words.addWord(word3);
+        words.addWord(word4);
+        words.addWord(word5);
+
+        String expected = "Total Number of Words: 5\n" +
+                "Correct (Swedish-German): 5 "+String.valueOf(Character.toChars(0x1F601))+"\n" +
+                "Correct (German-Swedish): 5 "+String.valueOf(Character.toChars(0x1F601))+"\n" +
+                "\n" +
+                "Brilliant "+String.valueOf(Character.toChars(0x1F601));
+        assertEquals(expected, words.printResults());
+    }
+
+    @Test
+    public void testPrintResult3() throws IllegalStateTransitionException, WordAlreadyExistsException {
+        LearnWordList words = new LearnWordList();
+
+        Word word1 = new WordBuilder().addGerman("Hallo").addSwedish("hej", WordPrefix.NONE).build();
+        word1.setState(new WordStateNew());
+        word1.setState(new WordStateLearn());
+        word1.setState(new WordStateSGCorrect());
+        word1.setState(new WordStateCorrect());
+        Word word2 = new WordBuilder().addGerman("Junge").addSwedish("pojke", WordPrefix.NONE).build();
+        word2.setState(new WordStateNew());
+        word2.setState(new WordStateLearn());
+        word2.setState(new WordStateSGCorrect());
+        word2.setState(new WordStateCorrect());
+        Word word3 = new WordBuilder().addGerman("Stift").addSwedish("penna", WordPrefix.NONE).build();
+        word3.setState(new WordStateNew());
+        word3.setState(new WordStateLearn());
+        word3.setState(new WordStateSGCorrect());
+        word3.setState(new WordStateCorrect());
+        Word word4 = new WordBuilder().addGerman("drei").addSwedish("tre", WordPrefix.NONE).build();
+        word4.setState(new WordStateNew());
+        word4.setState(new WordStateLearn());
+        word4.setState(new WordStateSGCorrect());
+        word4.setState(new WordStateCorrect());
+        Word word5 = new WordBuilder().addGerman("gut").addSwedish("bra", WordPrefix.NONE).build();
+        word5.setState(new WordStateNew());
+        word5.setState(new WordStateLearn());
+
+        words.addWord(word1);
+        words.addWord(word2);
+        words.addWord(word3);
+        words.addWord(word4);
+        words.addWord(word5);
+
+        String expected = "Total Number of Words: 5\n" +
+                "Correct (Swedish-German): 4 "+String.valueOf(Character.toChars(0x1F603))+"\n" +
+                "Correct (German-Swedish): 4 "+String.valueOf(Character.toChars(0x1F603))+"\n" +
+                "\n" +
+                "Good job "+String.valueOf(Character.toChars(0x1F603));
         assertEquals(expected, words.printResults());
     }
 }

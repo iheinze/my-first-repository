@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
  */
 public class AddWordActivity extends VocabTrainerAppCompatActivity {
 
+    private AddWordHandler handler;
     private Dictionary dictionary;
     private String separator;
 
@@ -37,11 +38,15 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
 
         SwedishVocabAppLogger.log("on create", AddWordActivity.class, isDebug);
 
-        this.separator = sharedPref.getString("pref_word_separator", ",");
-
         setContentView(R.layout.activity_add_word);
 
-        dictionary = DictionaryCache.getCachedDictionary();
+        initialize();
+    }
+
+    void initialize(){
+        this.handler = new AddWordHandler();
+        this.separator = sharedPref.getString("pref_word_separator", ",");
+        this.dictionary = DictionaryCache.getCachedDictionary();
     }
 
     public void addWord(View view){
@@ -52,7 +57,7 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
         String german = ((EditText) findViewById(R.id.editTextGerman)).getText().toString();
 
         if("".equals(swedish) || "".equals(german)){
-            SwedishVocabAppLogger.log("Error: at least swdish and german must be specified", AddWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("Error: at least swedish and german must be specified", AddWordActivity.class, isDebug);
             Snackbar.make(view, "At least swedish and german must be specified.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
@@ -63,28 +68,7 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
 
             String addedMessage = "Word could not be added.";
             try {
-
-                WordBuilder builder = new WordBuilder();
-                builder.addSwedish(swedish, getWordPrefix(spinner)).addGerman(german.split(Pattern.quote(this.separator)));
-                String grammar = ((EditText) findViewById(R.id.editTextGrammar)).getText().toString();
-                if (!("".equals(grammar)) && !(" ".equals(grammar))) {
-                    builder.addGrammar(grammar.split(Pattern.quote(this.separator)));
-                }
-                String remarks = ((EditText) findViewById(R.id.editTextRemarks)).getText().toString();
-                if (!("".equals(remarks)) && !(" ".equals(remarks))) {
-                    builder.addRemark(remarks);
-                }
-
-                Word addedWord = builder.build();
-                if(!isIncomplete){
-                    addedWord.setState(new WordStateNew());
-                } else {
-                    addedWord.setState(new WordStateIncomplete());
-                }
-                dictionary.addWord(addedWord);
-                addedMessage = "Word was added.";
-                SwedishVocabAppLogger.log("word was added", AddWordActivity.class, isDebug);
-                dictionary = DictionaryCache.getCachedDictionary();
+                addedMessage = addWord(swedish, german, getWordPrefix(spinner), isIncomplete);
             } catch (IllegalArgumentException | IllegalStateTransitionException e){
                 SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
                 addedMessage = "Word could not be added.";
@@ -104,6 +88,13 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
         ((Spinner) findViewById(R.id.spinnerWordPrefix)).setSelection(0);
         ((CheckBox) findViewById(R.id.checkBoxIncomplete)).setChecked(false);
 
+    }
+
+    @NonNull
+    String addWord(String swedish, String german, WordPrefix prefix, boolean isIncomplete) throws IllegalStateTransitionException, WordAlreadyExistsException {
+        String grammar = ((EditText) findViewById(R.id.editTextGrammar)).getText().toString();
+        String remarks = ((EditText) findViewById(R.id.editTextRemarks)).getText().toString();
+        return this.handler.addWord(swedish, german, prefix, grammar, remarks, isIncomplete, this.separator, this.isDebug);
     }
 
     @NonNull

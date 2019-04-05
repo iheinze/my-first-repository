@@ -4,11 +4,14 @@ import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyOnListException;
 import de.isah.vocabtrainer.dictionary.exception.WordNotOnListException;
+import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
+import de.isah.vocabtrainer.dictionary.word.state.WordState;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateCorrect;
+import de.isah.vocabtrainer.dictionary.word.state.WordStateGSCorrect;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateLearn;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
@@ -18,7 +21,9 @@ import org.json.JSONException;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -46,6 +51,26 @@ public class DictionaryTest {
         assertTrue(newWord.getState() instanceof WordStateNew);
         assertFalse(newWord.getState() instanceof WordStateLearn);
         assertEquals(nExpectedIncomplete+0,dictionary.getIncompleteList().size());
+    }
+
+    @Test
+    public void testAddWordFail() throws IOException, WordAlreadyExistsException{
+        String testDir = "{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}--{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateLearn\"}--";
+        InputStream inStream = new ByteArrayInputStream(testDir.getBytes("UTF-8"));
+        AbstractFileHandler.setFileInStream(inStream);
+        Dictionary dictionary = new Dictionary("2");
+        Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        assertFalse(dictionary.addWord(newWord));
+    }
+
+    @Test
+    public void testAddWordFail2() throws IOException, WordAlreadyExistsException, IllegalStateTransitionException {
+        Dictionary dictionary = new Dictionary("x");
+        Word newWord = new WordBuilder().addGerman("Test").addSwedish("Test", WordPrefix.NONE).build();
+        newWord.setState(new WordStateNew());
+        newWord.setState(new WordStateLearn());
+        newWord.setState(new WordStateGSCorrect());
+        assertFalse(dictionary.addWord(newWord));
     }
 
     @Test
@@ -374,5 +399,14 @@ public class DictionaryTest {
         dictionary.deleteWord(newWord);
 
         //TODO check what is in file, the word should be gone again
+    }
+
+    @Test
+    public void testPersist() throws IOException {
+        String testDir = "{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}--{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateLearn\"}--";
+        InputStream inStream = new ByteArrayInputStream(testDir.getBytes("UTF-8"));
+        AbstractFileHandler.setFileInStream(inStream);
+        Dictionary dictionary = new Dictionary("2");
+        assertFalse(dictionary.persist());
     }
 }

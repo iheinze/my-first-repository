@@ -2,6 +2,10 @@ package de.isah.vocabtrainer.dictionary;
 
 import org.junit.Test;
 
+import java.io.IOException;
+
+import de.isah.vocabtrainer.dictionary.constants.FileConstants;
+
 import static org.junit.Assert.*;
 
 /**
@@ -28,5 +32,15 @@ public class DictionaryCacheTest {
         // a new Object should be created
         DictionaryCache.reloadDictionary("y");
         assertNotEquals(expected, DictionaryCache.getCachedDictionary());
+    }
+
+    @Test
+    public void testReloadDictionaryException(){
+        FileConstants.setFilePath("src/test/assets");
+        FileConstants.setExternalFilePath("src/test/assets");
+        Dictionary expected = DictionaryCache.getCachedDictionary("1");
+        FileConstants.setFilePath("src/test/test/bla");
+        FileConstants.setExternalFilePath("src/test/assets/bla");
+        assertFalse(DictionaryCache.reloadDictionary("1"));
     }
 }

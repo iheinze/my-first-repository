@@ -13,15 +13,9 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.exception.WordAlreadyExistsException;
-import de.isah.vocabtrainer.dictionary.word.Word;
-import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 import de.isah.vocabtrainer.dictionary.word.WordPrefix;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateIncomplete;
-import de.isah.vocabtrainer.dictionary.word.state.WordStateNew;
 import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
-
-import java.util.regex.Pattern;
 
 /**
  * @author isa.heinze
@@ -99,7 +93,7 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
     String addWord(String swedish, String german, WordPrefix prefix, boolean isIncomplete) throws IllegalStateTransitionException, WordAlreadyExistsException {
         String grammar = ((EditText) findViewById(R.id.editTextGrammar)).getText().toString();
         String remarks = ((EditText) findViewById(R.id.editTextRemarks)).getText().toString();
-        return this.handler.addWord(swedish, german, prefix, grammar, remarks, isIncomplete, this.separator, this.isDebug);
+        return this.handler.addWord(this.dictionary, swedish, german, prefix, grammar, remarks, isIncomplete, this.separator, this.isDebug);
     }
 
     @NonNull

@@ -1,7 +1,6 @@
 package de.isah.vocabtrainer;
 
 import android.support.annotation.NonNull;
-import android.widget.EditText;
 
 import java.util.regex.Pattern;
 
@@ -19,8 +18,7 @@ import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 public class AddWordHandler {
 
     @NonNull
-    String addWord(String swedish, String german, WordPrefix prefix, String grammar, String remarks, boolean isIncomplete, String separator, boolean isDebug) throws IllegalStateTransitionException, WordAlreadyExistsException {
-        Dictionary dictionary = DictionaryCache.getCachedDictionary();
+    String addWord(Dictionary dictionary, String swedish, String german, WordPrefix prefix, String grammar, String remarks, boolean isIncomplete, String separator, boolean isDebug) throws IllegalStateTransitionException, WordAlreadyExistsException {
         WordBuilder builder = new WordBuilder();
         builder.addSwedish(swedish, prefix).addGerman(german.split(Pattern.quote(separator)));
         if (!("".equals(grammar)) && !(" ".equals(grammar))) {

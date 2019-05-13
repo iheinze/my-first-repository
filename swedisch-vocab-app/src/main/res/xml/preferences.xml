@@ -14,7 +14,7 @@
         android:summary="@string/prefs_title_persistent_method_summary"
         android:entries="@array/persistenceType"
         android:entryValues="@array/persistenceValues"
-        android:defaultValue="3"/>
+        android:defaultValue="2"/>
     <CheckBoxPreference
         android:key="pref_debug_mode"
         android:title="Debug Mode"

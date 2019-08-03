@@ -350,6 +350,16 @@ public class Word implements Serializable {
         return builder.toString();
     }
 
+    public String toStringMinimal() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(this.key).append(" = ");
+        builder.append(german[0]);
+        for (int i = 1; i < german.length; i++) {
+            builder.append(",").append(german[i]);
+        }
+        return builder.toString();
+    }
+
     public String getKey(){
         return this.key;
     }

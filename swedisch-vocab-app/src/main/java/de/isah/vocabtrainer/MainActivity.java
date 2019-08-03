@@ -1,5 +1,6 @@
 package de.isah.vocabtrainer;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -135,7 +136,11 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     }
 
     private void addFragmentToIntent(Intent intent) {
-        intent.putExtra("previousFragment", mViewPager.getCurrentItem());
+        intent.putExtra(PREVIOUS_FRAGMENT, mViewPager.getCurrentItem());
+    }
+
+    public static Intent getWorfOfTheDayFragmentIntent(Context context) {
+        return new Intent(context, MainActivity.class).putExtra(PREVIOUS_FRAGMENT, 1);
     }
 
     @Override
@@ -177,8 +182,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 case 0:
                     return ShowWordsFragment.newInstance(position + 1);
                 case 1:
-                    return VocabTrainingFragment.newInstance(position + 1);
+                    return WordOfTheDayFragment.newInstance(position +1);
                 case 2:
+                    return VocabTrainingFragment.newInstance(position + 1);
+                case 3:
                     return OtherFragment.newInstance(position + 1);
                 default:
                     return null;
@@ -188,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override
@@ -197,8 +204,10 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
                 case 0:
                     return MainActivity.this.getString(R.string.activity_title_show_words);
                 case 1:
-                    return MainActivity.this.getString(R.string.activity_title_vocab_training);
+                    return MainActivity.this.getString(R.string.activity_title_word_of_the_day);
                 case 2:
+                    return MainActivity.this.getString(R.string.activity_title_vocab_training);
+                case 3:
                     return MainActivity.this.getString(R.string.activity_title_dictionary);
             }
             return null;

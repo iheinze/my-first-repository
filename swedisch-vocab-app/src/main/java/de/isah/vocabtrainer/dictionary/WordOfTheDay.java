@@ -1,36 +1,41 @@
 package de.isah.vocabtrainer.dictionary;
 
 import de.isah.vocabtrainer.dictionary.word.Word;
-import de.isah.vocabtrainer.dictionary.word.WordBuilder;
-import de.isah.vocabtrainer.dictionary.word.WordPrefix;
 
 public class WordOfTheDay {
 
-    // TODO: has to be a singelton, must be set to different word every now and then
-    private Word wordOfTheDay;
+    private static final String NO_WORD_OF_THE_DAY = "No word of the day chosen";
+    private static Word wordOfTheDay;
 
-    public WordOfTheDay(){
-        WordBuilder builder = new WordBuilder();
-        builder.addSwedish("flicka", WordPrefix.EN);
-        builder.addGerman("Mädchen");
-        builder.addGrammar("flickan", "flickor", "flickorna");
-        this.wordOfTheDay = builder.build();
+    public static void setWordOfTheDay(Word word){
+        wordOfTheDay = word;
     }
 
-    public String printSwedishAndGrammar(){
-        return this.wordOfTheDay.printSwedishAndGrammar();
+    public static String printSwedishAndGrammar(){
+        if(wordOfTheDay == null) {
+            return NO_WORD_OF_THE_DAY;
+        }
+        return wordOfTheDay.printSwedishAndGrammar();
     }
 
-    public String printGerman(){
-        return this.wordOfTheDay.printGerman();
+    public static String printGerman(){
+        if(wordOfTheDay == null) {
+            return NO_WORD_OF_THE_DAY;
+        }
+        return wordOfTheDay.printGerman();
     }
 
-    public String printRemark(){
-        return this.wordOfTheDay.printRemark();
+    public static String printRemark(){
+        if(wordOfTheDay == null) {
+            return NO_WORD_OF_THE_DAY;
+        }
+        return wordOfTheDay.printRemark();
     }
 
-    @Override
-    public String toString(){
-        return "Word of the day:\n"+this.wordOfTheDay.toStringMinimal();
+    public static String toStringWidget(){
+        if(wordOfTheDay == null) {
+            return NO_WORD_OF_THE_DAY;
+        }
+        return "Word of the day:\n"+wordOfTheDay.toStringMinimal();
     }
 }

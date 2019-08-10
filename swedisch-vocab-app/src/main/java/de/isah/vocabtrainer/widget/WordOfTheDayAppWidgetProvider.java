@@ -24,7 +24,7 @@ public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
 
             // Get the layout for the App Widget and attach an on-click listener to the frame layout
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_wordoftheday);
-            views.setTextViewText(R.id.widgetTextViewWordOfTheDay, new WordOfTheDay().toString());
+            views.setTextViewText(R.id.widgetTextViewWordOfTheDay, WordOfTheDay.toStringWidget());
             views.setOnClickPendingIntent(R.id.widgetFrameLayout, pendingIntent);
 
             // Tell the AppWidgetManager to perform an update on the current app widget

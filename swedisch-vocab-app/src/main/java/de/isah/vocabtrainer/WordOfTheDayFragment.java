@@ -44,16 +44,14 @@ public class WordOfTheDayFragment extends Fragment {
 
         SwedishVocabAppLogger.log("on create view", WordOfTheDayFragment.class, sharedPref.getBoolean("pref_debug_mode", false));
 
-        WordOfTheDay wordOfTheDay = new WordOfTheDay();
-
         TextView textViewSwedish = rootView.findViewById(R.id.textViewWordOftTheDaySwedish);
-        textViewSwedish.setText(wordOfTheDay.printSwedishAndGrammar());
+        textViewSwedish.setText(WordOfTheDay.printSwedishAndGrammar());
 
         TextView textViewGerman = rootView.findViewById(R.id.textViewWordOftTheDayGerman);
-        textViewGerman.setText(wordOfTheDay.printGerman());
+        textViewGerman.setText(WordOfTheDay.printGerman());
 
         TextView textViewRemark = rootView.findViewById(R.id.textViewWordOftTheDayRemarks);
-        textViewRemark.setText(wordOfTheDay.printRemark());
+        textViewRemark.setText(WordOfTheDay.printRemark());
 
         return rootView;
     }

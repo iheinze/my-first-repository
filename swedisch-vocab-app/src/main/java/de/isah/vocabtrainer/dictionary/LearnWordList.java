@@ -8,7 +8,6 @@ import de.isah.vocabtrainer.dictionary.word.state.WordStateGSCorrect;
 import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.floor;
@@ -19,9 +18,6 @@ import static java.lang.Math.floor;
 
 public class LearnWordList extends WordList {
 
-    void shuffle(){
-        Collections.shuffle(words);
-    }
 
     void clearListFromKnownWords(){
         try {

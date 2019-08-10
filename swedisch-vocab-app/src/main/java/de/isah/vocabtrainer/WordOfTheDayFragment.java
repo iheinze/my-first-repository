@@ -55,4 +55,16 @@ public class WordOfTheDayFragment extends Fragment {
 
         return rootView;
     }
+
+    static void reloadTestViews(View rootView){
+
+        TextView textViewSwedish = rootView.findViewById(R.id.textViewWordOftTheDaySwedish);
+        textViewSwedish.setText(WordOfTheDay.printSwedishAndGrammar());
+
+        TextView textViewGerman = rootView.findViewById(R.id.textViewWordOftTheDayGerman);
+        textViewGerman.setText(WordOfTheDay.printGerman());
+
+        TextView textViewRemark = rootView.findViewById(R.id.textViewWordOftTheDayRemarks);
+        textViewRemark.setText(WordOfTheDay.printRemark());
+    }
 }

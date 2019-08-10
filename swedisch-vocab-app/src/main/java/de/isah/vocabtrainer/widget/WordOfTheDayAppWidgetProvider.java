@@ -3,7 +3,9 @@ package de.isah.vocabtrainer.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
@@ -18,7 +20,6 @@ public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
 
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int appWidgetId : appWidgetIds) {
-
             // Get proper intent for Main activity
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, MainActivity.getWorfOfTheDayFragmentIntent(context), 0);
 
@@ -47,4 +48,14 @@ This callback was introduced in API Level 16 (Android 4.1). If you implement thi
          */
     }
 
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
+        ComponentName thisWidget = new ComponentName(context.getApplicationContext(), WordOfTheDayAppWidgetProvider.class);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+        if (appWidgetIds != null && appWidgetIds.length > 0) {
+            onUpdate(context, appWidgetManager, appWidgetIds);
+        }
+    }
 }

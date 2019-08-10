@@ -79,6 +79,7 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/wordoftheday_appwidget_info" />
         </receiver>
+        <receiver android:name=".WordOfTheDayAlarm"/>
     </application>
 
 </manifest>

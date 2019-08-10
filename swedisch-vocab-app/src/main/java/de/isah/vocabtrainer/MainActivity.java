@@ -1,7 +1,9 @@
 package de.isah.vocabtrainer;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
@@ -17,13 +19,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.preference.PreferenceManager;
 import android.content.SharedPreferences;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
+import de.isah.vocabtrainer.dictionary.WordOfTheDay;
 import de.isah.vocabtrainer.dictionary.constants.FileConstants;
 import de.isah.vocabtrainer.dictionary.persist.filehandling.AbstractFileHandler;
 
 import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
+import de.isah.vocabtrainer.widget.WordOfTheDayAppWidgetProvider;
 
 /**
  * @author isa.heinze
@@ -73,6 +80,26 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        //TODO: setup only if set in preferences, get time from preferences
+        Calendar time = Calendar.getInstance();
+        time.set(Calendar.HOUR_OF_DAY, 23);
+        time.set(Calendar.MINUTE, 18);
+        time.set(Calendar.SECOND, 0);
+
+        WordOfTheDayAlarm alarm = new WordOfTheDayAlarm(this, time);
+
+        // TODO: move this to own class
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                System.out.println("ih: BroadcastReceiver on receive");
+                WordOfTheDayFragment.reloadTestViews(findViewById(android.R.id.content));
+            }
+        };
+        // TODO: do the registration differently, can I set intent filter in AndroidManifest.xml?
+        WordOfTheDayAppWidgetProvider widgetProvider = new WordOfTheDayAppWidgetProvider();
+        registerReceiver(receiver, new IntentFilter("newWordOfTheDay"));
+        registerReceiver(widgetProvider, new IntentFilter("newWordOfTheDay"));
     }
 
     @Override

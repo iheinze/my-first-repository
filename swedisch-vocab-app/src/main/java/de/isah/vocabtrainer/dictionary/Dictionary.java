@@ -126,6 +126,11 @@ public class Dictionary implements Serializable {
         return this.toLearn;
     }
 
+    public Word getRandomWord(){
+        this.dictionary.shuffle();
+        return this.dictionary.getWord(0);
+    }
+
     LearnWordList getToLearnListNoShuffle() {
         return this.toLearn;
     }

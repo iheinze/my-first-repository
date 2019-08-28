@@ -1,0 +1,85 @@
+{"swedish":"alg","state":"WordStateLearn","prefix":"en","grammar":["algen","alger","algerna"],"german":["Alge"]}--
+{"swedish":"apa","state":"WordStateNew","prefix":"en","grammar":["apan","apor","aporna"],"german":["Affe"]}--
+{"swedish":"avguda","state":"WordStateDictionary","prefix":"att","grammar":["avgudar","avgudade","avgudat"],"german":["vergöttern"]}--
+{"swedish":"bi","state":"WordStateLearn","prefix":"ett","grammar":["biet","bin","bina"],"german":["Biene"]}--
+{"swedish":"björn","state":"WordStateDictionary","prefix":"en","grammar":["björnen","björnar","björnarna"],"german":["Bär"]}--
+{"swedish":"bläckfisk","state":"WordStateDictionary","prefix":"en","grammar":["bläckfisken","bläckfiskar","bläckfiskarna"],"german":["Tintenfisch"]}--
+{"swedish":"delfin","state":"WordStateDictionary","prefix":"en","grammar":["delfinen","delfiner","delfinerna"],"german":["Delfin"]}--
+{"swedish":"Det är det vi har läktaren till.","state":"WordStateIncomplete","prefix":"none","grammar":[""],"german":["Das ist wofür wir die Tribüne haben."]}--
+{"swedish":"dricka","state":"WordStateDictionary","prefix":"att","grammar":["dricker","drack","druckit"],"german":["trinken"]}--
+{"swedish":"elefant","state":"WordStateNew","prefix":"en","grammar":["elefanten","elefanter","elefanterna"],"german":["Elefant"]}--
+{"remark":"elektrischer Tretroller","swedish":"elsparkcykel","state":"WordStateNew","prefix":"en","grammar":["elsparkcykeln","elsparkcyklar","elsparkcyklarna"],"german":["E Scooter"]}--
+{"swedish":"fisk","state":"WordStateDictionary","prefix":"en","grammar":["fisken","fiskar","fiskarna"],"german":["Fisch"]}--
+{"swedish":"fjäril","state":"WordStateNew","prefix":"en","grammar":["fjärilen","fjärilar","fjärilarna"],"german":["Schmetterling"]}--
+{"swedish":"flodhäst","state":"WordStateNew","prefix":"en","grammar":["flodhästen","flodhästar","flodhästarna"],"german":["Nilpferd","Flusspferd"]}--
+{"swedish":"forward","state":"WordStateLearn","prefix":"en","grammar":["forwarden","forwardar","forwardarna"],"german":["Stürmer"]}--
+{"swedish":"friidrott","state":"WordStateIncomplete","prefix":"none","german":["xxx"]}--
+{"swedish":"fågel","state":"WordStateDictionary","prefix":"en","grammar":["fågeln","fåglar","fåglarna"],"german":["Vogel"]}--
+{"swedish":"förunna","state":"WordStateLearn","prefix":"att","grammar":["förunnar","förunnade","förunnat"],"german":["(ver)gönnen"]}--
+{"swedish":"geting","state":"WordStateDictionary","prefix":"en","grammar":["getingen","getingar","getingarna"],"german":["Wespe"]}--
+{"swedish":"giraff","state":"WordStateNew","prefix":"en","grammar":["giraffen","giraffer","girafferna"],"german":["Giraffe"]}--
+{"swedish":"gorilla","state":"WordStateNew","prefix":"en","grammar":["gorillan","gorillor","gorillorna"],"german":["Gorilla"]}--
+{"swedish":"gris","state":"WordStateDictionary","prefix":"en","grammar":["grisen","grisar","grisarna"],"german":["Schwein"]}--
+{"swedish":"hetsig","state":"WordStateLearn","prefix":"none","german":["hitzig"]}--
+{"swedish":"hjort","state":"WordStateDictionary","prefix":"en","grammar":["hjorten","hjortar","hjortarna"],"german":["Hirsch"]}--
+{"swedish":"humla","state":"WordStateLearn","prefix":"en","grammar":["humlan","humlor","humlorna"],"german":["Hummel"]}--
+{"swedish":"hund","state":"WordStateDictionary","prefix":"en","grammar":["hunden","hundar","hundarna"],"german":["Hund"]}--
+{"swedish":"häcka","state":"WordStateLearn","prefix":"att","grammar":["häckar","häckade","häckat"],"german":["brüten"]}--
+{"swedish":"häst","state":"WordStateDictionary","prefix":"en","grammar":["hästen","hästar","hästarna"],"german":["Pferd"]}--
+{"swedish":"i gengäld","state":"WordStateDictionary","prefix":"none","german":["als Entgeld"]}--
+{"swedish":"igel","state":"WordStateDictionary","prefix":"en","grammar":["igeln","iglar","iglarna"],"german":["Egel"]}--
+{"swedish":"igelkott","state":"WordStateDictionary","prefix":"en","grammar":["igelkotten","igelkottar","igelkottarna"],"german":["Igel"]}--
+{"swedish":"isbjörn","state":"WordStateDictionary","prefix":"en","grammar":["isbjörnen","isbjörnar","isbjörnarna"],"german":["Eisbär"]}--
+{"swedish":"kamel","state":"WordStateNew","prefix":"en","grammar":["kamelen","kameler","kamelerna"],"german":["Kamel"]}--
+{"swedish":"katt","state":"WordStateLearn","prefix":"en","grammar":["katten","katter","katterna"],"german":["Katze"]}--
+{"swedish":"ko","state":"WordStateDictionary","prefix":"en","grammar":["kon","kor","korna"],"german":["Kuh"]}--
+{"swedish":"koltrast","state":"WordStateNew","prefix":"en","grammar":["koltrasten","koltrastar","koltrastarna"],"german":["Amsel"]}--
+{"remark":"järmväg oberleitung?","swedish":"kontaktledningar","state":"WordStateIncomplete","prefix":"none","german":["xxx"]}--
+{"remark":"Tannenzapfen","swedish":"kotte","state":"WordStateDictionary","prefix":"en","grammar":["kotten","kottar","kottarna"],"german":["Zapfen"]}--
+{"swedish":"kråka","state":"WordStateDictionary","prefix":"en","grammar":["kråkan","kråkor","kråkorna"],"german":["Krähe"]}--
+{"swedish":"lama","state":"WordStateNew","prefix":"en","grammar":["laman","lamor","lamorna"],"german":["Lama"]}--
+{"swedish":"lejon","state":"WordStateNew","prefix":"ett","grammar":["lejonet","lejon","lejonen"],"german":["Löwe"]}--
+{"swedish":"lira","state":"WordStateDictionary","prefix":"att","grammar":["lirar","lirade","lirat"],"german":["spielen"]}--
+{"remark":"Synonym: lo lon loar loarna","swedish":"lodjur","state":"WordStateDictionary","prefix":"ett","grammar":["lodjuret","lodjur","lodjuren"],"german":["Luchs"]}--
+{"swedish":"lår","state":"WordStateDictionary","prefix":"en","grammar":["låren","lårar","lårarna"],"german":["Kiste","Kasten"]}--
+{"swedish":"lår","state":"WordStateDictionary","prefix":"ett","grammar":["låret","lår","låren"],"german":["(Ober-)Schenkel"]}--
+{"swedish":"mygga","state":"WordStateDictionary","prefix":"en","grammar":["myggan","myggor","myggorna"],"german":["Mücke"]}--
+{"swedish":"myra","state":"WordStateLearn","prefix":"en","grammar":["myran","myror","myrorna"],"german":["Ameise"]}--
+{"swedish":"myrstack","state":"WordStateLearn","prefix":"en","grammar":["myrstacken","myrstackar","myrstackarna"],"german":["Ameisenhaufen"]}--
+{"swedish":"mörkertal","state":"WordStateNew","prefix":"ett","grammar":["mörkertalet","mörkertal","mörkertalen"],"german":["Dunkelziffer"]}--
+{"swedish":"noshörning","state":"WordStateNew","prefix":"en","grammar":["noshörningen","noshörningar","noshörningarna"],"german":["Nashorn"]}--
+{"remark":"auch: näbbet,näbb,näbben","swedish":"näbb","state":"WordStateLearn","prefix":"en","grammar":["näbben","näbbar","näbbarna"],"german":["Schnabel"]}--
+{"swedish":"näbbval","state":"WordStateLearn","prefix":"en","grammar":["näbbvalen","näbbvalar","näbbvalarna"],"german":["Schnabelwal"]}--
+{"swedish":"papegoja","state":"WordStateNew","prefix":"en","grammar":["papegojan","papegojor","papegojorna"],"german":["Papagei"]}--
+{"swedish":"pingvin","state":"WordStateDictionary","prefix":"en","grammar":["pingvinen","pingviner","pingvinerna"],"german":["Pinguin"]}--
+{"swedish":"redlös","state":"WordStateDictionary","prefix":"none","german":["sinnlos betrunken"]}--
+{"swedish":"ren","state":"WordStateLearn","prefix":"en","grammar":["renen","renar","renarna"],"german":["Ren","Rentier"]}--
+{"swedish":"rovdjur","state":"WordStateDictionary","prefix":"ett","grammar":["rovdjuret","rovdjur","rovdjuren"],"german":["Raubtier"]}--
+{"swedish":"rubricera","state":"WordStateIncomplete","prefix":"att","german":["xxx"]}--
+{"swedish":"rådjur","state":"WordStateLearn","prefix":"ett","grammar":["rådjuret","rådjur","rådjuren"],"german":["Reh"]}--
+{"swedish":"schimpans","state":"WordStateNew","prefix":"en","grammar":["schimpansen","schimpanser","schimpanserna"],"german":["Schimpanse"]}--
+{"swedish":"sjöhäst","state":"WordStateLearn","prefix":"en","grammar":["sjöhästen","sjöhästar","sjöhästarna"],"german":["Seepferdchen"]}--
+{"swedish":"sjöstjärna","state":"WordStateLearn","prefix":"en","grammar":["sjöstjärnan","sjöstjärnor","sjöstjärnorna"],"german":["Seestern"]}--
+{"swedish":"skallra","state":"WordStateDictionary","prefix":"att","grammar":["skallrar","skallrade","skallrat"],"german":["klappern"]}--
+{"swedish":"skynke","state":"WordStateDictionary","prefix":"ett","grammar":["skynket","skynken","skynkena"],"german":["Tuch","Stück Stoff","Überwurf"]}--
+{"swedish":"somna","state":"WordStateDictionary","prefix":"att","grammar":["somnar","somnade","somnat"],"german":["einschlafen"]}--
+{"swedish":"sova","state":"WordStateDictionary","prefix":"att","grammar":["sover","sov","sovit"],"german":["schlafen"]}--
+{"swedish":"supa","state":"WordStateDictionary","prefix":"att","grammar":["super","söp","supit"],"german":["trinken","saufen"]}--
+{"swedish":"svin","state":"WordStateLearn","prefix":"ett","grammar":["svinet","svin","svinen"],"german":["Schwein"]}--
+{"remark":"umgangssprachlich","swedish":"syrra","state":"WordStateLearn","prefix":"en","grammar":["syrran","syrror","syrrorna"],"german":["Schwester"]}--
+{"swedish":"säl","state":"WordStateNew","prefix":"en","grammar":["sälen","sälar","sälarna"],"german":["Seehund"]}--
+{"swedish":"söm","state":"WordStateDictionary","prefix":"en","grammar":["sömmen","sömmar","sömmarna"],"german":["Saum","Naht"]}--
+{"remark":"wirklich tiger gesprochen","swedish":"tiger","state":"WordStateNew","prefix":"en","grammar":["tigern","tigrar","tigrarna"],"german":["Tiger"]}--
+{"remark":"tinande relationer","swedish":"tinande","state":"WordStateIncomplete","prefix":"none","german":["xxx"]}--
+{"swedish":"tjuta","state":"WordStateDictionary","prefix":"att","grammar":["tjuter","tjut","tjutit"],"german":["heulen"]}--
+{"swedish":"tjuv-","state":"WordStateIncomplete","prefix":"none","german":["(nästan) olaglig","förbjuden"]}--
+{"swedish":"treva i mörkret","state":"WordStateLearn","prefix":"att","grammar":["trevar i mörkret","trevade i mörkret","trevat i mörkret"],"german":["im Dunkeln tappen"]}--
+{"remark":"meteorologisch, nochmal im Wörterbuch nachschauen. virvelstorm","swedish":"tromb","state":"WordStateIncomplete","prefix":"en","grammar":["tromben","tromber","tromberna"],"german":["Tornado"]}--
+{"swedish":"tvättbjörn","state":"WordStateLearn","prefix":"en","grammar":["tvättbjörnen","tvättbjörnar","tvättbjörnarna"],"german":["Waschbär"]}--
+{"swedish":"uggla","state":"WordStateLearn","prefix":"en","grammar":["ugglan","ugglor","ugglorna"],"german":["Eule","Kauz"]}--
+{"remark":"Latein: Melopsittacus Undulatus","swedish":"undulat","state":"WordStateLearn","prefix":"en","grammar":["undulaten","undulater","undulterna"],"german":["Wellensittich"]}--
+{"swedish":"urusel","state":"WordStateDictionary","prefix":"none","german":["sehr schlecht"]}--
+{"swedish":"val","state":"WordStateLearn","prefix":"en","grammar":["valen","valar","valarna"],"german":["Wal"]}--
+{"swedish":"åsna","state":"WordStateDictionary","prefix":"en","grammar":["åsnan","åsnor","åsnorna"],"german":["Esel"]}--
+{"swedish":"älg","state":"WordStateLearn","prefix":"en","grammar":["älgen","älgar","älgarna"],"german":["Elch"]}--
+{"swedish":"ömtålig","state":"WordStateLearn","prefix":"none","german":["empfindlich","zerbrechlich"]}--

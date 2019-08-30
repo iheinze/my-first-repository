@@ -209,6 +209,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         }
         if ("pref_word_of_the_day".equals(key)){
             SwedishVocabAppLogger.log("on shared preferences changed: "+key, MainActivity.class, sharedPreferences.getBoolean("pref_debug_mode", false));
+            //TODO: implement this, figure out how the repeat can be unset
         }
         if ("pref_word_of_the_day_time".equals(key)){
             SwedishVocabAppLogger.log("on shared preferences changed: "+key, MainActivity.class, sharedPreferences.getBoolean("pref_debug_mode", false));

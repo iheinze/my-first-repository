@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     //TODO: move this method to a utility class in a proper package and write JUnit tests
     @NonNull
     private Calendar createRepeatTime(SharedPreferences sharedPref) {
-        String timeString = sharedPref.getString("pref_word_of_the_day_time", "did not work");
+        String timeString = sharedPref.getString("pref_word_of_the_day_time", "00:00");
         int configuredHour = Integer.parseInt(timeString.split(":")[0]);
         int configuredMinute = Integer.parseInt(timeString.split(":")[1]);
 

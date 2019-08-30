@@ -11,6 +11,10 @@
     <string name="prefs_title_persistent_method_summary">From where should words be loaded?\n(Reload of the dictionary is required!)</string>
     <string name="prefs_default_word_separator">,</string>
     <string name="prefs_default_daily_words">25</string>
+    <string name="prefs_title_word_of_day">Word of the Day</string>
+    <string name="prefs_title_word_of_day_summary">Switch on the word of the day feature.</string>
+    <string name="prefs_title_debug_mode">Debug Mode</string>
+    <string name="prefs_title_debug_mode_summary">Switch on to see debug information.</string>
     <string-array name="persistenceType">
         <item>User File</item>
         <item>App File</item>

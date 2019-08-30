@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId 'de.isah.vocabtrainer'
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true

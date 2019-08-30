@@ -13,6 +13,8 @@
     <string name="prefs_default_daily_words">25</string>
     <string name="prefs_title_word_of_day">Word of the Day</string>
     <string name="prefs_title_word_of_day_summary">Switch on the word of the day feature.</string>
+    <string name="prefs_title_word_of_day_time">Word of the Day Time</string>
+    <string name="prefs_title_word_of_day_time_summary">Set the time of the day when a new word is chosen.</string>
     <string name="prefs_title_debug_mode">Debug Mode</string>
     <string name="prefs_title_debug_mode_summary">Switch on to see debug information.</string>
     <string-array name="persistenceType">

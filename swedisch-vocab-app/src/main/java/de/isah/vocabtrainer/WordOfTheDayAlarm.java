@@ -13,17 +13,20 @@ import de.isah.vocabtrainer.dictionary.WordOfTheDay;
 
 public class WordOfTheDayAlarm extends BroadcastReceiver {
 
+    private static AlarmManager alarmMgr;
+
     public WordOfTheDayAlarm() {
     }
 
     public WordOfTheDayAlarm(Context context, Calendar calendar) {
-        // TODO Alarm Manger should be singleton
-        AlarmManager alarmMgr =
-                (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if(alarmMgr == null ) {
+            alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        }
+        //TODO: move everything that will not change over time into the if(alarmMgr == null )
         Intent intent = new Intent(context, WordOfTheDayAlarm.class);
         PendingIntent pendingIntent =
                 PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        calendar.setTimeInMillis(System.currentTimeMillis());
+        // TODO: understand why this line was here: calendar.setTimeInMillis(System.currentTimeMillis());
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY,
                 pendingIntent);
     }
@@ -33,4 +36,5 @@ public class WordOfTheDayAlarm extends BroadcastReceiver {
         WordOfTheDay.setWordOfTheDay(DictionaryCache.getCachedDictionary().getRandomWord());
         context.sendBroadcast(new Intent("newWordOfTheDay"));
     }
+
 }

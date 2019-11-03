@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private ViewPager mViewPager;
 
+    private BroadcastReceiver receiver;
+    private WordOfTheDayAppWidgetProvider widgetProvider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,23 +84,24 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         TabLayout tabLayout = findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        /*
         if (sharedPref.getBoolean("pref_word_of_the_day", false)) {
             Calendar time = createRepeatTime(sharedPref);
 
-            WordOfTheDayAlarm alarm = new WordOfTheDayAlarm(this, time);
+            WordOfTheDayAlarm alarm = new WordOfTheDayAlarm(this, time, this.persistenceType);
 
             // TODO: move this to own class
-            BroadcastReceiver receiver = new BroadcastReceiver() {
+            receiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
                     WordOfTheDayFragment.reloadTestViews(findViewById(android.R.id.content));
                 }
             };
             // TODO: do the registration differently, can I set intent filter in AndroidManifest.xml?
-            WordOfTheDayAppWidgetProvider widgetProvider = new WordOfTheDayAppWidgetProvider();
+            widgetProvider = new WordOfTheDayAppWidgetProvider();
             registerReceiver(receiver, new IntentFilter("newWordOfTheDay"));
             registerReceiver(widgetProvider, new IntentFilter("newWordOfTheDay"));
-        }
+        }*/
     }
 
     //TODO: move this method to a utility class in a proper package and write JUnit tests
@@ -185,7 +189,35 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     protected void onStop() {
         super.onStop();
+        // TODO registering receivers in on resume and unregistering them on pause: word of the day is not selected when app in background, do I need an activity running in parallel?
+        unregisterReceiver(receiver);
+        unregisterReceiver(widgetProvider);
         dictionary.persist();
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        // TODO registering receivers in on resume and unregistering them on pause: word of the day is not selected when app in background, do I need an activity running in parallel?
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPref.getBoolean("pref_word_of_the_day", false)) {
+            Calendar time = createRepeatTime(sharedPref);
+
+            WordOfTheDayAlarm alarm = new WordOfTheDayAlarm(this, time, this.persistenceType);
+
+            // TODO: move this to own class
+            receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    WordOfTheDayFragment.reloadTestViews(findViewById(android.R.id.content));
+                }
+            };
+            // TODO: do the registration differently, can I set intent filter in AndroidManifest.xml?
+            widgetProvider = new WordOfTheDayAppWidgetProvider();
+            registerReceiver(receiver, new IntentFilter("newWordOfTheDay"));
+            registerReceiver(widgetProvider, new IntentFilter("newWordOfTheDay"));
+            //registerReceiver(alarm, new IntentFilter("newWordOfTheDay"));
+        }
     }
 
     @Override
@@ -206,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             SwedishVocabAppLogger.log("on shared preferences changed: "+key, MainActivity.class, sharedPreferences.getBoolean("pref_debug_mode", false));
             this.persistenceType = sharedPreferences.getString("pref_persist_method", "no selection");
             reloadDictionaryWithoutNotification();
+            //TODO maybe I have to create a new WordOfTheDay Alarm as well???
         }
         if ("pref_word_of_the_day".equals(key)){
             SwedishVocabAppLogger.log("on shared preferences changed: "+key, MainActivity.class, sharedPreferences.getBoolean("pref_debug_mode", false));
@@ -214,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         if ("pref_word_of_the_day_time".equals(key)){
             SwedishVocabAppLogger.log("on shared preferences changed: "+key, MainActivity.class, sharedPreferences.getBoolean("pref_debug_mode", false));
             Calendar time = createRepeatTime(sharedPreferences);
-            new WordOfTheDayAlarm(this, time);
+            new WordOfTheDayAlarm(this, time, this.persistenceType);
         }
     }
 

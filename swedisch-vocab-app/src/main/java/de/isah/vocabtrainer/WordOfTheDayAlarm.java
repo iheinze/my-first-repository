@@ -14,11 +14,14 @@ import de.isah.vocabtrainer.dictionary.WordOfTheDay;
 public class WordOfTheDayAlarm extends BroadcastReceiver {
 
     private static AlarmManager alarmMgr;
+    private String persistentType;
 
     public WordOfTheDayAlarm() {
     }
 
-    public WordOfTheDayAlarm(Context context, Calendar calendar) {
+    public WordOfTheDayAlarm(Context context, Calendar calendar, String persistentType) {
+        this.persistentType = persistentType;
+
         if(alarmMgr == null ) {
             alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         }
@@ -33,7 +36,8 @@ public class WordOfTheDayAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        WordOfTheDay.setWordOfTheDay(DictionaryCache.getCachedDictionary().getRandomWord());
+        //WordOfTheDay.setWordOfTheDay(DictionaryCache.getCachedDictionary().getRandomWord());
+        WordOfTheDay.setWordOfTheDay(DictionaryCache.getCachedDictionary(this.persistentType).getRandomWord());
         context.sendBroadcast(new Intent("newWordOfTheDay"));
     }
 

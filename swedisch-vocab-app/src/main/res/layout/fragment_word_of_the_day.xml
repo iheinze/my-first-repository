@@ -1,64 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="de.isah.vocabtrainer.WordOfTheDayFragment">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonUpdateWordOfTheDay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/daily_word_button_update" />
 
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textViewShowWordDetailsHeadingSwedish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_text_swedish"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+        <TextView
+            android:id="@+id/textViewWordOftTheDaySwedish"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:text=""
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-            <TextView
-                android:id="@+id/textViewShowWordDetailsHeadingSwedish"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/details_text_swedish"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        <TextView
+            android:id="@+id/textViewShowWordDetailsHeadingGerman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_text_german"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:id="@+id/textViewWordOftTheDaySwedish"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+        <TextView
+            android:id="@+id/textViewWordOftTheDayGerman"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-            <TextView
-                android:id="@+id/textViewShowWordDetailsHeadingGerman"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/details_text_german"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        <TextView
+            android:id="@+id/textViewShowWordDetailsHeadingRemark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/details_text_remark"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:id="@+id/textViewWordOftTheDayGerman"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+        <TextView
+            android:id="@+id/textViewWordOftTheDayRemarks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text=""
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-            <TextView
-                android:id="@+id/textViewShowWordDetailsHeadingRemark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/details_text_remark"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text=""
-                android:id="@+id/textViewWordOftTheDayRemarks"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
 </RelativeLayout>

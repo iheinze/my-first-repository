@@ -1,5 +1,6 @@
 package de.isah.vocabtrainer;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import de.isah.vocabtrainer.dictionary.Dictionary;
@@ -34,9 +36,9 @@ public class WordOfTheDayFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_word_of_the_day, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_word_of_the_day, container, false);
 
-        Dictionary dictionary = DictionaryCache.getCachedDictionary();
+        final Dictionary dictionary = DictionaryCache.getCachedDictionary();
 
         // Get debug preferences. If for some reason it does not work, debug mode should be on because there is something wrong.
         //disable add word button if needed.
@@ -53,10 +55,22 @@ public class WordOfTheDayFragment extends Fragment {
         TextView textViewRemark = rootView.findViewById(R.id.textViewWordOftTheDayRemarks);
         textViewRemark.setText(WordOfTheDay.printRemark());
 
+
+        Button updateButton = rootView.findViewById(R.id.buttonUpdateWordOfTheDay);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WordOfTheDay.setWordOfTheDay(dictionary.getRandomWord());
+                reloadTextViews(rootView);
+                rootView.getContext().sendBroadcast(new Intent("newWordOfTheDay"));
+            }
+        });
+
+
         return rootView;
     }
 
-    static void reloadTestViews(View rootView){
+    static void reloadTextViews(View rootView) {
 
         TextView textViewSwedish = rootView.findViewById(R.id.textViewWordOftTheDaySwedish);
         textViewSwedish.setText(WordOfTheDay.printSwedishAndGrammar());

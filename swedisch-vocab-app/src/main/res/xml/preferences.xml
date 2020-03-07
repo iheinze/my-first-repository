@@ -16,13 +16,6 @@
         android:entryValues="@array/persistenceValues"
         android:defaultValue="2"/>
     <CheckBoxPreference
-        android:key="pref_word_of_the_day"
-        android:title="@string/prefs_title_word_of_day"
-        android:summary="@string/prefs_title_word_of_day_summary" />
-    <de.isah.vocabtrainer.preferences.TimePreference
-        android:key="pref_word_of_the_day_time"
-        android:title="@string/prefs_title_word_of_day_time" />
-    <CheckBoxPreference
         android:key="pref_debug_mode"
         android:title="@string/prefs_title_debug_mode"
         android:summary="@string/prefs_title_debug_mode_summary" />

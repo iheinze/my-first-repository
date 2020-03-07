@@ -6,12 +6,17 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.widget.RemoteViews;
 
 import de.isah.vocabtrainer.MainActivity;
 import de.isah.vocabtrainer.R;
+import de.isah.vocabtrainer.dictionary.Dictionary;
+import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.WordOfTheDay;
+import de.isah.vocabtrainer.dictionary.word.Word;
 
 public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
 
@@ -21,16 +26,27 @@ public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int appWidgetId : appWidgetIds) {
             // Get proper intent for Main activity
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, MainActivity.getWorfOfTheDayFragmentIntent(context), 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, MainActivity.getWordOfTheDayFragmentIntent(context), 0);
 
             // Get the layout for the App Widget and attach an on-click listener to the frame layout
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_wordoftheday);
             views.setTextViewText(R.id.widgetTextViewWordOfTheDay, WordOfTheDay.toStringWidget());
-            views.setOnClickPendingIntent(R.id.widgetFrameLayout, pendingIntent);
+            views.setOnClickPendingIntent(R.id.widgetButtonView, pendingIntent);
+            views.setOnClickPendingIntent(R.id.widgetButtonUpdate, update(context));
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+    }
+
+    private PendingIntent update(Context context){
+        final Dictionary dictionary = DictionaryCache.getCachedDictionary();
+        if(dictionary != null && dictionary.getNWordsInDict() > 0) {
+            WordOfTheDay.setWordOfTheDay(dictionary.getRandomWord());
+            context.sendBroadcast(new Intent("newWordOfTheDay"));
+        }
+        Intent intent = new Intent(context, WordOfTheDayAppWidgetProvider.class);
+        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
@@ -55,7 +71,13 @@ This callback was introduced in API Level 16 (Android 4.1). If you implement thi
         ComponentName thisWidget = new ComponentName(context.getApplicationContext(), WordOfTheDayAppWidgetProvider.class);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         if (appWidgetIds != null && appWidgetIds.length > 0) {
-            onUpdate(context, appWidgetManager, appWidgetIds);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_wordoftheday);
+            views.setTextViewText(R.id.widgetTextViewWordOfTheDay, WordOfTheDay.toStringWidget());
+            for (int appWidgetId : appWidgetIds) {
+                appWidgetManager.updateAppWidget(appWidgetId, views);
+
+            }
+            //onUpdate(context, appWidgetManager, appWidgetIds);
         }
     }
 }

@@ -97,4 +97,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="activity_title_dictionary">Tools</string>
     <string name="activity_title_word_of_the_day">Word Of The Day</string>
+    <!-- Word of the day activity -->
+    <string name="daily_word_button_update">Select New Word</string>
 </resources>

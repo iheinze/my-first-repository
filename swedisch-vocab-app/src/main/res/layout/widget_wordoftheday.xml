@@ -17,19 +17,20 @@
             android:layout_height="wrap_content"
             android:text="Word of the day: work in progress" />
 
-        <Button
+        <ImageButton
             android:id="@+id/widgetButtonView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="View" />
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_view_word_of_the_day" />
 
-        <Button
+        <ImageButton
             android:id="@+id/widgetButtonUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Reload" />
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_reload_word_of_the_day">
+        </ImageButton>
 
     </LinearLayout>
 

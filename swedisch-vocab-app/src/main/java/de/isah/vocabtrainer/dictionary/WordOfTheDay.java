@@ -1,6 +1,7 @@
 package de.isah.vocabtrainer.dictionary;
 
 import de.isah.vocabtrainer.dictionary.word.Word;
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 public class WordOfTheDay {
 
@@ -8,6 +9,7 @@ public class WordOfTheDay {
     private static Word wordOfTheDay;
 
     public static void setWordOfTheDay(Word word){
+        SwedishVocabAppLogger.log("Word of the day is set", WordOfTheDay.class, true);
         wordOfTheDay = word;
     }
 

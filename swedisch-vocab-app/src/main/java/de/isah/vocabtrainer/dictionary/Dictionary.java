@@ -127,8 +127,12 @@ public class Dictionary implements Serializable {
     }
 
     public Word getRandomWord(){
-        this.dictionary.shuffle();
-        return this.dictionary.getWord(0);
+        if(this.dictionary.size() > 0) {
+            this.dictionary.shuffle();
+            return this.dictionary.getWord(0);
+        } else {
+            return null;
+        }
     }
 
     LearnWordList getToLearnListNoShuffle() {

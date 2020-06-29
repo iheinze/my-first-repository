@@ -38,6 +38,6 @@ public class WordOfTheDay {
         if(wordOfTheDay == null) {
             return NO_WORD_OF_THE_DAY;
         }
-        return "Word of the day:\n"+wordOfTheDay.toStringMinimal();
+        return wordOfTheDay.toStringMinimal();
     }
 }

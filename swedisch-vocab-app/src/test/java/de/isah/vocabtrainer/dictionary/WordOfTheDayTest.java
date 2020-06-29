@@ -34,8 +34,7 @@ public class WordOfTheDayTest {
                 "\tflickor\n" +
                 "\tflickorna", WordOfTheDay.printSwedishAndGrammar());
         assertEquals("some remark", WordOfTheDay.printRemark());
-        assertEquals("Word of the day:\n" +
-                "flicka, en = Mädchen", WordOfTheDay.toStringWidget());
+        assertEquals("flicka, en = Mädchen", WordOfTheDay.toStringWidget());
     }
 
     @Test
@@ -53,8 +52,7 @@ public class WordOfTheDayTest {
                 "\tflickor\n" +
                 "\tflickorna", WordOfTheDay.printSwedishAndGrammar());
         assertEquals("", WordOfTheDay.printRemark());
-        assertEquals("Word of the day:\n" +
-                "flicka, en = Mädchen", WordOfTheDay.toStringWidget());
+        assertEquals("flicka, en = Mädchen", WordOfTheDay.toStringWidget());
     }
 
 }

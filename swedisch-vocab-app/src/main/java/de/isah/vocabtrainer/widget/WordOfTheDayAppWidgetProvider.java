@@ -1,14 +1,14 @@
 package de.isah.vocabtrainer.widget;
 
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
 import de.isah.vocabtrainer.MainActivity;
@@ -16,13 +16,11 @@ import de.isah.vocabtrainer.R;
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.WordOfTheDay;
-import de.isah.vocabtrainer.dictionary.word.Word;
+import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 
 public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        final int N = appWidgetIds.length;
-
         // Perform this loop procedure for each App Widget that belongs to this provider
         for (int appWidgetId : appWidgetIds) {
             // Get proper intent for Main activity
@@ -32,21 +30,12 @@ public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_wordoftheday);
             views.setTextViewText(R.id.widgetTextViewWordOfTheDay, WordOfTheDay.toStringWidget());
             views.setOnClickPendingIntent(R.id.widgetButtonView, pendingIntent);
-            views.setOnClickPendingIntent(R.id.widgetButtonUpdate, update(context));
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
-        }
-    }
 
-    private PendingIntent update(Context context){
-        final Dictionary dictionary = DictionaryCache.getCachedDictionary();
-        if(dictionary != null && dictionary.getNWordsInDict() > 0) {
-            WordOfTheDay.setWordOfTheDay(dictionary.getRandomWord());
-            context.sendBroadcast(new Intent("newWordOfTheDay"));
+            context.startService(new Intent(context, UpdateWordOfTheDayService.class));
         }
-        Intent intent = new Intent(context, WordOfTheDayAppWidgetProvider.class);
-        return PendingIntent.getBroadcast(context, 0, intent, 0);
     }
 
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
@@ -76,8 +65,47 @@ This callback was introduced in API Level 16 (Android 4.1). If you implement thi
             for (int appWidgetId : appWidgetIds) {
                 appWidgetManager.updateAppWidget(appWidgetId, views);
 
+                if(intent.getAction() == null) {
+                    context.startService(new Intent(context, UpdateWordOfTheDayService.class));
+                } else {
+                    super.onReceive(context, intent);
+                }
             }
             //onUpdate(context, appWidgetManager, appWidgetIds);
+        }
+    }
+
+    public static class UpdateWordOfTheDayService extends IntentService {
+
+        public UpdateWordOfTheDayService() {
+            super("WordOfTheDayAppWidgetProvider$UpdateWordOfTheDayService");
+        }
+
+        @Override
+        protected void onHandleIntent(@Nullable Intent intent) {
+            System.out.println("i am here");
+            ComponentName me=new ComponentName(this,
+                    WordOfTheDayAppWidgetProvider.class);
+            AppWidgetManager mgr=AppWidgetManager.getInstance(this);
+
+            mgr.updateAppWidget(me, update(this));
+        }
+
+        private RemoteViews update(Context context){
+            RemoteViews updateViews=new RemoteViews(context.getPackageName(), R.layout.widget_wordoftheday);
+
+            SwedishVocabAppLogger.log("calling update", WordOfTheDayAppWidgetProvider.class, true);
+
+            final Dictionary dictionary = DictionaryCache.getCachedDictionary();
+            if(dictionary != null && dictionary.getNWordsInDict() > 0) {
+                WordOfTheDay.setWordOfTheDay(dictionary.getRandomWord());
+                context.sendBroadcast(new Intent("newWordOfTheDay"));
+            }
+            updateViews.setTextViewText(R.id.widgetTextViewWordOfTheDay, WordOfTheDay.toStringWidget());
+            Intent intent = new Intent(context, WordOfTheDayAppWidgetProvider.class);
+            PendingIntent pendingIntent =  PendingIntent.getBroadcast(context, 0, intent, 0);
+            updateViews.setOnClickPendingIntent(R.id.widgetButtonUpdate, pendingIntent);
+            return updateViews;
         }
     }
 }

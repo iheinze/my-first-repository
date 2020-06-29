@@ -7,7 +7,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 
@@ -36,21 +35,6 @@ public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
 
             context.startService(new Intent(context, UpdateWordOfTheDayService.class));
         }
-    }
-
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        // TODO: implement this to make widget look pretty at all times, also think about disallowing changes in size in wordoftheday_appwidget_info.xml
-        //  more infos: https://developer.android.com/guide/topics/appwidgets#AppWidgetProvider
-        /*
-        This is called when the widget is first placed and any time the widget is resized. You can use this callback to show or hide content based on the widget's size ranges. You get the size ranges by calling getAppWidgetOptions(), which returns a Bundle that includes the following:
-
-    OPTION_APPWIDGET_MIN_WIDTH—Contains the lower bound on the current width, in dp units, of a widget instance.
-    OPTION_APPWIDGET_MIN_HEIGHT—Contains the lower bound on the current height, in dp units, of a widget instance.
-    OPTION_APPWIDGET_MAX_WIDTH—Contains the upper bound on the current width, in dp units, of a widget instance.
-    OPTION_APPWIDGET_MAX_HEIGHT—Contains the upper bound on the current height, in dp units, of a widget instance.
-
-This callback was introduced in API Level 16 (Android 4.1). If you implement this callback, make sure that your app doesn't depend on it since it won't be called on older devices.
-         */
     }
 
     @Override
@@ -83,7 +67,6 @@ This callback was introduced in API Level 16 (Android 4.1). If you implement thi
 
         @Override
         protected void onHandleIntent(@Nullable Intent intent) {
-            System.out.println("i am here");
             ComponentName me=new ComponentName(this,
                     WordOfTheDayAppWidgetProvider.class);
             AppWidgetManager mgr=AppWidgetManager.getInstance(this);

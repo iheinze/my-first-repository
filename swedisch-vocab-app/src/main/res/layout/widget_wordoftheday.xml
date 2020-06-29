@@ -40,7 +40,6 @@ only FrameLayout, LinearLayout, RelativeLayout, AnalogClock, Button, Chronometer
         android:id="@+id/widgetTextViewWordOfTheDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_span="3"
         android:layout_below="@+id/textViewShowWordDetailsHeadingSwedish"
         android:text="Word of the day: work in progress" />
 

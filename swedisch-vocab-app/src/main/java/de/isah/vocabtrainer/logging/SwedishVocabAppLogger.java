@@ -15,6 +15,9 @@ public class SwedishVocabAppLogger {
 
     private static final int ROTATE_FILE_SIZE_MB = 1;
 
+    private static boolean isDebugMode = false;
+
+    @Deprecated
     public static void log(final String message, final Class loggingClazz, final boolean isDebugMode){
         if (isDebugMode){
             try {
@@ -25,10 +28,32 @@ public class SwedishVocabAppLogger {
                 FileOutputStream fileOutStream = new FileOutputStream(new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME), true);
                 fileOutStream.write(log.getBytes());
                 fileOutStream.close();
+                System.out.println(log);
             } catch (IOException e){
                 // do nothing
             }
         }
+    }
+
+    public static void log(final String message, final Class loggingClazz){
+        if (isDebugMode){
+            try {
+                if(fileRotateNeeded()) {
+                    rotateFile();
+                }
+                String log = getCurrentTimeStamp() + " : " + loggingClazz.getSimpleName() + " - " + message + "\n";
+                FileOutputStream fileOutStream = new FileOutputStream(new File(FileConstants.getExternalFilePath() + "/" + LOG_FILE_NAME), true);
+                fileOutStream.write(log.getBytes());
+                fileOutStream.close();
+                System.out.println(log);
+            } catch (IOException e){
+                // do nothing
+            }
+        }
+    }
+
+    public static void setIsDebugMode(boolean debugMode) {
+        isDebugMode = debugMode;
     }
 
     private static void rotateFile() {

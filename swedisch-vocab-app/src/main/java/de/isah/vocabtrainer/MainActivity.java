@@ -49,8 +49,8 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         FileConstants.setFilePath(this.getFilesDir().getAbsolutePath());
         FileConstants.setExternalFilePath(this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).getAbsolutePath());
 
-
-        SwedishVocabAppLogger.log("on create", MainActivity.class, sharedPref.getBoolean("pref_debug_mode", false));
+        SwedishVocabAppLogger.setIsDebugMode(sharedPref.getBoolean("pref_debug_mode", false));
+        SwedishVocabAppLogger.log("on create", MainActivity.class);
 
         this.persistenceType = sharedPref.getString("pref_persist_method", "no selection");
 
@@ -181,10 +181,15 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if ("pref_persist_method".equals(key)) {
-            SwedishVocabAppLogger.log("on shared preferences changed: " + key, MainActivity.class, sharedPreferences.getBoolean("pref_debug_mode", false));
+            SwedishVocabAppLogger.log("on shared preferences changed: " + key, MainActivity.class);
             this.persistenceType = sharedPreferences.getString("pref_persist_method", "no selection");
             reloadDictionaryWithoutNotification();
             //TODO maybe I have to create a new WordOfTheDay Alarm as well???
+        }
+        if("pref_debug_mode".equals(key)) {
+            SwedishVocabAppLogger.log("on shared preferences changed: " + key, MainActivity.class);
+            SwedishVocabAppLogger.setIsDebugMode(sharedPreferences.getBoolean("pref_debug_mode", false));
+            SwedishVocabAppLogger.log("on shared preferences changed: " + key, MainActivity.class);
         }
     }
 

@@ -35,6 +35,7 @@ public class UserFilePersistenceJson implements Persistence {
 
     private File file;
     private String filename;
+    private String exportfilename;
 
     private WordList allWords;
     private LearnWordList toLearnWords;
@@ -47,6 +48,7 @@ public class UserFilePersistenceJson implements Persistence {
         this.newWords = new LinkedList<>();
         this.incompleteList = new WordList();
         this.filename = filename;
+        this.exportfilename = "/export-"+this.filename;
         init();
         getWords(this.file);
     }
@@ -179,7 +181,8 @@ public class UserFilePersistenceJson implements Persistence {
 
     @Override
     public boolean exportAll(WordList list) {
-        File exportFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json.txt");
+        //File exportFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json.txt");
+        File exportFile = new File(FileConstants.getExternalFilePath() + this.exportfilename);
         boolean returnValue;
         try {
             exportFile.createNewFile();
@@ -208,7 +211,8 @@ public class UserFilePersistenceJson implements Persistence {
 
     @Override
     public boolean importFile() {
-        File importFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json.txt");
+       // File importFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json.txt");
+        File importFile = new File(FileConstants.getExternalFilePath() + this.exportfilename);
 
         if (!importFile.exists()) {
             return false;

@@ -116,7 +116,7 @@ public class UserFilePersistenceJsonTest {
         FileConstants.setExternalFilePath("src/test/assets");
 
         File inFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json-valid.txt");
-        File outFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json.txt");
+        File outFile = new File(FileConstants.getExternalFilePath() + "/export-dictionaryjson.txt");
 
         CommonFileUtils.copyFile(inFile, outFile);
 
@@ -137,7 +137,7 @@ public class UserFilePersistenceJsonTest {
         FileConstants.setExternalFilePath("src/test/assets");
 
         File inFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json-invalid.txt");
-        File outFile = new File(FileConstants.getExternalFilePath() + "/dictionary-export-json.txt");
+        File outFile = new File(FileConstants.getExternalFilePath() + "/export-dictionaryjson.txt");
 
         CommonFileUtils.copyFile(inFile, outFile);
 

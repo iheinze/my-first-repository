@@ -20,7 +20,7 @@ public class PersistenceFactory {
 
         switch (persistenceType){
             case "1":
-                persistence = new UserFilePersistenceJson();
+                persistence = new UserFilePersistenceJson("dictionaryjson.txt");
                 break;
             case "2":
                 persistence = new AppFilePersistence();

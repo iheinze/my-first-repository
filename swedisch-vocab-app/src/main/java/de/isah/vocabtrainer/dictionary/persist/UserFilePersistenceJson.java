@@ -34,24 +34,37 @@ import de.isah.vocabtrainer.dictionary.word.state.WordStateSGCorrect;
 public class UserFilePersistenceJson implements Persistence {
 
     private File file;
+    private String filename;
 
     private WordList allWords;
     private LearnWordList toLearnWords;
     private Queue<Word> newWords;
     private WordList incompleteList;
 
+    @Deprecated
     UserFilePersistenceJson() throws IOException {
         this.allWords = new WordList();
         this.toLearnWords = new LearnWordList();
         this.newWords = new LinkedList<>();
         this.incompleteList = new WordList();
+        this.filename = "dictionaryjson.txt";
+        init();
+        getWords(this.file);
+    }
+
+    UserFilePersistenceJson(String filename) throws IOException {
+        this.allWords = new WordList();
+        this.toLearnWords = new LearnWordList();
+        this.newWords = new LinkedList<>();
+        this.incompleteList = new WordList();
+        this.filename = filename;
         init();
         getWords(this.file);
     }
 
     private void init() throws IOException {
         if (FileConstants.getFilePath() != null) {
-            this.file = new File(FileConstants.getFilePath() + "/"+"dictionaryjson.txt");
+            this.file = new File(FileConstants.getFilePath() + "/"+this.filename);
             if (!this.file.exists()) {
                 this.file.createNewFile();
             }

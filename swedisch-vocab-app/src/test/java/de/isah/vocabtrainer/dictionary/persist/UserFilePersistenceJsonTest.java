@@ -28,7 +28,7 @@ public class UserFilePersistenceJsonTest {
 
         CommonFileUtils.copyFile(inFile, outFile);
 
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         assertEquals(8, persistence.getAllWords().size());
         assertEquals(1, persistence.getNewWords().size());
         assertEquals(4, persistence.getToLearnWords().size());
@@ -44,13 +44,13 @@ public class UserFilePersistenceJsonTest {
 
         CommonFileUtils.copyFile(inFile, outFile);
 
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         Word w = new WordBuilder().addSwedish("test1", WordPrefix.NONE).addGerman("test2").build();
         System.out.println(w.serializeToJsonString());
         w.setState(new WordStateNew());
         persistence.addWord(w);
 
-        UserFilePersistenceJson persistence2 = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence2 = new UserFilePersistenceJson("dictionaryjson.txt");
         assertEquals(9, persistence2.getAllWords().size());
         assertEquals(2, persistence2.getNewWords().size());
         assertEquals(4, persistence2.getToLearnWords().size());
@@ -64,7 +64,7 @@ public class UserFilePersistenceJsonTest {
         File outFile = new File(FileConstants.getFilePath() + "/dictionaryjson.txt");
         boolean b = outFile.createNewFile();
 
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         WordList list = new WordList();
         list.addWord(new WordBuilder().addSwedish("swedish1", WordPrefix.NONE).addGerman("german1").build());
         list.addWord(new WordBuilder().addSwedish("swedish1", WordPrefix.NONE).addGerman("german1").build());
@@ -76,14 +76,14 @@ public class UserFilePersistenceJsonTest {
         File outFile = new File(FileConstants.getFilePath() + "/dictionaryjson.txt");
         boolean b = outFile.createNewFile();
 
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         WordList list = new WordList();
         list.addWord(new WordBuilder().addSwedish("swedish1", WordPrefix.NONE).addGerman("german1").build());
         list.addWord(new WordBuilder().addSwedish("swedish2", WordPrefix.NONE).addGerman("german2").build());
         list.addWord(new WordBuilder().addSwedish("swedish3", WordPrefix.NONE).addGerman("german3").build());
         persistence.persistAll(list);
 
-        UserFilePersistenceJson persistence2 = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence2 = new UserFilePersistenceJson("dictionaryjson.txt");
         assertEquals(3, persistence2.getAllWords().size());
         assertEquals(0, persistence2.getNewWords().size());
         assertEquals(0, persistence2.getToLearnWords().size());
@@ -95,7 +95,7 @@ public class UserFilePersistenceJsonTest {
         FileConstants.setFilePath("src/test/assets");
         FileConstants.setExternalFilePath("src/test/assets");
 
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         WordList list = new WordList();
         list.addWord(new WordBuilder().addSwedish("swedish1", WordPrefix.NONE).addGerman("german1").build());
         list.addWord(new WordBuilder().addSwedish("swedish2", WordPrefix.NONE).addGerman("german2").build());
@@ -120,7 +120,7 @@ public class UserFilePersistenceJsonTest {
 
         CommonFileUtils.copyFile(inFile, outFile);
 
-        UserFilePersistenceJson persistence3 = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence3 = new UserFilePersistenceJson("dictionaryjson.txt");
         boolean result = persistence3.importFile();
 
         assertTrue(result);
@@ -141,7 +141,7 @@ public class UserFilePersistenceJsonTest {
 
         CommonFileUtils.copyFile(inFile, outFile);
 
-        UserFilePersistenceJson persistence4 = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence4 = new UserFilePersistenceJson("dictionaryjson.txt");
         boolean result = persistence4.importFile();
 
         assertTrue(result);
@@ -155,28 +155,28 @@ public class UserFilePersistenceJsonTest {
     @Test
     public void testDisableAddWords() throws IOException {
         FileConstants.setFilePath("src/test/assets");
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         assertFalse(persistence.disableAddWords());
     }
 
     @Test
     public void testDisableImportExport() throws IOException {
         FileConstants.setFilePath("src/test/assets");
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         assertFalse(persistence.disableImportExport());
     }
 
     @Test
     public void testDisableDeleteWords() throws IOException {
         FileConstants.setFilePath("src/test/assets");
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         assertFalse(persistence.disableDeleteWords());
     }
 
     @Test
     public void testDisableEditdWords() throws IOException {
         FileConstants.setFilePath("src/test/assets");
-        UserFilePersistenceJson persistence = new UserFilePersistenceJson();
+        UserFilePersistenceJson persistence = new UserFilePersistenceJson("dictionaryjson.txt");
         assertFalse(persistence.disableEditWords());
     }
 }

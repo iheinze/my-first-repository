@@ -19,11 +19,13 @@
     <string name="prefs_title_debug_mode_summary">Switch on to see debug information.</string>
     <string-array name="persistenceType">
         <item>User File</item>
+        <item>User File 2</item>
         <item>App File</item>
         <item>Hardcoded</item>
     </string-array>
     <string-array name="persistenceValues">
         <item>1</item>
+        <item>4</item>
         <item>2</item>
         <item>3</item>
     </string-array>

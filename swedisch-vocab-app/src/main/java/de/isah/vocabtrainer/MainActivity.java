@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
         this.fileHandler = FileHandlerFactory.create(this.persistenceType);
         this.fileHandler.openIniDictionaryFile(getAssets());
 
-        dictionary = DictionaryCache.getCachedDictionary(persistenceType);
+        dictionary = DictionaryCache.getCachedDictionary(this.persistenceType);
 
         this.fileHandler.closeIniDictionary();
 

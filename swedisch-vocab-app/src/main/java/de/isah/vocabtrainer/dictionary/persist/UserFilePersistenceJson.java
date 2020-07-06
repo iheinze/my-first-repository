@@ -41,17 +41,6 @@ public class UserFilePersistenceJson implements Persistence {
     private Queue<Word> newWords;
     private WordList incompleteList;
 
-    @Deprecated
-    UserFilePersistenceJson() throws IOException {
-        this.allWords = new WordList();
-        this.toLearnWords = new LearnWordList();
-        this.newWords = new LinkedList<>();
-        this.incompleteList = new WordList();
-        this.filename = "dictionaryjson.txt";
-        init();
-        getWords(this.file);
-    }
-
     UserFilePersistenceJson(String filename) throws IOException {
         this.allWords = new WordList();
         this.toLearnWords = new LearnWordList();

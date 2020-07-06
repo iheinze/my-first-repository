@@ -22,7 +22,7 @@ public class AddWordHandlerTest {
         Dictionary dict = new Dictionary("x");
 
         AddWordHandler handler = new AddWordHandler();
-        handler.addWord(dict, "swedish", "german", WordPrefix.NONE, "", "", false, ",", false);
+        handler.addWord(dict, "swedish", "german", WordPrefix.NONE, "", "", false, ",");
 
         assertEquals(7, dict.getNWordsInDict());
         assertTrue(dict.getAllWordsList().getWord("swedish").getState() instanceof WordStateNew);
@@ -39,7 +39,7 @@ public class AddWordHandlerTest {
         Dictionary dict = new Dictionary("x");
 
         AddWordHandler handler = new AddWordHandler();
-        handler.addWord(dict, "swedish", "german1,german2", WordPrefix.EN, "swedish1,swedish2,swedish3", "remark", false, ",", false);
+        handler.addWord(dict, "swedish", "german1,german2", WordPrefix.EN, "swedish1,swedish2,swedish3", "remark", false, ",");
 
         assertEquals(7, dict.getNWordsInDict());
         assertTrue(dict.getAllWordsList().getWord("swedish, en").getState() instanceof WordStateNew);
@@ -56,7 +56,7 @@ public class AddWordHandlerTest {
         Dictionary dict = new Dictionary("x");
 
         AddWordHandler handler = new AddWordHandler();
-        handler.addWord(dict, "swedish", "german", WordPrefix.NONE, "", "", true, ",", false);
+        handler.addWord(dict, "swedish", "german", WordPrefix.NONE, "", "", true, ",");
 
         assertEquals(7, dict.getNWordsInDict());
         assertTrue(dict.getAllWordsList().getWord("swedish").getState() instanceof WordStateIncomplete);

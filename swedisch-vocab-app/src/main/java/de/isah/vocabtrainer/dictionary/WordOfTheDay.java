@@ -9,7 +9,7 @@ public class WordOfTheDay {
     private static Word wordOfTheDay;
 
     public static void setWordOfTheDay(Word word){
-        SwedishVocabAppLogger.log("Word of the day is set", WordOfTheDay.class, true);
+        SwedishVocabAppLogger.log("Word of the day is set", WordOfTheDay.class);
         wordOfTheDay = word;
     }
 

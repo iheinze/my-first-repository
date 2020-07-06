@@ -19,7 +19,7 @@ public class DebugInfoActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SwedishVocabAppLogger.log("on create", DebugInfoActivity.class, isDebug);
+        SwedishVocabAppLogger.log("on create", DebugInfoActivity.class);
 
         setContentView(R.layout.activity_debug_info);
 

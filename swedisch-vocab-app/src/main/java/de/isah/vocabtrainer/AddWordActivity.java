@@ -30,7 +30,7 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SwedishVocabAppLogger.log("on create", AddWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("on create", AddWordActivity.class);
 
         setContentView(R.layout.activity_add_word);
 
@@ -45,13 +45,13 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
 
     public void addWord(View view){
 
-        SwedishVocabAppLogger.log("add word", AddWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("add word", AddWordActivity.class);
 
         String swedish = ((EditText) findViewById(R.id.editTextSwedish)).getText().toString();
         String german = ((EditText) findViewById(R.id.editTextGerman)).getText().toString();
 
         if("".equals(swedish) || "".equals(german)){
-            SwedishVocabAppLogger.log("Error: at least swedish and german must be specified", AddWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("Error: at least swedish and german must be specified", AddWordActivity.class);
             Snackbar.make(view, "At least swedish and german must be specified.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
@@ -65,10 +65,10 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
                 addedMessage = addWord(swedish, german, getWordPrefix(spinner), isIncomplete);
                 dictionary = DictionaryCache.getCachedDictionary();
             } catch (IllegalArgumentException | IllegalStateTransitionException e){
-                SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class);
                 addedMessage = "Word could not be added.";
             } catch (WordAlreadyExistsException e){
-                SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be added: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class);
                 addedMessage = e.getMessage();
             } finally {
                 Snackbar.make(view, addedMessage, Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -93,7 +93,7 @@ public class AddWordActivity extends VocabTrainerAppCompatActivity {
     String addWord(String swedish, String german, WordPrefix prefix, boolean isIncomplete) throws IllegalStateTransitionException, WordAlreadyExistsException {
         String grammar = ((EditText) findViewById(R.id.editTextGrammar)).getText().toString();
         String remarks = ((EditText) findViewById(R.id.editTextRemarks)).getText().toString();
-        return this.handler.addWord(this.dictionary, swedish, german, prefix, grammar, remarks, isIncomplete, this.separator, this.isDebug);
+        return this.handler.addWord(this.dictionary, swedish, german, prefix, grammar, remarks, isIncomplete, this.separator);
     }
 
     @NonNull

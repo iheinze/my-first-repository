@@ -77,7 +77,7 @@ public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
         private RemoteViews update(Context context){
             RemoteViews updateViews=new RemoteViews(context.getPackageName(), R.layout.widget_wordoftheday);
 
-            SwedishVocabAppLogger.log("calling update", WordOfTheDayAppWidgetProvider.class, true);
+            SwedishVocabAppLogger.log("calling update", WordOfTheDayAppWidgetProvider.class);
 
             final Dictionary dictionary = DictionaryCache.getCachedDictionary();
             if(dictionary != null && dictionary.getNWordsInDict() > 0) {

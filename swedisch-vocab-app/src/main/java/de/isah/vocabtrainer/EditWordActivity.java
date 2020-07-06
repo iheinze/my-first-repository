@@ -54,7 +54,7 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SwedishVocabAppLogger.log("on create", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("on create", EditWordActivity.class);
 
         this.separator = sharedPref.getString("pref_word_separator", ",");
 
@@ -92,12 +92,12 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
     }
 
     public void saveWord(View v){
-        SwedishVocabAppLogger.log("saveWord", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("saveWord", EditWordActivity.class);
         String swedish = this.swedishInput.getText().toString();
         String german = this.germanInput.getText().toString();
 
         if("".equals(swedish) || "".equals(german)){
-            SwedishVocabAppLogger.log("Error: at least swedish and german must be specified", EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("Error: at least swedish and german must be specified", EditWordActivity.class);
             Snackbar.make(v, "At least swedish and german must be specified.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
@@ -119,14 +119,14 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
 
                 this.dictionary.deleteWord(currentWord);
 
-                SwedishVocabAppLogger.log("word was saved", EditWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word was saved", EditWordActivity.class);
                 changed = true;
 
             } catch (IllegalArgumentException | IllegalStateTransitionException e){
-                SwedishVocabAppLogger.log("word could not be saved: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be saved: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class);
                 changed = false;
             } catch (WordAlreadyExistsException e){
-                SwedishVocabAppLogger.log("word could not be saved because a similar word already exists: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be saved because a similar word already exists: "+ExceptionUtils.getStackTrace(e), AddWordActivity.class);
                 changed = false;
             }  finally {
                 String changedMessage;
@@ -146,11 +146,11 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
                 WordBuilder builder = new WordBuilder(currentWord);
                 changeWord(v, german, builder);
 
-                SwedishVocabAppLogger.log("word was saved", EditWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word was saved", EditWordActivity.class);
                 changed = true;
 
             } catch (IllegalArgumentException e){
-                SwedishVocabAppLogger.log("word could not be saved: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+                SwedishVocabAppLogger.log("word could not be saved: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class);
                 changed = false;
             } finally {
                 String changedMessage;
@@ -187,75 +187,75 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
     }
 
     public void addToNewList(View v){
-        SwedishVocabAppLogger.log("addToNewList", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("addToNewList", EditWordActivity.class);
         try{
             this.dictionary.addWordToNewList(currentWord);
             setButtonVisibilities();
         } catch (WordAlreadyOnListException e){
-            SwedishVocabAppLogger.log("word was already on new list", EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word was already on new list", EditWordActivity.class);
             Snackbar.make(v, "Word is already on new words list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         } catch (IllegalStateTransitionException e){
-            SwedishVocabAppLogger.log("word could not be added to new list: "+ ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word could not be added to new list: "+ ExceptionUtils.getStackTrace(e), EditWordActivity.class);
             Snackbar.make(v, "Word could not be added to new list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     private void removeFromIncompleteAddToNew(View v){
-        SwedishVocabAppLogger.log("remove word from incomplete list", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("remove word from incomplete list", EditWordActivity.class);
         try{
             this.dictionary.removeWordFromIncompleteList(currentWord);
             setButtonVisibilities();
         } catch (WordNotOnListException e){
-            SwedishVocabAppLogger.log("word was not on incomplete list. ", EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word was not on incomplete list. ", EditWordActivity.class);
             Snackbar.make(v, "Word is not on incomplete list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         } catch (IllegalStateTransitionException e){
-            SwedishVocabAppLogger.log("word could not be deleted from incomplete list. ", EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word could not be deleted from incomplete list. ", EditWordActivity.class);
             Snackbar.make(v, "Word could not be deleted from incomplete list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     private void removeFromAllListsAddToIncomplete(View v){
-        SwedishVocabAppLogger.log("add to incomplete", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("add to incomplete", EditWordActivity.class);
         try {
             this.dictionary.addWordToIncompleteList(currentWord);
             setButtonVisibilities();
         } catch (WordAlreadyExistsException e){
-            SwedishVocabAppLogger.log("word already existed", EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word already existed", EditWordActivity.class);
             Snackbar.make(v, e.getMessage(), Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         } catch (WordAlreadyOnListException e){
-            SwedishVocabAppLogger.log("word was already on incomplete list", EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word was already on incomplete list", EditWordActivity.class);
             Snackbar.make(v, "Word is already on incomplete list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         } catch (IllegalStateTransitionException e) {
-            SwedishVocabAppLogger.log("word could not be added to new list: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word could not be added to new list: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class);
             Snackbar.make(v, "Word could not be added to word list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void removeFromNewList(View v){
-        SwedishVocabAppLogger.log("remove from new list", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("remove from new list", EditWordActivity.class);
         try {
             this.dictionary.removeWordFromNewList(currentWord);
             setButtonVisibilities();
         } catch (WordNotOnListException e){
-            SwedishVocabAppLogger.log("word was not on new list", EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word was not on new list", EditWordActivity.class);
             Snackbar.make(v, "Word is not on new words list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         } catch (IllegalStateTransitionException e){
-            SwedishVocabAppLogger.log("word could not be removed from new list: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word could not be removed from new list: "+ExceptionUtils.getStackTrace(e), EditWordActivity.class);
             Snackbar.make(v, "Word could not be removed from word list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void deleteWord(View v){
-        SwedishVocabAppLogger.log("delete word", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("delete word", EditWordActivity.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Warning");
         builder.setMessage("Are you sure you want to delete the word permanently?");
@@ -304,11 +304,11 @@ public class EditWordActivity extends VocabTrainerAppCompatActivity {
     }
 
     private boolean doDelete(){
-        SwedishVocabAppLogger.log("do actual delete", EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("do actual delete", EditWordActivity.class);
         boolean deleteSuccess = this.dictionary.deleteWord(currentWord);
         disableTextInput();
         disableButtons();
-        SwedishVocabAppLogger.log("word was deleted? "+deleteSuccess, EditWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("word was deleted? "+deleteSuccess, EditWordActivity.class);
         return deleteSuccess;
     }
 

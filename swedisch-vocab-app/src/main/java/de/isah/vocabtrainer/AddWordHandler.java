@@ -18,7 +18,7 @@ import de.isah.vocabtrainer.logging.SwedishVocabAppLogger;
 public class AddWordHandler {
 
     @NonNull
-    String addWord(Dictionary dictionary, String swedish, String german, WordPrefix prefix, String grammar, String remarks, boolean isIncomplete, String separator, boolean isDebug) throws IllegalStateTransitionException, WordAlreadyExistsException {
+    String addWord(Dictionary dictionary, String swedish, String german, WordPrefix prefix, String grammar, String remarks, boolean isIncomplete, String separator) throws IllegalStateTransitionException, WordAlreadyExistsException {
         WordBuilder builder = new WordBuilder();
         builder.addSwedish(swedish, prefix).addGerman(german.split(Pattern.quote(separator)));
         if (!("".equals(grammar)) && !(" ".equals(grammar))) {
@@ -36,7 +36,7 @@ public class AddWordHandler {
         }
         dictionary.addWord(addedWord);
         String addedMessage = "Word was added.";
-        SwedishVocabAppLogger.log("word was added", AddWordActivity.class, isDebug);
+        SwedishVocabAppLogger.log("word was added", AddWordActivity.class);
         return addedMessage;
     }
 }

@@ -44,7 +44,7 @@ public class WordOfTheDayFragment extends Fragment {
         //disable add word button if needed.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
 
-        SwedishVocabAppLogger.log("on create view", WordOfTheDayFragment.class, sharedPref.getBoolean("pref_debug_mode", false));
+        SwedishVocabAppLogger.log("on create view", WordOfTheDayFragment.class);
 
         TextView textViewSwedish = rootView.findViewById(R.id.textViewWordOftTheDaySwedish);
         textViewSwedish.setText(WordOfTheDay.printSwedishAndGrammar());

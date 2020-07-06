@@ -14,7 +14,7 @@ public class HelpActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SwedishVocabAppLogger.log("on create", HelpActivity.class, isDebug);
+        SwedishVocabAppLogger.log("on create", HelpActivity.class);
         setContentView(R.layout.activity_help);
 
         WebView webView = findViewById(R.id.webViewHelp);

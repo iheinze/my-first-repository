@@ -12,7 +12,7 @@ public class SettingsActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SwedishVocabAppLogger.log("on create", SettingsActivity.class, isDebug);
+        SwedishVocabAppLogger.log("on create", SettingsActivity.class);
 
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()

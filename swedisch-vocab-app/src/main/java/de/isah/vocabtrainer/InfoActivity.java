@@ -14,7 +14,7 @@ public class InfoActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SwedishVocabAppLogger.log("on create", InfoActivity.class, isDebug);
+        SwedishVocabAppLogger.log("on create", InfoActivity.class);
         setContentView(R.layout.activity_info);
 
         TextView textView1 = findViewById(R.id.textViewAppInfoName);

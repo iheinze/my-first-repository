@@ -37,7 +37,7 @@ public class ShowWordDetailsActivity extends VocabTrainerAppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SwedishVocabAppLogger.log("on create", ShowWordDetailsActivity.class, isDebug);
+        SwedishVocabAppLogger.log("on create", ShowWordDetailsActivity.class);
         setContentView(R.layout.activity_show_word_details);
 
         b = getIntent().getExtras();
@@ -82,39 +82,39 @@ public class ShowWordDetailsActivity extends VocabTrainerAppCompatActivity {
     }
 
     public void addToNewList(View v){
-        SwedishVocabAppLogger.log("add to new list", ShowWordDetailsActivity.class, isDebug);
+        SwedishVocabAppLogger.log("add to new list", ShowWordDetailsActivity.class);
         try{
             this.dictionary.addWordToNewList(currentWord);
             setButtonVisibilities();
         } catch (WordAlreadyOnListException e){
-            SwedishVocabAppLogger.log("word was already on new list", ShowWordDetailsActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word was already on new list", ShowWordDetailsActivity.class);
             Snackbar.make(v, "Word is already on new words list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         } catch (IllegalStateTransitionException e){
-            SwedishVocabAppLogger.log("word could not be added to new list: "+ExceptionUtils.getStackTrace(e), ShowWordDetailsActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word could not be added to new list: "+ExceptionUtils.getStackTrace(e), ShowWordDetailsActivity.class);
             Snackbar.make(v, "Word could not be added to new list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void removeFromNewList(View v){
-        SwedishVocabAppLogger.log("remove from new list", ShowWordDetailsActivity.class, isDebug);
+        SwedishVocabAppLogger.log("remove from new list", ShowWordDetailsActivity.class);
         try{
             this.dictionary.removeWordFromNewList(currentWord);
             setButtonVisibilities();
         } catch (WordNotOnListException e){
-            SwedishVocabAppLogger.log("word was not on new list", ShowWordDetailsActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word was not on new list", ShowWordDetailsActivity.class);
             Snackbar.make(v, "Word is not on new words list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         } catch ( IllegalStateTransitionException e){
-            SwedishVocabAppLogger.log("word could not be removed from new list: "+ExceptionUtils.getStackTrace(e), ShowWordDetailsActivity.class, isDebug);
+            SwedishVocabAppLogger.log("word could not be removed from new list: "+ExceptionUtils.getStackTrace(e), ShowWordDetailsActivity.class);
             Snackbar.make(v, "Word could not be removed from new list.", Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show();
         }
     }
 
     public void deleteWord(View v){
-        SwedishVocabAppLogger.log("delete word", ShowWordDetailsActivity.class, isDebug);
+        SwedishVocabAppLogger.log("delete word", ShowWordDetailsActivity.class);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Warning");
         builder.setMessage("Are you sure you want to delete the word permanently?");
@@ -148,14 +148,14 @@ public class ShowWordDetailsActivity extends VocabTrainerAppCompatActivity {
     }
 
     public void editWord(View view){
-        SwedishVocabAppLogger.log("edit word", ShowWordDetailsActivity.class, isDebug);
+        SwedishVocabAppLogger.log("edit word", ShowWordDetailsActivity.class);
         Intent intent = new Intent(this, EditWordActivity.class);
         intent.putExtras(b);
         startActivity(intent);
     }
 
     private boolean doDelete(){
-        SwedishVocabAppLogger.log("do actual delete", ShowWordDetailsActivity.class, isDebug);
+        SwedishVocabAppLogger.log("do actual delete", ShowWordDetailsActivity.class);
         boolean deleteSuccess = this.dictionary.deleteWord(currentWord);
         disableButtons();
         return deleteSuccess;

@@ -46,7 +46,7 @@ public class OtherFragment extends Fragment {
         //disable add word button if needed.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(rootView.getContext());
 
-        SwedishVocabAppLogger.log("on create view", OtherFragment.class, sharedPref.getBoolean("pref_debug_mode", false));
+        SwedishVocabAppLogger.log("on create view", OtherFragment.class);
 
         if(!sharedPref.getBoolean("pref_debug_mode", false)){
             (rootView.findViewById(R.id.buttonShowDebugInfo)).setVisibility(View.GONE);

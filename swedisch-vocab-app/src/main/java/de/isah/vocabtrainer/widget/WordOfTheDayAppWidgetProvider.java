@@ -52,6 +52,7 @@ public class WordOfTheDayAppWidgetProvider extends AppWidgetProvider {
                 if(intent.getAction() == null) {
                     context.startService(new Intent(context, UpdateWordOfTheDayService.class));
                 } else {
+                    //context.startService(new Intent(context, UpdateWordOfTheDayService.class));
                     super.onReceive(context, intent);
                 }
             }

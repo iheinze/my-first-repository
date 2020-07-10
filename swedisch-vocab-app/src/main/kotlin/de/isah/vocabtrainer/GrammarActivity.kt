@@ -12,7 +12,6 @@ class GrammarActivity : VocabTrainerAppCompatActivity() {
         SwedishVocabAppLogger.log("on create", GrammarActivity::class.java)
         val editText = findViewById<WebView>(R.id.webViewGrammar)
         editText.loadUrl("file:///android_asset/VocabAppGrammar.html")
-
     }
 
 }

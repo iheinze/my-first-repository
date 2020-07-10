@@ -32,6 +32,7 @@
     <!-- menue -->
     <string name="menu_title_settings">Settings</string>
     <string name="menu_title_help">Help</string>
+    <string name="menu_title_grammar">Grammar</string>
     <string name="menu_title_info">Info</string>
     <string name="menu_title_add">Add</string>
     <!-- main activity -->
@@ -92,6 +93,8 @@
     <string name="dict_button_text_import">Import Dictionary</string>
     <!-- help activity -->
     <string name="activity_title_help">Help</string>
+    <!-- grammar activity-->
+    <string name="activity_title_grammar">Grammar</string>
     <!-- debug info activity -->
     <string name="activity_title_debug_info">Debug Info</string>
     <string name="title_activity_test_tab">TestTabActivity</string>

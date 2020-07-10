@@ -38,6 +38,13 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
+            android:name=".GrammarActivity"
+            android:label="@string/activity_title_grammar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
             android:name=".InfoActivity"
             android:label="@string/activity_title_app_info">
             <meta-data

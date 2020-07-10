@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 def versionMajor = 0
 def versionMinor = 10
-def versionPatch = 2
+def versionPatch = 3
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId 'de.isah.vocabtrainer'
         minSdkVersion 21
@@ -50,4 +51,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.25.1'
     testImplementation 'org.json:json:20180813'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

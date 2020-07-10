@@ -99,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
             case R.id.action_add:
                 addWord();
                 return true;
+            case R.id.action_grammar:
+                showGrammar();
+                return true;
             case R.id.action_settings:
                 showSettings();
                 return true;
@@ -116,6 +119,12 @@ public class MainActivity extends AppCompatActivity implements SharedPreferences
 
     private void addWord() {
         Intent intent = new Intent(this, AddWordActivity.class);
+        addFragmentToIntent(intent);
+        startActivity(intent);
+    }
+
+    private void showGrammar() {
+        Intent intent = new Intent(this, GrammarActivity.class);
         addFragmentToIntent(intent);
         startActivity(intent);
     }

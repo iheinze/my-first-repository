@@ -31,6 +31,7 @@ public class VocabTrainingFragment extends Fragment {
     private View rootView;
     private Dictionary dictionary;
     private LearnWordList toLearnList;
+    private VocabTrainingMessenger vocabTrainingMessenger;
 
     public VocabTrainingFragment() {
 
@@ -51,6 +52,8 @@ public class VocabTrainingFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_vocab_training, container, false);
 
         dictionary = DictionaryCache.getCachedDictionary();
+
+        vocabTrainingMessenger = new VocabTrainingMessenger();
 
         updateLearningSummary();
 
@@ -143,8 +146,10 @@ public class VocabTrainingFragment extends Fragment {
 
 
     private void showWord(final int size, final int counter, String direction) {
-        Word w = this.toLearnList.getWord(counter);
-        int newCount = counter + 1;
+       // Word w = this.toLearnList.getWord(counter);
+        Word w = this.vocabTrainingMessenger.giveMeNextWord();
+        //int newCount = counter + 1;
+        int newCount = this.vocabTrainingMessenger.giveMeCurrentCounter();
         String title = "Word " + newCount + "/" + size;
 
         // Show swedish
@@ -154,11 +159,11 @@ public class VocabTrainingFragment extends Fragment {
         switch (direction) {
             case "sg":
                 builder.setMessage(AndroidTools.addEmptyLines(w.printSwedishAndGrammar()));
-                builder.setNeutralButton("Show German", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(this.toLearnList, size, counter, direction, rootView.getContext()));
+                builder.setNeutralButton("Show German", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(size, counter, direction, rootView.getContext()));
                 break;
             case "gs":
                 builder.setMessage(AndroidTools.addEmptyLines(w.printGerman()));
-                builder.setNeutralButton("Show Swedish", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(this.toLearnList, size, counter, direction, rootView.getContext()));
+                builder.setNeutralButton("Show Swedish", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(size, counter, direction, rootView.getContext()));
                 break;
             default:
                 break;
@@ -174,11 +179,9 @@ public class VocabTrainingFragment extends Fragment {
         private int size;
         private int counter;
         private String direction;
-        private LearnWordList words;
         private Context context;
 
-        OtherDirectionDialogInterfaceMethod(LearnWordList words, int size, int counter, String direction, @NonNull Context context) {
-            this.words = words;
+        OtherDirectionDialogInterfaceMethod(int size, int counter, String direction, @NonNull Context context) {
             this.size = size;
             this.counter = counter;
             this.direction = direction;
@@ -190,8 +193,10 @@ public class VocabTrainingFragment extends Fragment {
             dialog.dismiss();
 
             // show german
-            Word w = words.getWord(counter);
-            int newCount = counter + 1;
+            //Word w = words.getWord(counter);
+            Word w = vocabTrainingMessenger.giveMeCurrentWord();
+            //int newCount = counter + 1;
+            int newCount = vocabTrainingMessenger.giveMeCurrentCounter();
             String title = "Word " + newCount + "/" + size;
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(title);
@@ -206,7 +211,7 @@ public class VocabTrainingFragment extends Fragment {
                 default:
                     break;
             }
-            builder.setPositiveButton("Correct", new VocabTrainingFragment.CorrectDialogInterfaceMethod(words, size, counter, direction));
+            builder.setPositiveButton("Correct", new VocabTrainingFragment.CorrectDialogInterfaceMethod(size, counter, direction));
             builder.setNegativeButton("False", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
@@ -216,6 +221,7 @@ public class VocabTrainingFragment extends Fragment {
                     } else {
                         showSummary();
                         updateLearningSummary();
+                        vocabTrainingMessenger.reset();
                     }
                 }
             });
@@ -230,10 +236,8 @@ public class VocabTrainingFragment extends Fragment {
         private int size;
         private int counter;
         private String direction;
-        private LearnWordList words;
 
-        CorrectDialogInterfaceMethod(LearnWordList words, int size, int counter, String direction) {
-            this.words = words;
+        CorrectDialogInterfaceMethod(int size, int counter, String direction) {
             this.size = size;
             this.counter = counter;
             this.direction = direction;
@@ -242,7 +246,8 @@ public class VocabTrainingFragment extends Fragment {
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-            Word w = words.getWord(counter);
+            //Word w = words.getWord(counter);
+            Word w = vocabTrainingMessenger.giveMeCurrentWord();
 
             switch (direction) {
                 case "sg":
@@ -271,6 +276,7 @@ public class VocabTrainingFragment extends Fragment {
             } else {
                 showSummary();
                 updateLearningSummary();
+                vocabTrainingMessenger.reset();
             }
         }
     }

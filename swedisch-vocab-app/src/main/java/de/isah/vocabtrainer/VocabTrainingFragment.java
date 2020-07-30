@@ -18,6 +18,7 @@ import android.widget.TextView;
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.LearnWordList;
+import de.isah.vocabtrainer.dictionary.VocabTrainingMessenger;
 import de.isah.vocabtrainer.dictionary.word.Word;
 import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
 
@@ -146,32 +147,36 @@ public class VocabTrainingFragment extends Fragment {
 
 
     private void showWord(final int size, String direction) {
-       // Word w = this.toLearnList.getWord(counter);
-        Word w = this.vocabTrainingMessenger.giveMeNextWord();
-        //int newCount = counter + 1;
-        int newCount = this.vocabTrainingMessenger.giveMeCurrentCounter();
-        String title = "Word " + newCount + "/" + size;
+        try {
+            Word w = this.vocabTrainingMessenger.giveMeNextWord();
+            int newCount = this.vocabTrainingMessenger.giveMeCurrentCounter();
+            String title = "Word " + newCount + "/" + this.vocabTrainingMessenger.giveMeListLength();
 
-        // Show swedish
-        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-        builder.setTitle(title);
-        builder.setIcon(R.mipmap.ic_launcher);
-        switch (direction) {
-            case "sg":
-                builder.setMessage(AndroidTools.addEmptyLines(w.printSwedishAndGrammar()));
-                builder.setNeutralButton("Show German", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(size, direction, rootView.getContext()));
-                break;
-            case "gs":
-                builder.setMessage(AndroidTools.addEmptyLines(w.printGerman()));
-                builder.setNeutralButton("Show Swedish", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(size, direction, rootView.getContext()));
-                break;
-            default:
-                break;
+            // Show swedish
+            AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+            builder.setTitle(title);
+            builder.setIcon(R.mipmap.ic_launcher);
+            switch (direction) {
+                case "sg":
+                    builder.setMessage(AndroidTools.addEmptyLines(w.printSwedishAndGrammar()));
+                    builder.setNeutralButton("Show German", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(size, direction, rootView.getContext()));
+                    break;
+                case "gs":
+                    builder.setMessage(AndroidTools.addEmptyLines(w.printGerman()));
+                    builder.setNeutralButton("Show Swedish", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(size, direction, rootView.getContext()));
+                    break;
+                default:
+                    break;
+            }
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setCanceledOnTouchOutside(false);
+            alertDialog.show();
+        } catch (IndexOutOfBoundsException e) {
+            // no words left on learn list
+            showSummary();
+            updateLearningSummary();
+            vocabTrainingMessenger.reset();
         }
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.show();
-
     }
 
     private class OtherDirectionDialogInterfaceMethod implements DialogInterface.OnClickListener {
@@ -191,11 +196,9 @@ public class VocabTrainingFragment extends Fragment {
             dialog.dismiss();
 
             // show german
-            //Word w = words.getWord(counter);
             Word w = vocabTrainingMessenger.giveMeCurrentWord();
-            //int newCount = counter + 1;
             int newCount = vocabTrainingMessenger.giveMeCurrentCounter();
-            String title = "Word " + newCount + "/" + size;
+            String title = "Word " + newCount + "/" + vocabTrainingMessenger.giveMeListLength();
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(title);
             builder.setIcon(R.mipmap.ic_launcher);
@@ -213,14 +216,8 @@ public class VocabTrainingFragment extends Fragment {
             builder.setNegativeButton("False", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     dialog.dismiss();
-                    int newcounter = vocabTrainingMessenger.giveMeCurrentCounter()+1;
-                    if (newcounter < size) {
-                        showWord(size, direction);
-                    } else {
-                        showSummary();
-                        updateLearningSummary();
-                        vocabTrainingMessenger.reset();
-                    }
+
+                    showWord(size, direction);
                 }
             });
             AlertDialog alertDialog = builder.create();
@@ -242,7 +239,6 @@ public class VocabTrainingFragment extends Fragment {
         @Override
         public void onClick(DialogInterface dialog, int which) {
 
-            //Word w = words.getWord(counter);
             Word w = vocabTrainingMessenger.giveMeCurrentWord();
 
             switch (direction) {
@@ -266,14 +262,7 @@ public class VocabTrainingFragment extends Fragment {
 
             dialog.dismiss();
 
-            int newCount = vocabTrainingMessenger.giveMeCurrentCounter()+1;
-            if (newCount < size) {
-                showWord(size, direction);
-            } else {
-                showSummary();
-                updateLearningSummary();
-                vocabTrainingMessenger.reset();
-            }
+            showWord(size, direction);
         }
     }
 

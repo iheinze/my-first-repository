@@ -1,20 +1,15 @@
-package de.isah.vocabtrainer;
+package de.isah.vocabtrainer.dictionary;
 
-import de.isah.vocabtrainer.dictionary.Dictionary;
-import de.isah.vocabtrainer.dictionary.DictionaryCache;
-import de.isah.vocabtrainer.dictionary.LearnWordList;
 import de.isah.vocabtrainer.dictionary.word.Word;
 
 public class VocabTrainingMessenger {
 
-    private Dictionary dictionary;
     private LearnWordList toLearnList;
     private int counter;
     private Word currentWord = null;
 
     public VocabTrainingMessenger(){
-        this.dictionary = DictionaryCache.getCachedDictionary();
-        this.toLearnList = dictionary.getToLearnList();
+        this.toLearnList = DictionaryCache.getCachedDictionary().getToLearnList();
         this.counter = 0;
     }
 
@@ -32,7 +27,12 @@ public class VocabTrainingMessenger {
         return this.counter;
     }
 
+    public int giveMeListLength(){
+        return this.toLearnList.size();
+    }
+
     public void reset(){
         this.counter = 0;
+        this.currentWord = null;
     }
 }

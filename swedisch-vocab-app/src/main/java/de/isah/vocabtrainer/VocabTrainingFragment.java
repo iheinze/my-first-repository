@@ -18,9 +18,8 @@ import android.widget.TextView;
 import de.isah.vocabtrainer.dictionary.Dictionary;
 import de.isah.vocabtrainer.dictionary.DictionaryCache;
 import de.isah.vocabtrainer.dictionary.LearnWordList;
-import de.isah.vocabtrainer.dictionary.VocabTrainingMessenger;
-import de.isah.vocabtrainer.dictionary.word.Word;
-import de.isah.vocabtrainer.dictionary.word.state.IllegalStateTransitionException;
+import de.isah.vocabtrainer.dictionary.learn.LearnDirection;
+import de.isah.vocabtrainer.dictionary.learn.VocabTrainingMessenger;
 
 /**
  * Created by isa.heinze on 22.06.2018.
@@ -98,22 +97,12 @@ public class VocabTrainingFragment extends Fragment {
             public void onClick(View v) {
                 // this shuffles the list also
                 toLearnList = dictionary.getToLearnList();
-                int size = toLearnList.size();
-                if (size == 0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-                    builder.setTitle("Error");
-                    builder.setMessage("No Words in toLearnList.\nUpdate toLearnList first.");
-                    builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                if (vocabTrainingMessenger.giveMeLearnListLength() == 0) {
+                    showEmptyLearnListAlertDialog();
                     return;
                 }
                 // show first word
-                showWord("sg");
+                showWord(LearnDirection.SG);
             }
         });
 
@@ -123,50 +112,43 @@ public class VocabTrainingFragment extends Fragment {
             public void onClick(View v) {
                 // this shuffles the list also
                 toLearnList = dictionary.getToLearnList();
-                if (toLearnList.size() == 0) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
-                    builder.setTitle("Error");
-                    builder.setMessage("No Words in toLearnList.\nUpdate toLearnList first.");
-                    builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AlertDialog alertDialog = builder.create();
-                    alertDialog.show();
+                if (vocabTrainingMessenger.giveMeLearnListLength() == 0) {
+                    showEmptyLearnListAlertDialog();
                     return;
                 }
                 // show first word
-                showWord("gs");
+                showWord(LearnDirection.GS);
             }
         });
 
         return rootView;
     }
 
+    private void showEmptyLearnListAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
+        builder.setTitle("Error");
+        builder.setMessage("No Words in toLearnList.\nUpdate toLearnList first.");
+        builder.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
-    private void showWord(String direction) {
+
+    private void showWord(LearnDirection direction) {
         try {
-            Word w = this.vocabTrainingMessenger.giveMeNextWord();
+            this.vocabTrainingMessenger.giveMeNextWord();
             int newCount = this.vocabTrainingMessenger.giveMeCurrentCounter();
-            String title = "Word " + newCount + "/" + this.vocabTrainingMessenger.giveMeListLength();
+            String title = "Word " + newCount + "/" + this.vocabTrainingMessenger.giveMeLearnListLength();
 
-            // Show swedish
             AlertDialog.Builder builder = new AlertDialog.Builder(rootView.getContext());
             builder.setTitle(title);
             builder.setIcon(R.mipmap.ic_launcher);
-            switch (direction) {
-                case "sg":
-                    builder.setMessage(AndroidTools.addEmptyLines(w.printSwedishAndGrammar()));
-                    builder.setNeutralButton("Show German", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(direction, rootView.getContext()));
-                    break;
-                case "gs":
-                    builder.setMessage(AndroidTools.addEmptyLines(w.printGerman()));
-                    builder.setNeutralButton("Show Swedish", new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(direction, rootView.getContext()));
-                    break;
-                default:
-                    break;
-            }
+            builder.setMessage(AndroidTools.addEmptyLines(this.vocabTrainingMessenger.giveMeFirstSide(direction)));
+            builder.setNeutralButton(this.vocabTrainingMessenger.giveMeOtherSideButtonName(direction), new VocabTrainingFragment.OtherDirectionDialogInterfaceMethod(direction, rootView.getContext()));
             AlertDialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
@@ -180,10 +162,10 @@ public class VocabTrainingFragment extends Fragment {
 
     private class OtherDirectionDialogInterfaceMethod implements DialogInterface.OnClickListener {
 
-        private String direction;
+        private LearnDirection direction;
         private Context context;
 
-        OtherDirectionDialogInterfaceMethod(String direction, @NonNull Context context) {
+        OtherDirectionDialogInterfaceMethod(LearnDirection direction, @NonNull Context context) {
             this.direction = direction;
             this.context = context;
         }
@@ -191,32 +173,14 @@ public class VocabTrainingFragment extends Fragment {
         @Override
         public void onClick(DialogInterface dialog, int which) {
             dialog.dismiss();
-
-            // show german
-            Word w = vocabTrainingMessenger.giveMeCurrentWord();
             int newCount = vocabTrainingMessenger.giveMeCurrentCounter();
-            String title = "Word " + newCount + "/" + vocabTrainingMessenger.giveMeListLength();
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            String title = "Word " + newCount + "/" + vocabTrainingMessenger.giveMeLearnListLength();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
             builder.setTitle(title);
             builder.setIcon(R.mipmap.ic_launcher);
-            switch (direction) {
-                case "sg":
-                    builder.setMessage(AndroidTools.addEmptyLines(w.printGerman()));
-                    break;
-                case "gs":
-                    builder.setMessage(AndroidTools.addEmptyLines(w.printSwedishAndGrammar()));
-                    break;
-                default:
-                    break;
-            }
-            builder.setPositiveButton("Correct", new VocabTrainingFragment.CorrectDialogInterfaceMethod(direction));
-            builder.setNegativeButton("False", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-
-                    showWord(direction);
-                }
-            });
+            builder.setMessage(AndroidTools.addEmptyLines(vocabTrainingMessenger.giveMeSecondSide(this.direction)));
+            builder.setPositiveButton("Correct", new VocabTrainingFragment.CorrectDialogInterfaceMethod(this.direction));
+            builder.setNegativeButton("False", new VocabTrainingFragment.NotCorrectDialogInterfaceMethod(this.direction));
             AlertDialog alertDialog = builder.create();
             alertDialog.setCanceledOnTouchOutside(false);
             alertDialog.show();
@@ -225,38 +189,31 @@ public class VocabTrainingFragment extends Fragment {
 
     private class CorrectDialogInterfaceMethod implements DialogInterface.OnClickListener {
 
-        private String direction;
+        private LearnDirection direction;
 
-        CorrectDialogInterfaceMethod(String direction) {
+        CorrectDialogInterfaceMethod(LearnDirection direction) {
             this.direction = direction;
         }
 
         @Override
         public void onClick(DialogInterface dialog, int which) {
-
-            Word w = vocabTrainingMessenger.giveMeCurrentWord();
-
-            switch (direction) {
-                case "sg":
-                    try {
-                        w.setCorrectStateSG();
-                        break;
-                    } catch (IllegalStateTransitionException e) {
-                        break;
-                    }
-                case "gs":
-                    try {
-                        w.setCorrectStateGS();
-                        break;
-                    } catch (IllegalStateTransitionException e) {
-                        break;
-                    }
-                default:
-                    break;
-            }
-
+            vocabTrainingMessenger.setCorrectState(direction);
             dialog.dismiss();
+            showWord(direction);
+        }
+    }
 
+    private class NotCorrectDialogInterfaceMethod implements DialogInterface.OnClickListener {
+
+        private LearnDirection direction;
+
+        NotCorrectDialogInterfaceMethod(LearnDirection direction) {
+            this.direction = direction;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
             showWord(direction);
         }
     }

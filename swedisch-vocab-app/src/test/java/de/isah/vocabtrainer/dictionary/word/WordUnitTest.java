@@ -39,9 +39,9 @@ public class WordUnitTest {
     public void testSpecialChar() {
         Word word = new Word();
         word.setGerman("äöüßÄÖÜ");
-        word.setSwedish("äöåÄÖÅ", WordPrefix.NONE);
+        word.setSwedish("æøäöåÆØÄÖÅ", WordPrefix.NONE);
 
-        assertEquals("äöåÄÖÅ", word.printSwedishAndGrammar());
+        assertEquals("æøäöåÆØÄÖÅ", word.printSwedishAndGrammar());
         assertEquals("äöüßÄÖÜ", word.printGerman());
     }
 

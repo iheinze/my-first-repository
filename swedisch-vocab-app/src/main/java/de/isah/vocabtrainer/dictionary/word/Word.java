@@ -372,7 +372,7 @@ public class Word implements Serializable {
 
         for (String s : strings) {
             // allowed are letters, numbers, comma, fullstop
-            if (!s.matches("[A-ZÅÄÖÜa-zåäöüß0-9\\-/\\s,.()]*")) {
+            if (!s.matches("[A-ZÅÄÆÖØÜa-zåäæöøüß0-9\\-/\\s,.()]*")) {
                 return false;
             }
         }

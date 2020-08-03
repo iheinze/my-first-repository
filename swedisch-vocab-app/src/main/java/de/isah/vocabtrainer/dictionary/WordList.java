@@ -47,7 +47,7 @@ public class WordList implements Serializable{
 
     public void addWord(Word w) throws WordAlreadyExistsException {
         if(wordsMap.containsKey(w.getKey())){
-            throw new WordAlreadyExistsException("This word or a similar one exists.");
+            throw new WordAlreadyExistsException("This word or a similar one exists. Key: "+w.getKey()+" Existing word: "+w.toStringMinimal());
         }
         words.add(w);
         wordsMap.put(w.getKey(), w);

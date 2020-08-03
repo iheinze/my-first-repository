@@ -370,7 +370,6 @@ public class DictionaryTest {
         dictionary.deleteWord(newWord);
     }
 
-    @Ignore("Bug: if word was already on list the proper exeption is thrown but the word is added to the file nevertheless, but in that case no word should be added to the file. When deleting words are not removed from the file")
     @Test
     public void testBug() throws IOException, WordAlreadyExistsException {
         FileConstants.setFilePath("src/test/assets");
@@ -386,7 +385,7 @@ public class DictionaryTest {
         try {
             dictionary.addWord(newWord);
         } catch (WordAlreadyExistsException e){
-
+            System.out.println(e.getMessage());
         }
 
         int size3 = dictionary.getAllWordsList().size();
@@ -395,10 +394,16 @@ public class DictionaryTest {
         assertEquals(4, size2);
         assertEquals(4, size3);
 
-        //TODO check what is in file, the word sould be added only once
+        //TODO check what is in file, the word should be added only once
+        int size4 = dictionary.getAllWordsList().size();
+        assertEquals(4, size4);
+
         dictionary.deleteWord(newWord);
+        dictionary.importDir();
 
         //TODO check what is in file, the word should be gone again
+        int size5 = dictionary.getAllWordsList().size();
+        assertEquals(3, size5);
     }
 
     @Test

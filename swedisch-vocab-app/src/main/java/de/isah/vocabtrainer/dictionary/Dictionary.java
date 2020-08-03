@@ -154,12 +154,14 @@ public class Dictionary implements Serializable {
             } else {
                 word.setState(new WordStateIncomplete());
             }
+
+            // adding to dictionary must be done first. if the fails (WordAlreadyExistsException) it must not be added to persistence
+            this.dictionary.addWord(word);
+
             boolean added = this.persistence.addWord(word);
             if (!added) {
                 return false;
             }
-
-            this.dictionary.addWord(word);
 
             if (!(word.getState() instanceof WordStateIncomplete)) {
                 this.newWords.add(word);
@@ -196,7 +198,7 @@ public class Dictionary implements Serializable {
         this.toLearn.removeWord(word);
         this.newWords.remove(word);
         this.dictionary.removeWord(word);
-
+        this.persistence.persistAll(this.dictionary);
         return true;
     }
 

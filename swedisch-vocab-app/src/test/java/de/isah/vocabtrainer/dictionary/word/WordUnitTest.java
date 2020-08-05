@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import static org.junit.Assert.*;
 
@@ -132,11 +133,15 @@ public class WordUnitTest {
     public void testSerializeFullWord() throws JSONException {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.NONE);
-        word.setGerman("german1","german2");
-        word.setGrammar("grammar1","grammar2");
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
         word.setRemark("remark");
+        word.setPronunciation("pronunciation");
+        word.setSource(WordSource.UNKNOWN);
+        word.setLabels("label1", "label2");
 
-        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"pronunciation\":\"pronunciation\",\"prefix\":\"none\",\"remark\":\"remark\",\"source\":\"UNKNOWN\",\"state\":\"WordStateInitial\",\"labels\":[\"label1\",\"label2\"]}", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -145,20 +150,31 @@ public class WordUnitTest {
         word.setSwedish("swedish", WordPrefix.NONE);
         word.setGerman("german1");
 
-        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}", result.substring(0, result.length() - 2), false);
     }
 
     @Test
     public void testDeserializeFullWord() throws JSONException {
-        Word word = new Word("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateLearn\"}");
-        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"prefix\":\"none\",\"remark\":\"remark\",\"state\":\"WordStateLearn\"}--",word.serialize());
+        Word word = new Word("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"prefix\":\"none\",\"remark\":\"remark\",\"pronunciation\":\"pronunciation\",\"source\":\"HARDCODED\",\"labels\":[\"label1\",\"label2\"],\"state\":\"WordStateLearn\"}");
+
+        String result = word.serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\",\"german2\"],\"grammar\":[\"grammar1\",\"grammar2\"],\"pronunciation\":\"pronunciation\",\"prefix\":\"none\",\"remark\":\"remark\",\"source\":\"HARDCODED\",\"state\":\"WordStateLearn\",\"labels\":[\"label1\",\"label2\"]}", result.substring(0, result.length() - 2), true);
         assertTrue(word.getState() instanceof WordStateLearn);
     }
 
     @Test
     public void testDeserializePartialWord() throws JSONException {
         Word word = new Word("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}");
-        assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}--",word.serialize());
+        String result = word.serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}", result.substring(0, result.length() - 2), true);
+    }
+
+    @Test
+    public void testDeserializeWordInvalidSource() throws JSONException {
+        Word word = new Word("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\",\"source\":\"INVALID\"}");
+        String result = word.serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"swedish\",\"german\":[\"german1\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\",\"source\":\"UNKNOWN\"}", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -166,7 +182,7 @@ public class WordUnitTest {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.EN);
-        word.setGrammar("pojken","pojkar","pojkarna");
+        word.setGrammar("pojken", "pojkar", "pojkarna");
 
         assertEquals("(en)\n\tpojke\n\tpojken\n\tpojkar\n\tpojkarna", word.printSwedishAndGrammar());
         assertEquals("Junge", word.printGerman());
@@ -179,7 +195,7 @@ public class WordUnitTest {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.ETT);
-        word.setGrammar("pojken","pojkar","pojkarna");
+        word.setGrammar("pojken", "pojkar", "pojkarna");
 
         assertEquals("(ett)\n\tpojke\n\tpojken\n\tpojkar\n\tpojkarna", word.printSwedishAndGrammar());
         assertEquals("Junge", word.printGerman());
@@ -192,7 +208,7 @@ public class WordUnitTest {
         Word word = new Word();
         word.setGerman("Junge");
         word.setSwedish("pojke", WordPrefix.ATT);
-        word.setGrammar("pojken","pojkar","pojkarna");
+        word.setGrammar("pojken", "pojkar", "pojkarna");
 
         assertEquals("(att)\n\tpojke\n\tpojken\n\tpojkar\n\tpojkarna", word.printSwedishAndGrammar());
         assertEquals("Junge", word.printGerman());
@@ -201,59 +217,92 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testToString(){
+    public void testToString() {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.NONE);
-        word.setGerman("german1","german2");
-        word.setGrammar("grammar1","grammar2");
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
         word.setRemark("remark");
 
-        assertEquals("swedish = german1,german2 "+String.valueOf(Character.toChars(0x26A0)),word.toString());
+        assertEquals("swedish = german1,german2 " + String.valueOf(Character.toChars(0x26A0)), word.toString());
     }
 
     @Test
-    public void testPrintWholeWord() throws IllegalStateTransitionException{
+    public void testToStringMinimal() {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.NONE);
-        word.setGerman("german1","german2");
-        word.setGrammar("grammar1","grammar2");
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
+        word.setRemark("remark");
+
+        assertEquals("swedish = german1,german2", word.toStringMinimal());
+    }
+
+    @Test
+    public void testGetKey() {
+        Word word = new Word();
+        word.setSwedish("swedish", WordPrefix.NONE);
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
+        word.setRemark("remark");
+
+        assertEquals("swedish", word.getKey());
+    }
+
+    @Test
+    public void testGetKeyEn() {
+        Word word = new Word();
+        word.setSwedish("swedish", WordPrefix.EN);
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
+        word.setRemark("remark");
+
+        assertEquals("swedish, en", word.getKey());
+    }
+
+    @Test
+    public void testPrintWholeWord() throws IllegalStateTransitionException {
+        Word word = new Word();
+        word.setSwedish("swedish", WordPrefix.NONE);
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
         word.setRemark("remark");
         word.setState(new WordStateDictionary());
 
-        assertEquals("swedish\ngrammar1\ngrammar2\n\ngerman1, german2\n\nremark\n\ndictionary list",word.printWholeWord());
+        assertEquals("swedish\ngrammar1\ngrammar2\n\ngerman1, german2\n\nremark\n\ndictionary list", word.printWholeWord());
     }
 
     @Test
-    public void testToStringEn(){
+    public void testToStringEn() {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.EN);
-        word.setGerman("german1","german2");
-        word.setGrammar("grammar1","grammar2");
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
         word.setRemark("remark");
 
-        assertEquals("swedish, en = german1,german2 "+String.valueOf(Character.toChars(0x26A0)),word.toString());
+        assertEquals("swedish, en = german1,german2 " + String.valueOf(Character.toChars(0x26A0)), word.toString());
     }
 
     @Test
-    public void testToStringEtt(){
+    public void testToStringEtt() {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.ETT);
-        word.setGerman("german1","german2");
-        word.setGrammar("grammar1","grammar2");
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
         word.setRemark("remark");
 
-        assertEquals("swedish, ett = german1,german2 "+String.valueOf(Character.toChars(0x26A0)),word.toString());
+        assertEquals("swedish, ett = german1,german2 " + String.valueOf(Character.toChars(0x26A0)), word.toString());
     }
 
     @Test
-    public void testToStringAtt(){
+    public void testToStringAtt() {
         Word word = new Word();
         word.setSwedish("swedish", WordPrefix.ATT);
-        word.setGerman("german1","german2");
-        word.setGrammar("grammar1","grammar2");
+        word.setGerman("german1", "german2");
+        word.setGrammar("grammar1", "grammar2");
         word.setRemark("remark");
 
-        assertEquals("swedish, att = german1,german2 "+String.valueOf(Character.toChars(0x26A0)),word.toString());
+        assertEquals("swedish, att = german1,german2 " + String.valueOf(Character.toChars(0x26A0)), word.toString());
     }
 
     @Test
@@ -266,7 +315,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testComparatorOne(){
+    public void testComparatorOne() {
         Word word = new Word();
         Word.WordComparator comparator = word.new WordComparator();
         Word w1 = new Word();
@@ -275,12 +324,12 @@ public class WordUnitTest {
         Word w2 = new Word();
         w2.setSwedish("bbb", WordPrefix.NONE);
         w2.setGerman("bbb");
-        int result = comparator.compare(w1,w2);
+        int result = comparator.compare(w1, w2);
         assertTrue(result < 0);
     }
 
     @Test
-    public void testComparatorTwo(){
+    public void testComparatorTwo() {
         Word word = new Word();
         Word.WordComparator comparator = word.new WordComparator();
         Word w1 = new Word();
@@ -289,12 +338,12 @@ public class WordUnitTest {
         Word w2 = new Word();
         w2.setSwedish("aaa", WordPrefix.NONE);
         w2.setGerman("aaa");
-        int result = comparator.compare(w1,w2);
+        int result = comparator.compare(w1, w2);
         assertTrue(result > 0);
     }
 
     @Test
-    public void testComparatorThree(){
+    public void testComparatorThree() {
         Word word = new Word();
         Word.WordComparator comparator = word.new WordComparator();
         Word w1 = new Word();
@@ -303,12 +352,12 @@ public class WordUnitTest {
         Word w2 = new Word();
         w2.setSwedish("xxx", WordPrefix.NONE);
         w2.setGerman("xxx");
-        int result = comparator.compare(w1,w2);
+        int result = comparator.compare(w1, w2);
         assertEquals(0, result);
     }
 
     @Test
-    public void testComparatorFour(){
+    public void testComparatorFour() {
         Word word = new Word();
         Word.WordComparator comparator = word.new WordComparator();
         Word w1 = new Word();
@@ -317,7 +366,7 @@ public class WordUnitTest {
         Word w2 = new Word();
         w2.setSwedish("äää", WordPrefix.NONE);
         w2.setGerman("bbb");
-        int result = comparator.compare(w1,w2);
+        int result = comparator.compare(w1, w2);
         assertTrue(result < 0);
     }
 
@@ -353,26 +402,26 @@ public class WordUnitTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testValidateConstructor(){
+    public void testValidateConstructor() {
         new Word("&;<,>;$,%;$remark remark;;");
     }
 
     @Test
-    public void testSetStateInitialToNew() throws IllegalStateTransitionException{
+    public void testSetStateInitialToNew() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         assertTrue(w.getState() instanceof WordStateNew);
     }
 
     @Test
-    public void testSetStateInitialInvalid() throws IllegalStateTransitionException{
+    public void testSetStateInitialInvalid() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateDictionary());
         assertTrue(w.getState() instanceof WordStateDictionary);
     }
 
     @Test
-    public void testSetStateIncompleteToNew() throws IllegalStateTransitionException{
+    public void testSetStateIncompleteToNew() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateIncomplete());
         w.setState(new WordStateNew());
@@ -380,7 +429,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateNewToNew()throws IllegalStateTransitionException{
+    public void testSetStateNewToNew() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateNew());
@@ -388,7 +437,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateNewToLearn() throws IllegalStateTransitionException{
+    public void testSetStateNewToLearn() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -396,7 +445,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateLearnToIncomplete() throws IllegalStateTransitionException{
+    public void testSetStateLearnToIncomplete() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -405,7 +454,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateLearnToCorrectGS() throws IllegalStateTransitionException{
+    public void testSetStateLearnToCorrectGS() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -414,7 +463,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateLearnToCorrectSG() throws IllegalStateTransitionException{
+    public void testSetStateLearnToCorrectSG() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -423,7 +472,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectGSToCorrect() throws IllegalStateTransitionException{
+    public void testSetStateCorrectGSToCorrect() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -433,7 +482,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectGSToLearn() throws IllegalStateTransitionException{
+    public void testSetStateCorrectGSToLearn() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -443,7 +492,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectGSToIncomplete() throws IllegalStateTransitionException{
+    public void testSetStateCorrectGSToIncomplete() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -453,7 +502,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectSGToCorrect() throws IllegalStateTransitionException{
+    public void testSetStateCorrectSGToCorrect() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -463,7 +512,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectSGToLearn() throws IllegalStateTransitionException{
+    public void testSetStateCorrectSGToLearn() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -473,7 +522,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectSGToIncomplete() throws IllegalStateTransitionException{
+    public void testSetStateCorrectSGToIncomplete() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -483,7 +532,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectToLearn() throws IllegalStateTransitionException{
+    public void testSetStateCorrectToLearn() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -494,7 +543,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectToDictionary() throws IllegalStateTransitionException{
+    public void testSetStateCorrectToDictionary() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -505,7 +554,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateCorrectToIncomplete() throws IllegalStateTransitionException{
+    public void testSetStateCorrectToIncomplete() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateNew());
         w.setState(new WordStateLearn());
@@ -516,7 +565,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateDictionaryToLearn() throws IllegalStateTransitionException{
+    public void testSetStateDictionaryToLearn() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateDictionary());
         w.setState(new WordStateLearn());
@@ -524,7 +573,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateDictionaryToNew() throws IllegalStateTransitionException{
+    public void testSetStateDictionaryToNew() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateDictionary());
         w.setState(new WordStateNew());
@@ -532,7 +581,7 @@ public class WordUnitTest {
     }
 
     @Test
-    public void testSetStateDictionaryToIncomplete() throws IllegalStateTransitionException{
+    public void testSetStateDictionaryToIncomplete() throws IllegalStateTransitionException {
         Word w = new Word();
         w.setState(new WordStateDictionary());
         w.setState(new WordStateIncomplete());
@@ -550,6 +599,10 @@ public class WordUnitTest {
         JSONArray german = new JSONArray();
         german.put("Junge");
 
+        JSONArray labels = new JSONArray();
+        labels.put("label1");
+        labels.put("label2");
+
         JSONObject wordJson = new JSONObject();
         wordJson.put("prefix", "en");
         wordJson.put("swedish", "pojke");
@@ -557,6 +610,9 @@ public class WordUnitTest {
         wordJson.put("grammar", grammar);
         wordJson.put("remark", "test");
         wordJson.put("state", "WordStateDictionary");
+        wordJson.put("pronunciation", "pronunciation");
+        wordJson.put("source", "UNKNOWN");
+        wordJson.put("labels", labels);
 
         Word word = new Word(wordJson);
         assertEquals(WordPrefix.EN, word.getPrefix());
@@ -565,6 +621,9 @@ public class WordUnitTest {
         assertEquals("Junge", word.printGerman());
         assertEquals("pojken, pojkar, pojkarna", word.printGrammar());
         assertEquals("test", word.printRemark());
+        assertEquals("pronunciation", word.getPronunciation());
+        assertEquals("UNKNOWN", word.getSource().toString());
+        assertEquals("label1 label2 ", word.printLabels());
 
     }
 
@@ -612,6 +671,10 @@ public class WordUnitTest {
         JSONArray german = new JSONArray();
         german.put("Junge");
 
+        JSONArray lables = new JSONArray();
+        lables.put("label1");
+        lables.put("label2");
+
         JSONObject wordJson = new JSONObject();
         wordJson.put("prefix", "en");
         wordJson.put("swedish", "pojke");
@@ -619,9 +682,14 @@ public class WordUnitTest {
         wordJson.put("grammar", grammar);
         wordJson.put("remark", "test");
         wordJson.put("state", "WordStateDictionary");
+        wordJson.put("pronunciation", "pronunciation");
+        wordJson.put("labels", lables);
+        wordJson.put("source", "UNKNOWN");
+
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"grammar\":[\"pojken\",\"pojkar\",\"pojkarna\"],\"prefix\":\"en\",\"remark\":\"test\",\"state\":\"WordStateDictionary\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"labels\":[\"label1\",\"label2\"],\"pronunciation\":\"pronunciation\",\"source\":\"UNKNOWN\",\"grammar\":[\"pojken\",\"pojkar\",\"pojkarna\"],\"prefix\":\"en\",\"remark\":\"test\",\"state\":\"WordStateDictionary\"}", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -636,7 +704,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"prefix\":\"en\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"pojke\",\"german\":[\"Junge\"],\"prefix\":\"en\",\"state\":\"WordStateInitial\",\"source\":\"UNKNOWN\"}", result.substring(0, result.length() -2), true);
     }
 
     @Test
@@ -644,8 +713,8 @@ public class WordUnitTest {
         JSONObject wordJson = new JSONObject("{\"swedish\":\"och\",\"german\":[\"und\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}");
 
         Word word = new Word(wordJson);
-        //assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"grammar\":[],\"prefix\":\"none\",\"remark\":\"\",\"state\":\"WordStateLearn\"}", word.serializeToJsonString());
-        assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"och\",\"german\":[\"und\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateLearn\"}", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -660,7 +729,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"äpple\",\"german\":[\"Apfel\"],\"prefix\":\"ett\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"äpple\",\"german\":[\"Apfel\"],\"source\":\"UNKNOWN\",\"prefix\":\"ett\",\"state\":\"WordStateInitial\"}--", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -675,7 +745,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"heta\",\"german\":[\"heißen\"],\"prefix\":\"att\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"heta\",\"german\":[\"heißen\"],\"source\":\"UNKNOWN\",\"prefix\":\"att\",\"state\":\"WordStateInitial\"}--", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -690,7 +761,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -705,7 +777,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -720,7 +793,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -735,7 +809,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -749,7 +824,8 @@ public class WordUnitTest {
         wordJson.put("german", german);
 
         Word word = new Word(wordJson);
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", word.serializeToJsonString());
+        String result = word.serializeToJsonString();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateInitial\"}--", result.substring(0, result.length() - 2), true);
     }
 
     @Test(expected = IllegalStateTransitionException.class)
@@ -771,7 +847,7 @@ public class WordUnitTest {
         word.setState(new WordStateLearn());
         word.setCorrectStateGS();
 
-        assertTrue(word.getState() instanceof  WordStateGSCorrect);
+        assertTrue(word.getState() instanceof WordStateGSCorrect);
     }
 
     @Test
@@ -782,7 +858,7 @@ public class WordUnitTest {
         word.setState(new WordStateSGCorrect());
         word.setCorrectStateGS();
 
-        assertTrue(word.getState() instanceof  WordStateCorrect);
+        assertTrue(word.getState() instanceof WordStateCorrect);
     }
 
     @Test
@@ -792,7 +868,7 @@ public class WordUnitTest {
         word.setState(new WordStateLearn());
         word.setCorrectStateSG();
 
-        assertTrue(word.getState() instanceof  WordStateSGCorrect);
+        assertTrue(word.getState() instanceof WordStateSGCorrect);
     }
 
     @Test
@@ -803,6 +879,6 @@ public class WordUnitTest {
         word.setState(new WordStateGSCorrect());
         word.setCorrectStateSG();
 
-        assertTrue(word.getState() instanceof  WordStateCorrect);
+        assertTrue(word.getState() instanceof WordStateCorrect);
     }
 }

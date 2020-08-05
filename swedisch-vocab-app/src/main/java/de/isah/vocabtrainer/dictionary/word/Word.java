@@ -32,6 +32,9 @@ public class Word implements Serializable {
     private String[] grammar;
     private String remark;
     private WordPrefix prefix;
+    private String pronunciation;
+    private WordSource source;
+    private String[] labels;
 
     private WordState state;
 
@@ -46,22 +49,23 @@ public class Word implements Serializable {
             JSONObject wordJson = new JSONObject(serializedString);
             init(wordJson);
         } catch (JSONException e) {
-            throw new IllegalArgumentException("word has wrong format: "+serializedString);
+            e.printStackTrace();
+            throw new IllegalArgumentException("word has wrong format: " + serializedString);
         }
     }
 
-    public Word(JSONObject jsonWord){
+    public Word(JSONObject jsonWord) {
         this.state = new WordStateInitial();
 
-        try{
+        try {
             init(jsonWord);
-        } catch (JSONException e){
-            throw new IllegalArgumentException("word has wrong format: "+jsonWord.toString());
+        } catch (JSONException e) {
+            throw new IllegalArgumentException("word has wrong format: " + jsonWord.toString());
         }
     }
 
     private void init(JSONObject jsonWord) throws JSONException {
-        if(jsonWord.has("prefix")){
+        if (jsonWord.has("prefix")) {
             this.prefix = mapPrefix(jsonWord.getString("prefix"));
         } else {
             this.prefix = mapPrefix("none");
@@ -70,17 +74,37 @@ public class Word implements Serializable {
         this.swedish = jsonWord.getString("swedish");
         JSONArray germanJson = jsonWord.getJSONArray("german");
         this.german = germanJson.join(",").replaceAll("\"", "").split(",");
-        if(jsonWord.has("grammar")) {
+        if (jsonWord.has("grammar")) {
             JSONArray grammarJson = jsonWord.getJSONArray("grammar");
             this.grammar = grammarJson.join(",").replaceAll("\"", "").split(",");
         } else {
             this.grammar = new String[0];
         }
         this.key = createKey(this.swedish, this.prefix);
-        if(jsonWord.has("remark")) {
+        if (jsonWord.has("remark")) {
             this.remark = jsonWord.getString("remark");
         } else {
             this.remark = "";
+        }
+        if (jsonWord.has("pronunciation")) {
+            this.pronunciation = jsonWord.getString("pronunciation");
+        } else {
+            this.pronunciation = "";
+        }
+        if (jsonWord.has("labels")) {
+            JSONArray labelJson = jsonWord.getJSONArray("labels");
+            this.labels = labelJson.join(",").replaceAll("\"", "").split(",");
+        } else {
+            this.labels = new String[0];
+        }
+        if (jsonWord.has("source")) {
+            try {
+                this.source = WordSource.valueOf(jsonWord.getString("source"));
+            } catch (IllegalArgumentException e) {
+                this.source = WordSource.UNKNOWN;
+            }
+        } else {
+            this.source = WordSource.UNKNOWN;
         }
         WordStateFactory factory = new WordStateFactory();
         if (jsonWord.has("state")) {
@@ -89,7 +113,7 @@ public class Word implements Serializable {
     }
 
     private WordPrefix mapPrefix(String wordString) {
-        System.out.println("word prefix: "+wordString);
+        System.out.println("word prefix: " + wordString);
         switch (wordString) {
             case "en":
                 return WordPrefix.EN;
@@ -139,6 +163,41 @@ public class Word implements Serializable {
         this.remark = remark;
     }
 
+    void setPronunciation(String pronunciation) {
+        this.pronunciation = pronunciation;
+    }
+
+    public String getPronunciation() {
+        return this.pronunciation;
+    }
+
+    void setSource(WordSource source) {
+        this.source = source;
+    }
+
+    public WordSource getSource() {
+        return this.source;
+    }
+
+    void setLabels(String... labels) {
+        if (!validateStrings(labels)) {
+            throw new IllegalArgumentException();
+        }
+        this.labels = labels;
+    }
+
+    public String printLabels() {
+        StringBuilder builder = new StringBuilder();
+
+        if (labels != null && labels.length > 0) {
+            for (String l : this.labels) {
+                builder.append(l);
+                builder.append(" ");
+            }
+        }
+        return builder.toString();
+    }
+
     public String printSwedishAndGrammar() {
 
         StringBuilder builder = new StringBuilder();
@@ -146,7 +205,7 @@ public class Word implements Serializable {
         builder.append(this.swedish.trim());
 
         if (grammar != null && grammar.length > 0) {
-            for (String grammarPart : grammar){
+            for (String grammarPart : grammar) {
                 builder.append("\n");
                 if (!WordPrefix.NONE.equals(this.prefix)) {
                     builder.append("\t");
@@ -198,11 +257,11 @@ public class Word implements Serializable {
     }
 
     String printWholeWord() {
-        return printSwedishAndGrammar()+"\n\n"+printGerman()+"\n\n"+printRemark()+"\n\n"+printLists();
+        return printSwedishAndGrammar() + "\n\n" + printGerman() + "\n\n" + printRemark() + "\n\n" + printLists();
     }
 
     public void setState(WordState newState) throws IllegalStateTransitionException {
-        if(this.state == null || newState == null) {
+        if (this.state == null || newState == null) {
             throw new IllegalStateTransitionException("At least one of the states was null.");
         }
         if (stateTransitionIsValid(this.state, newState)) {
@@ -214,7 +273,7 @@ public class Word implements Serializable {
 
     public void setCorrectStateSG() throws IllegalStateTransitionException {
         WordState newState;
-        if(this.state instanceof WordStateGSCorrect){
+        if (this.state instanceof WordStateGSCorrect) {
             newState = new WordStateCorrect();
         } else {
             newState = new WordStateSGCorrect();
@@ -224,7 +283,7 @@ public class Word implements Serializable {
 
     public void setCorrectStateGS() throws IllegalStateTransitionException {
         WordState newState;
-        if(this.state instanceof WordStateSGCorrect){
+        if (this.state instanceof WordStateSGCorrect) {
             newState = new WordStateCorrect();
         } else {
             newState = new WordStateGSCorrect();
@@ -306,33 +365,49 @@ public class Word implements Serializable {
 
     public String serializeToJsonString() throws JSONException {
         JSONObject json = toJson();
-        return json.toString()+"--";
+        return json.toString() + "--";
     }
 
     private JSONObject toJson() throws JSONException {
         JSONArray german = new JSONArray();
-        for(String s : this.german){
+        for (String s : this.german) {
             german.put(s);
         }
 
         JSONArray grammar = new JSONArray();
-        if(this.grammar != null && this.grammar.length > 0){
+        if (this.grammar != null && this.grammar.length > 0) {
             for (String s : this.grammar) {
                 grammar.put(s);
             }
         }
 
+        JSONArray labels = new JSONArray();
+        if (this.labels != null && this.labels.length > 0) {
+            for (String l : this.labels) {
+                labels.put(l);
+            }
+        }
+
         JSONObject json = new JSONObject();
-        if(this.remark != null && this.remark.length() > 0) {
+        if (this.remark != null && this.remark.length() > 0) {
             json.put("remark", this.remark);
+        }
+        if (this.pronunciation != null && this.pronunciation.length() > 0) {
+            json.put("pronunciation", this.pronunciation);
+        }
+        if (this.source != null) {
+            json.put("source", this.source.toString());
         }
         json.put("swedish", this.swedish);
         json.put("state", this.state.getName());
         json.put("prefix", this.prefix.string);
-        if(this.grammar != null && this.grammar.length > 0) {
+        if (this.grammar != null && this.grammar.length > 0) {
             json.put("grammar", grammar);
         }
         json.put("german", german);
+        if (this.labels != null && this.labels.length > 0) {
+            json.put("labels", labels);
+        }
 
         return json;
     }
@@ -360,7 +435,7 @@ public class Word implements Serializable {
         return builder.toString();
     }
 
-    public String getKey(){
+    public String getKey() {
         return this.key;
     }
 
@@ -381,6 +456,7 @@ public class Word implements Serializable {
 
     public class WordComparator implements Comparator<Word> {
         Locale localeSE = Locale.forLanguageTag("sv-SE");
+
         @Override
         public int compare(Word w1, Word w2) {
             Collator collator = Collator.getInstance(localeSE);

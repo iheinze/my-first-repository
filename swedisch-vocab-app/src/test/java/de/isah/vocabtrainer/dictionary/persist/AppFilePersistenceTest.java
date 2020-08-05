@@ -6,6 +6,7 @@ import de.isah.vocabtrainer.dictionary.word.WordBuilder;
 
 import org.json.JSONException;
 import org.junit.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -28,8 +29,10 @@ public class AppFilePersistenceTest {
         persistence.addWord(new WordBuilder().build());
 
         assertEquals(2, persistence.getAllWords().size());
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}--", persistence.getAllWords().getWord(0).serialize());
-        assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateDictionary\"}--", persistence.getAllWords().getWord(1).serialize());
+        String result1 = persistence.getAllWords().getWord(0).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}", result1.substring(0, result1.length() - 2), true);
+        String result2 = persistence.getAllWords().getWord(1).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"source\":\"UNKNOWN\",\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateDictionary\"}", result2.substring(0, result2.length() - 2), true);
 
         assertEquals(0, persistence.getNewWords().size());
         assertEquals(0, persistence.getToLearnWords().size());
@@ -44,8 +47,10 @@ public class AppFilePersistenceTest {
         persistence.addWord(new WordBuilder().build());
 
         assertEquals(2, persistence.getAllWords().size());
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}--", persistence.getAllWords().getWord(0).serialize());
-        assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateDictionary\"}--", persistence.getAllWords().getWord(1).serialize());
+        String result1 = persistence.getAllWords().getWord(0).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateDictionary\"}--", result1.substring(0, result1.length() - 2), true);
+        String result2 = persistence.getAllWords().getWord(1).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"source\":\"UNKNOWN\",\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateDictionary\"}", result2.substring(0, result2.length() - 2), true);
 
         assertEquals(0, persistence.getNewWords().size());
         assertEquals(0, persistence.getToLearnWords().size());
@@ -61,8 +66,8 @@ public class AppFilePersistenceTest {
         persistence.addWord(new WordBuilder().build());
 
         assertEquals(1, persistence.getAllWords().size());
-        assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateDictionary\"}--", persistence.getAllWords().getWord(0).serialize());
-
+        String result = persistence.getAllWords().getWord(0).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"source\":\"UNKNOWN\",\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateDictionary\"}", result.substring(0, result.length() - 2), true);
     }
 
     @Test
@@ -86,8 +91,10 @@ public class AppFilePersistenceTest {
         persistence.addWord(new WordBuilder().build());
 
         assertEquals(2, persistence.getNewWords().size());
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateNew\"}--", persistence.getNewWords().poll().serialize());
-        assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateNew\"}--", persistence.getNewWords().poll().serialize());
+        String result1 = persistence.getNewWords().poll().serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateNew\"}", result1.substring(0, result1.length() - 2), true);
+        String result2 = persistence.getNewWords().poll().serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"source\":\"UNKNOWN\",\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateNew\"}", result2.substring(0, result2.length() - 2), true);
 
         assertEquals(2, persistence.getAllWords().size());
         assertEquals(0, persistence.getToLearnWords().size());
@@ -103,8 +110,10 @@ public class AppFilePersistenceTest {
         persistence.addWord(new WordBuilder().build());
 
         assertEquals(2, persistence.getIncompleteList().size());
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateIncomplete\"}--", persistence.getIncompleteList().getWord(0).serialize());
-        assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateIncomplete\"}--", persistence.getIncompleteList().getWord(1).serialize());
+        String result1 = persistence.getIncompleteList().getWord(0).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateIncomplete\"}", result1.substring(0, result1.length() - 2), true);
+        String result2 = persistence.getIncompleteList().getWord(1).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"source\":\"UNKNOWN\",\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateIncomplete\"}", result2.substring(0, result2.length() - 2), true);
 
         assertEquals(2, persistence.getAllWords().size());
         assertEquals(0, persistence.getToLearnWords().size());
@@ -120,8 +129,10 @@ public class AppFilePersistenceTest {
         persistence.addWord(new WordBuilder().build());
 
         assertEquals(2, persistence.getToLearnWords().size());
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}--", persistence.getToLearnWords().getWord(0).serialize());
-        assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateLearn\"}--", persistence.getToLearnWords().getWord(1).serialize());
+        String result1 = persistence.getToLearnWords().getWord(0).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\",\"source\":\"UNKNOWN\"}", result1.substring(0, result1.length() - 2), true);
+        String result2 = persistence.getToLearnWords().getWord(1).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"bil\",\"german\":[\"Auto\"],\"grammar\":[\"bilen\",\"bilar\",\"bilarna\"],\"prefix\":\"en\",\"state\":\"WordStateLearn\",\"source\":\"UNKNOWN\"}", result2.substring(0, result2.length() - 2), true);
 
         assertEquals(2, persistence.getAllWords().size());
         assertEquals(0, persistence.getIncompleteList().size());
@@ -137,7 +148,8 @@ public class AppFilePersistenceTest {
         persistence.addWord(new WordBuilder().build());
 
         assertEquals(1, persistence.getAllWords().size());
-        assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"prefix\":\"none\",\"state\":\"WordStateLearn\"}--", persistence.getToLearnWords().getWord(0).serialize());
+        String result = persistence.getToLearnWords().getWord(0).serialize();
+        JSONAssert.assertEquals("{\"swedish\":\"med\",\"german\":[\"mit\"],\"source\":\"UNKNOWN\",\"prefix\":\"none\",\"state\":\"WordStateLearn\"}", result.substring(0, result.length() - 2), true);
 
     }
 
